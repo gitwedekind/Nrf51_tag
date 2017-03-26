@@ -41,13 +41,18 @@ void ml_active_tasks_idle(void)
 
 void timer_test(void)
 {
-    FUNCTION();
+    //LED0_TOGGLE();
 }
 
 /**@brief main entry point.
  */
 int main(void)
 {
+    nrf51_tag_module_power_settings_debug();
+    
+	LED0_ENABLE();
+	LED0_OFF();
+    
     TAG_UART_INITIALIZE();
     
     DBG_MAIN_ENTERED();
@@ -62,17 +67,15 @@ int main(void)
     
     nrf51_tag_initialize();
     
-    connection_interval_timer_start();
-    
     nrf51_tag_set_advertising_parameters(NRF51_TAG_ADV_INTERVAL, NRF51_TAG_ADV_TIMEOUT_IN_SECONDS);
     
     nrf51_tag_update_device_name(153);
     nrf51_tag_update_manufacturing_data(1, 2, 3);
     
-    nrf51_tag_advertising_packet_initialize();
+     nrf51_tag_advertising_packet_initialize();
     
     nrf51_tag_start_advertising();
-    
+		
     while (1)
     {
         if ( s_ActiveTasks == MAIN_LOOP_TASK_IDLE )

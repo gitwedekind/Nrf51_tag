@@ -7,6 +7,10 @@
 #include "nrf51_tag_error.h"
 #include "nrf51_tag_headers.h"
 
+void nrf51_tag_radio_notification_callback(bool radio_active)
+{
+}    
+
 // ---------------------------------------------------------------------------
 // API Functions
 // ---------------------------------------------------------------------------
@@ -19,6 +23,15 @@ void nrf51_tag_radio_notification_init(void)
     
     DBG_INITIALIZE_NOTIFICATION();
     
+    err_code = ble_radio_notification_init
+    (
+        NRF_RADIO_PRIORITY_NORMAL, 
+        NRF_RADIO_NOTIFICATION_DISTANCE_5500US, 
+        nrf51_tag_radio_notification_callback
+    );
+    
+    APP_ERROR_CHECK(err_code);
+
     err_code = sd_radio_notification_cfg_set
     (
         NRF_RADIO_NOTIFICATION_TYPE_INT_ON_BOTH,

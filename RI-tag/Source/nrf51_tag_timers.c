@@ -8,7 +8,7 @@
 #include "nrf51_tag_timers.h"
 
 APP_TIMER_DEF(s_connection_interval_timer_id);
-APP_TIMER_DEF(s_uart_disable_timer_id);
+APP_TIMER_DEF(s_uptime_timer_id);
 //APP_TIMER_DEF(s_ble_start_timer_id);
 //APP_TIMER_DEF(s_ble_stop_timer_id);
 //APP_TIMER_DEF(s_stack_check_timer_id);
@@ -17,28 +17,34 @@ APP_TIMER_DEF(s_uart_disable_timer_id);
 //
 // ------------------------------------------------------------------------------------------------
 
-void connection_interval_timer_start(void)
+void nrf51_tag_connection_interval_timer_start(void)
 {
     uint32_t err_code = app_timer_start(s_connection_interval_timer_id, APP_TIMER_TICKS(1000, SYS_TIMER_PRESCALER), NULL);
     APP_ERROR_CHECK(err_code);
 }
 
-void connection_interval_timeout_handler(void* p_context)
+void nrf51_tag_connection_interval_timer_stop(void)
+{
+    uint32_t err_code = app_timer_stop(s_connection_interval_timer_id);
+    APP_ERROR_CHECK(err_code);
+}
+
+void nrf51_tag_connection_interval_timeout_handler(void* p_context)
 {
     extern void timer_test(void);
     timer_test();
 }
 
-void uart_disable_timer_start(void)
+void nrf51_tag_system_uptime_timer_start(void)
 {
-    uint32_t err_code = app_timer_start(s_uart_disable_timer_id, APP_TIMER_TICKS(1000, SYS_TIMER_PRESCALER), NULL);
+    uint32_t err_code = app_timer_start(s_uptime_timer_id, APP_TIMER_TICKS(1000, SYS_TIMER_PRESCALER), NULL);
     APP_ERROR_CHECK(err_code);
 }
 
-void uart_disable_timeout_handler(void* p_context)
+void nrf51_tag_uptime_timeout_handler(void* p_context)
 {
-    //extern void tag_uart_callback(void);
-    //tag_uart_callback();
+    void nrf51_tag_system_uptime_callback(void);
+    nrf51_tag_system_uptime_callback();
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -53,11 +59,6 @@ void nrf51_tag_timers_init(void)
     
     DBG_INITIALIZE_TIMERS();
     
-    err_code = nrf_drv_clock_init();
-    APP_ERROR_CHECK(err_code);
-    
-    nrf_drv_clock_lfclk_request(NULL);
-    
     // Initialize the app timer module
     //
     APP_TIMER_INIT
@@ -71,17 +72,19 @@ void nrf51_tag_timers_init(void)
     (
         &s_connection_interval_timer_id,
         APP_TIMER_MODE_REPEATED,
-        connection_interval_timeout_handler
+        nrf51_tag_connection_interval_timeout_handler
     );
     APP_ERROR_CHECK(err_code);
 
     err_code = app_timer_create
     (
-        &s_uart_disable_timer_id,
+        &s_uptime_timer_id,
         APP_TIMER_MODE_SINGLE_SHOT,
-        uart_disable_timeout_handler
+        nrf51_tag_uptime_timeout_handler
     );
     APP_ERROR_CHECK(err_code);
+        
+    nrf51_tag_system_uptime_timer_start();
 }
 
 /**@brief

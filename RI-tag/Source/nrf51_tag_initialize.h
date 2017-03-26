@@ -20,6 +20,8 @@
  */
 void nrf51_tag_initialize(void);
 
+uint32_t nrf51_tag_temperature_get(void);
+
 // ------------------------------------------------------------------------------------------------
 // Debug Message(s)
 // ------------------------------------------------------------------------------------------------
@@ -51,11 +53,15 @@ void nrf51_tag_initialize(void);
     DBG("--> GAP Address, type: %s\r\n", BLE_GAP_ADDR_TYPE[gap_addr.addr_type]); \
     DBG_ADDRESS(NULL, gap_addr.addr, BLE_GAP_ADDR_LEN); }
 
+//#define DBG_ENABLE_TEMPERATURE    
+#ifdef DBG_ENABLE_TEMPERATURE    
 #define DBG_TEMPERATURE() { \
-    int32_t temperature = 0; \
-    sd_temp_get(&temperature); \
-    DBG("--> Temperature: %d\r\n", temperature); }
-
+    nrf51_tag_enable_16MHz_crystal(); \
+    DBG("--> Temperature: %d\r\n", nrf51_tag_temperature_get()); }
+#else
+#define DBG_TEMPERATURE()
+#endif
+    
 #else
 
 #define DBG_INITIALIZE()

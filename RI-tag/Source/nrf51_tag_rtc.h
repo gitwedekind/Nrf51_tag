@@ -13,4 +13,4 @@
 // RTC API's
 // ------------------------------------------------------------------------------------------------
 
-void nrf51_tag_rtc_config(void);
+uint32_t nrf51_tag_get_system_uptime(void);

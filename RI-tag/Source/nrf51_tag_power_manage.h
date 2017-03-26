@@ -55,6 +55,10 @@ power_mode_t get_power_mode(void);
 */
 void power_mode_off(void);
 
+/** @brief
+*/
+void nrf51_tag_module_power_settings_debug(void);
+
 // ------------------------------------------------------------------------------------------------
 // Debug Message(s)
 // ------------------------------------------------------------------------------------------------
@@ -64,8 +68,14 @@ void power_mode_off(void);
 
 #define DBG_INITIALIZE_POWER_MANAGE() FUNCTION()
 
+#define DBG_POWER_MANAGE_ENTER() DBG("--> Power Manage Enter\r\n")
+#define DBG_POWER_MANAGE_EXIT() DBG("<-- Power Manage Exit\r\n")
+
 #else
 
 #define DBG_INITIALIZE_POWER_MANAGE()
+
+#define DBG_POWER_MANAGE_ENTER()
+#define DBG_POWER_MANAGE_EXIT()
 
 #endif

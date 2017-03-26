@@ -10,6 +10,23 @@
 
 #include "nrf51_tag_uart.h"
 
+#ifdef ENABLE_CJMCU_DEV_BOARD
+
+#define LED0_PIN 07
+
+#define LED0_ENABLE() nrf_gpio_cfg_output(LED0_PIN)
+#define LED0_ON() nrf_gpio_pin_write(LED0_PIN, 0)
+#define LED0_OFF() nrf_gpio_pin_write(LED0_PIN, 1);
+#define LED0_TOGGLE() nrf_gpio_pin_toggle(LED0_PIN);
+
+#else
+
+#define LED0_ENABLE() 
+#define LED0_ON() 
+#define LED0_OFF() 
+#define LED0_TOGGLE()
+
+#endif
 // ------------------------------------------------------------------------------------------------
 // Debug constants
 // ------------------------------------------------------------------------------------------------

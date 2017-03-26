@@ -23,3 +23,4 @@
 
 #include "ble_dis.h"
 #include "ble_advertising.h"
+#include "ble_radio_notification.h"

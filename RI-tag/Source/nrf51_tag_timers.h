@@ -29,8 +29,10 @@ static const uint16_t RTC2_SCALER = 33;
 // System Timer Functions
 //----------------------------------------------------------------------------
 
-void connection_interval_timer_start(void);
-void uart_disable_timer_start(void);
+void nrf51_tag_connection_interval_timer_start(void);
+void nrf51_tag_connection_interval_timer_stop(void);
+
+void nrf51_tag_system_uptime_timer_start(void);
 
 /**@brief Function to initialize System Timers.
  */

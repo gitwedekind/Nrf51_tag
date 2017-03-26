@@ -298,7 +298,7 @@
               <OCR_RVCT9>
                 <Type>0</Type>
                 <StartAddress>0x20002500</StartAddress>
-                <Size>0x5500</Size>
+                <Size>0x2500</Size>
               </OCR_RVCT9>
               <OCR_RVCT10>
                 <Type>0</Type>
@@ -335,7 +335,7 @@
               <MiscControls></MiscControls>
               <Define>BLE_STACK_SUPPORT_REQD NRF51822 S130 NRF_SD_BLE_API_VERSION=2 NRF51 SOFTDEVICE_PRESENT SWI_DISABLE0</Define>
               <Undefine></Undefine>
-              <IncludePath>.\Source;..\..\SDK12.2\components\toolchain;..\..\SDK12.2\components\toolchain\arm;..\..\SDK12.2\components\toolchain\cmsis\include;..\..\SoftDevices\s130_nrf51_2.0.1\s130_nrf51_2.0.1_API\include;..\..\SoftDevices\s130_nrf51_2.0.1\s130_nrf51_2.0.1_API\include\nrf51;..\..\SDK12.2\components\device;..\..\SDK12.2\components\libraries\util;..\..\SDK12.2\components\drivers_nrf\delay;..\..\SDK12.2\components\drivers_nrf\gpiote;..\..\SDK12.2\components\drivers_nrf\hal;.\BLE400;..\..\SDK12.2\components\libraries\log;..\..\SDK12.2\components\libraries\log\src;..\..\SDK12.2\components\libraries\util;..\..\SDK12.2\components\ble\ble_services\ble_dis;..\..\SDK12.2\components\ble\common;..\..\SDK12.2\components\softdevice\common\softdevice_handler;..\..\SDK12.2\components\drivers_nrf\clock;..\..\SDK12.2\components\drivers_nrf\common;..\..\SDK12.2\components\drivers_nrf\timer;..\..\SDK12.2\components\libraries\timer;..\..\SDK12.2\components\ble\ble_advertising;..\..\SDK12.2\components\libraries\fstorage;..\..\SDK12.2\components\libraries\experimental_section_vars;.\Segger;..\..\SDK12.2\components\drivers_nrf\rtc</IncludePath>
+              <IncludePath>.\Source;..\..\SDK12.2\components\toolchain;..\..\SDK12.2\components\toolchain\arm;..\..\SDK12.2\components\toolchain\cmsis\include;..\..\SoftDevices\s130_nrf51_2.0.1\s130_nrf51_2.0.1_API\include;..\..\SoftDevices\s130_nrf51_2.0.1\s130_nrf51_2.0.1_API\include\nrf51;..\..\SDK12.2\components\device;..\..\SDK12.2\components\libraries\util;..\..\SDK12.2\components\drivers_nrf\delay;..\..\SDK12.2\components\drivers_nrf\gpiote;..\..\SDK12.2\components\drivers_nrf\hal;.\BLE400;..\..\SDK12.2\components\libraries\log;..\..\SDK12.2\components\libraries\log\src;..\..\SDK12.2\components\libraries\util;..\..\SDK12.2\components\ble\ble_services\ble_dis;..\..\SDK12.2\components\ble\common;..\..\SDK12.2\components\softdevice\common\softdevice_handler;..\..\SDK12.2\components\drivers_nrf\clock;..\..\SDK12.2\components\drivers_nrf\common;..\..\SDK12.2\components\drivers_nrf\timer;..\..\SDK12.2\components\libraries\timer;..\..\SDK12.2\components\ble\ble_advertising;..\..\SDK12.2\components\libraries\fstorage;..\..\SDK12.2\components\libraries\experimental_section_vars;.\Segger;..\..\SDK12.2\components\drivers_nrf\rtc;..\..\SDK12.2\components\ble\ble_radio_notification</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1039,6 +1039,16 @@
               <FileType>5</FileType>
               <FilePath>..\..\SDK12.2\components\drivers_nrf\rtc\nrf_drv_rtc.h</FilePath>
             </File>
+            <File>
+              <FileName>nrf_drv_gpiote.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\SDK12.2\components\drivers_nrf\gpiote\nrf_drv_gpiote.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_drv_gpiote.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\SDK12.2\components\drivers_nrf\gpiote\nrf_drv_gpiote.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1166,6 +1176,16 @@
               <FileName>ble_advdata.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\SDK12.2\components\ble\common\ble_advdata.h</FilePath>
+            </File>
+            <File>
+              <FileName>ble_radio_notification.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\SDK12.2\components\ble\ble_radio_notification\ble_radio_notification.c</FilePath>
+            </File>
+            <File>
+              <FileName>ble_radio_notification.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\SDK12.2\components\ble\ble_radio_notification\ble_radio_notification.h</FilePath>
             </File>
           </Files>
         </Group>

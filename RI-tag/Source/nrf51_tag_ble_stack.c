@@ -10,13 +10,12 @@
 //-------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------
-
 static nrf_clock_lf_cfg_t nrf_clock_lf_cfg =
 {
     NRF_CLOCK_LF_SRC_XTAL,
     0,
     0,
-    NRF_CLOCK_LF_XTAL_ACCURACY_20_PPM
+    NRF_CLOCK_LF_XTAL_ACCURACY_250_PPM
 };
 
 //-------------------------------------------------------------------------------------------------
@@ -44,6 +43,7 @@ static void ble_evt_dispatch(ble_evt_t * p_ble_evt)
  */
 static void sys_evt_dispatch(uint32_t sys_evt)
 {
+    DBG("--> sys_evt: 0x%x\r\n", sys_evt);
 }
 
 /**@brief Function for initializing the Device Information Service.
@@ -86,7 +86,10 @@ void nrf51_tag_stack_init(void)
 
     nrf51_tag_set_gap_device_name((const uint8_t*)NRF51_TAG_DEVICE_NAME, strlen(NRF51_TAG_DEVICE_NAME));
     
+//#define ENABLE_RADIO_NOTIFICATIONS
+#ifdef ENABLE_RADIO_NOTIFICATIONS
     nrf51_tag_radio_notification_init();
+#endif
     
     nrf51_tag_initialize_connection_settings();
     
