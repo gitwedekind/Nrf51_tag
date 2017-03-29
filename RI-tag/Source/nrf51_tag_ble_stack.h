@@ -39,7 +39,7 @@ bool nrf51_tag_is_cccd_configured(uint16_t cccd_handle);
 // ------------------------------------------------------------------------------------------------
 // Debug Message(s)
 // ------------------------------------------------------------------------------------------------
-#define ENABLE_STACK_INITIALIZE_MESSAGES
+//#define ENABLE_STACK_INITIALIZE_MESSAGES
 
 #if defined(ENABLE_STACK_INITIALIZE_MESSAGES)
 

@@ -25,7 +25,7 @@ void nrf51_tag_set_gap_device_name(uint8_t const * const p_dev_name, uint16_t le
 // ------------------------------------------------------------------------------------------------
 // Debug Message(s)
 // ------------------------------------------------------------------------------------------------
-#define ENABLE_GAP_PARAM_MESSAGES
+//#define ENABLE_GAP_PARAM_MESSAGES
 
 #if defined(ENABLE_GAP_PARAM_MESSAGES)
 

@@ -25,9 +25,17 @@ uint32_t nrf51_tag_temperature_get(void);
 // ------------------------------------------------------------------------------------------------
 // Debug Message(s)
 // ------------------------------------------------------------------------------------------------
-#define ENABLE_INITIALIZE_MESSAGES
+//#define ENABLE_INITIALIZE_MESSAGES
 
 #if defined(ENABLE_INITIALIZE_MESSAGES)
+
+static inline uint32_t ram_total_size_get(void)
+{
+    uint32_t size_ram_blocks = (uint32_t)NRF_FICR->SIZERAMBLOCKS;
+    uint32_t total_ram_size = size_ram_blocks;
+    total_ram_size = total_ram_size * (NRF_FICR->NUMRAMBLOCK);
+    return total_ram_size;
+}
 
 #define DBG_INITIALIZE() FUNCTION()
 #define DBG_INITIALIZE_COMPLETE() FUNCTION_COMPLETE()

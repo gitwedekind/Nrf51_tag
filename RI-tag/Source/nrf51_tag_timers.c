@@ -8,7 +8,7 @@
 #include "nrf51_tag_timers.h"
 
 APP_TIMER_DEF(s_connection_interval_timer_id);
-APP_TIMER_DEF(s_uptime_timer_id);
+APP_TIMER_DEF(s_system_uptime_timer_id);
 //APP_TIMER_DEF(s_ble_start_timer_id);
 //APP_TIMER_DEF(s_ble_stop_timer_id);
 //APP_TIMER_DEF(s_stack_check_timer_id);
@@ -37,7 +37,7 @@ void nrf51_tag_connection_interval_timeout_handler(void* p_context)
 
 void nrf51_tag_system_uptime_timer_start(void)
 {
-    uint32_t err_code = app_timer_start(s_uptime_timer_id, APP_TIMER_TICKS(1000, SYS_TIMER_PRESCALER), NULL);
+    uint32_t err_code = app_timer_start(s_system_uptime_timer_id, APP_TIMER_TICKS(1000, SYS_TIMER_PRESCALER), NULL);
     APP_ERROR_CHECK(err_code);
 }
 
@@ -71,15 +71,15 @@ void nrf51_tag_timers_init(void)
     err_code = app_timer_create
     (
         &s_connection_interval_timer_id,
-        APP_TIMER_MODE_REPEATED,
+        APP_TIMER_MODE_SINGLE_SHOT,
         nrf51_tag_connection_interval_timeout_handler
     );
     APP_ERROR_CHECK(err_code);
 
     err_code = app_timer_create
     (
-        &s_uptime_timer_id,
-        APP_TIMER_MODE_SINGLE_SHOT,
+        &s_system_uptime_timer_id,
+        APP_TIMER_MODE_REPEATED,
         nrf51_tag_uptime_timeout_handler
     );
     APP_ERROR_CHECK(err_code);

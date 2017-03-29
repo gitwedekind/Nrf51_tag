@@ -19,7 +19,7 @@ void nrf51_tag_set_connection_parameters(void);
 // ------------------------------------------------------------------------------------------------
 // Debug Message(s)
 // ------------------------------------------------------------------------------------------------
-#define ENABLE_CONN_PARAM_MESSAGES
+//#define ENABLE_CONN_PARAM_MESSAGES
 
 #if defined(ENABLE_CONN_PARAM_MESSAGES)
 

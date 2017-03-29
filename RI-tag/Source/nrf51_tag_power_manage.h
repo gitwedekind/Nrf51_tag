@@ -55,14 +55,10 @@ power_mode_t get_power_mode(void);
 */
 void power_mode_off(void);
 
-/** @brief
-*/
-void nrf51_tag_module_power_settings_debug(void);
-
 // ------------------------------------------------------------------------------------------------
 // Debug Message(s)
 // ------------------------------------------------------------------------------------------------
-#define ENABLE_POWER_MANAGE_MESSAGES
+//#define ENABLE_POWER_MANAGE_MESSAGES
 
 #if defined(ENABLE_POWER_MANAGE_MESSAGES)
 

@@ -5,7 +5,7 @@
 */
 
 #include "nrf51_tag_error.h"
-#include "nrf51_tag_headers.h"
+#include "nrf51_tag_ble_stack.h"
 
 //-------------------------------------------------------------------------------------------------
 //

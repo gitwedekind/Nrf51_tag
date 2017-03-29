@@ -5,19 +5,11 @@
 */
 
 #include "nrf51_tag_error.h"
-#include "nrf51_tag_headers.h"
+#include "nrf51_tag_initialize.h"
 
 // ----------------------------------------------------------------------------
 // 
 // ----------------------------------------------------------------------------
-
-static inline uint32_t ram_total_size_get(void)
-{
-    uint32_t size_ram_blocks = (uint32_t)NRF_FICR->SIZERAMBLOCKS;
-    uint32_t total_ram_size = size_ram_blocks;
-    total_ram_size = total_ram_size * (NRF_FICR->NUMRAMBLOCK);
-    return total_ram_size;
-}
 
 uint32_t nrf51_tag_temperature_get(void)
 {
@@ -52,7 +44,22 @@ void nrf51_tag_initialize(void)
     nrf51_tag_stack_init();
     
     nrf51_tag_timers_init();
+
+    nrf51_tag_spi0_master_init();
+#if 1
     
+    uint8_t tx_data[2] = {0x8F,0x00};
+    uint8_t rx_data[2] = {0x00, 0x00};
+    
+    while (1) 
+    {
+        nrf51_tag_spi_master_tx_rx(tx_data, rx_data);
+        
+        DBG_HEX_DUMP("Rx Data", rx_data, sizeof(rx_data));
+        
+        nrf_delay_ms(1000);
+    }
+#endif
     DBG_GAP_ADDR();
     DBG_TEMPERATURE();
 

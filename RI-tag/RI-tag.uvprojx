@@ -639,6 +639,16 @@
               <FileType>5</FileType>
               <FilePath>.\Source\nrf51_tag_rtc.h</FilePath>
             </File>
+            <File>
+              <FileName>nrf51_tag_spi_master.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\nrf51_tag_spi_master.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf51_tag_spi_master.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\nrf51_tag_spi_master.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1038,16 +1048,6 @@
               <FileName>nrf_drv_rtc.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\SDK12.2\components\drivers_nrf\rtc\nrf_drv_rtc.h</FilePath>
-            </File>
-            <File>
-              <FileName>nrf_drv_gpiote.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\SDK12.2\components\drivers_nrf\gpiote\nrf_drv_gpiote.c</FilePath>
-            </File>
-            <File>
-              <FileName>nrf_drv_gpiote.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\SDK12.2\components\drivers_nrf\gpiote\nrf_drv_gpiote.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -78,8 +78,8 @@ static void nrf51_tag_module_power_settings(void)
     // NRF_RADIO - 2.4 GHz Radio
 
     NRF_UART0->POWER  = 0; // Universal Asynchronous Receiver / Transmitter 0
-    NRF_SPI0->POWER   = 0; // Serial Peripheral Interface (Master) 0
-    NRF_TWI0->POWER   = 0; // Two Wire Interface (Master) 0 Note: will not work without enabling this 
+    NRF_SPI0->POWER   = 1; // Serial Peripheral Interface (Master) 0
+    NRF_TWI0->POWER   = 1; // Two Wire Interface (Master) 0 Note: will not work without enabling this 
     NRF_SPI1->POWER   = 0; // Serial Peripheral Interface (Slave) 1
     NRF_TWI1->POWER   = 0; // Two Wire Interface (Slave) 1
     NRF_SPIS1->POWER  = 0; // Serial Peripheral Interface 0
@@ -107,6 +107,9 @@ static void nrf51_tag_module_power_settings(void)
     // NRF_GPIO - General Purpose Input / Output
 }
 
+//#define ENABLE_DBG_POWER_SETTINGS
+#ifdef ENABLE_DBG_POWER_SETTINGS
+
 void nrf51_tag_module_power_settings_debug(void)
 {
     DBG("NRF_UART0->POWER: %d\r\n", NRF_UART0->POWER);
@@ -132,6 +135,12 @@ void nrf51_tag_module_power_settings_debug(void)
     DBG("NRF_LPCOMP->POWER: %d\r\n", NRF_LPCOMP->POWER);
 
 }
+
+#define DBG_POWER_SETTINGS() nrf51_tag_module_power_settings_debug()
+
+#else
+#define DBG_POWER_SETTINGS() 
+#endif
 
 /**@brief
  */
@@ -186,6 +195,8 @@ void initialize_power_manage(void)
     DBG_INITIALIZE_POWER_MANAGE();
     
     nrf51_tag_module_power_settings();
+    
+    DBG_POWER_SETTINGS();
     
     s_power_mode = PM_IDLE;
 }

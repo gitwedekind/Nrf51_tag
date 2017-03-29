@@ -48,8 +48,6 @@ void timer_test(void)
  */
 int main(void)
 {
-    nrf51_tag_module_power_settings_debug();
-    
 	LED0_ENABLE();
 	LED0_OFF();
     
@@ -72,7 +70,7 @@ int main(void)
     nrf51_tag_update_device_name(153);
     nrf51_tag_update_manufacturing_data(1, 2, 3);
     
-     nrf51_tag_advertising_packet_initialize();
+    nrf51_tag_advertising_packet_initialize();
     
     nrf51_tag_start_advertising();
 		
