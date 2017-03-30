@@ -59,7 +59,6 @@ int main(void)
     
     DEV_BOARD_INIT_LEDS();
     DEV_BOARD_INIT_GPIO();
-    DEV_BOARD_INIT_BUTTONS();
     
     ml_active_tasks_idle();
     

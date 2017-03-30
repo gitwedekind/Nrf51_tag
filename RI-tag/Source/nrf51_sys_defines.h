@@ -12,7 +12,7 @@
 //#define TAG_UART_ENABLED
 #define TAG_RTT_ENABLED
 
-//#define ENABLE_BLE400_DEV_BOARD
+#define ENABLE_BLE400_DEV_BOARD
 //#define ENABLE_CJMCU_DEV_BOARD
 
 //-------------------------------------------------------------------------------------------------

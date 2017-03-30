@@ -83,7 +83,7 @@ static void nrf51_tag_module_power_settings(void)
     NRF_SPI1->POWER   = 0; // Serial Peripheral Interface (Slave) 1
     NRF_TWI1->POWER   = 0; // Two Wire Interface (Slave) 1
     NRF_SPIS1->POWER  = 0; // Serial Peripheral Interface 0
-    NRF_GPIOTE->POWER = 0; // GPIO Tasks and Events
+    NRF_GPIOTE->POWER = 1; // GPIO Tasks and Events
     NRF_ADC->POWER    = 0; // Analog-to-Digital Controller
     NRF_TIMER0->POWER = 1; // Timer / Counter 0
     NRF_TIMER1->POWER = 0; // Timer / Counter 1

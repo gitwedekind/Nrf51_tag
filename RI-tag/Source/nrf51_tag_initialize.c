@@ -45,21 +45,8 @@ void nrf51_tag_initialize(void)
     
     nrf51_tag_timers_init();
 
-    nrf51_tag_spi0_master_init();
-#if 1
+    nrf51_tag_spi0_lis3dh_init();
     
-    uint8_t tx_data[2] = {0x8F,0x00};
-    uint8_t rx_data[2] = {0x00, 0x00};
-    
-    while (1) 
-    {
-        nrf51_tag_spi_master_tx_rx(tx_data, rx_data);
-        
-        DBG_HEX_DUMP("Rx Data", rx_data, sizeof(rx_data));
-        
-        nrf_delay_ms(1000);
-    }
-#endif
     DBG_GAP_ADDR();
     DBG_TEMPERATURE();
 

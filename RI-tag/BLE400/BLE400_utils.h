@@ -65,13 +65,16 @@ static const uint32_t BUTTON1 = 17;
 #define GPIOTE_CHANNEL_0 0
 
 void ble400_initialize_buttons(void);
-
 #define DEV_BOARD_INIT_BUTTONS() ble400_initialize_buttons()
+
+void GPIOTE_IRQHandler_BLE400(void);
+#define DEV_BOARD_BUTTONS() GPIOTE_IRQHandler_BLE400()
 
 #else
 
 #define DEV_BOARD_INIT_LEDS()
 #define DEV_BOARD_INIT_GPIO()
 #define DEV_BOARD_INIT_BUTTONS()
+#define DEV_BOARD_BUTTONS()
 
 #endif
