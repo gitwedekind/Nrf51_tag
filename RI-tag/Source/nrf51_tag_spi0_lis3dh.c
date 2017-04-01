@@ -14,10 +14,6 @@
 */
 static NRF_SPI_Type* spi0_base_address = (NRF_SPI_Type*)NRF_SPI0;
 
-/**
-*/
-static uint8_t s_lis3dh_ready = 0;
-
 // ------------------------------------------------------------------------------------------------
 // static Module Interface Functions
 // ------------------------------------------------------------------------------------------------
@@ -114,35 +110,10 @@ void nrf51_tag_spi0_lis3dh_init()
     // Clear the Event Ready Flag 
     //
     spi0_base_address->EVENTS_READY = 0;
-
+    
     // Enable SPI0 Hardware
     //
     spi0_base_address->ENABLE = (SPI_ENABLE_ENABLE_Enabled << SPI_ENABLE_ENABLE_Pos);
-    
-    uint8_t tx_data[LIS3DH_CMD_LENGTH] = {0x00, 0x00};
-    uint8_t rx_data[LIS3DH_CMD_LENGTH] = {0x00, 0x00};
-    
-    LIS3DH_CMD(tx_data, LIS3DH_WHO_AM_I, LIS3DH_READ, 0);
-    nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
-    
-    s_lis3dh_ready = 0;
-    
-    if ( rx_data[LIS3DH_CMD_INDEX_1] == LIS3DH_WHO_AM_1_DEFAULT )
-    {
-        s_lis3dh_ready = 1;
-
-        LIS3DH_CMD(tx_data, LIS3DH_TEMP_CFG_REG, LIS3DH_READ, 0);
-        nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
-        
-        uint8_t temp_cfg_value = rx_data[LIS3DH_CMD_INDEX_1];
-        
-        temp_cfg_value |= LIS3DH_TEMPERATURE_ENABLE;
-
-        LIS3DH_CMD(tx_data, LIS3DH_TEMP_CFG_REG, LIS3DH_WRITE, temp_cfg_value);
-        nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
-    }
-
-    DBG("--> %s\r\n", LIS3DH_READY(s_lis3dh_ready));
 }
 
 /**
@@ -162,7 +133,7 @@ static uint32_t nrf51_tag_spi_tx_byte_transferred()
 
     if ( counter >= TIMEOUT_COUNTER_10MS )
     {
-        return NRF_ERROR_INTERNAL;
+        return NRF_TAG_ERROR_SPI_RX_ERROR;
     }
     else
     {
@@ -185,17 +156,17 @@ void nrf51_tag_spi_lis3dh_cmd(const uint8_t* p_write_cmd, uint8_t* p_read_cmd)
     // Send the 2 byte command
     // Note: This starts the SPI Master Hardware to start clocking 
     //
-    spi0_base_address->TXD = (uint32_t)p_write_cmd[LIS3DH_CMD_INDEX_0];
+    spi0_base_address->TXD = (uint32_t)p_write_cmd[LIS3DH_CMD_REG_INDEX_0];
 
-    spi0_base_address->TXD = (uint32_t)p_write_cmd[LIS3DH_CMD_INDEX_1];
+    spi0_base_address->TXD = (uint32_t)p_write_cmd[LIS3DH_CMD_DATA_INDEX_1];
 
     // Read the 2 byte Response
     //
     APP_ERROR_CHECK( nrf51_tag_spi_tx_byte_transferred() );
-    p_read_cmd[LIS3DH_CMD_INDEX_0] = spi0_base_address->RXD;
+    p_read_cmd[LIS3DH_CMD_REG_INDEX_0] = spi0_base_address->RXD;
     
     APP_ERROR_CHECK( nrf51_tag_spi_tx_byte_transferred() );
-    p_read_cmd[LIS3DH_CMD_INDEX_1] = spi0_base_address->RXD;
+    p_read_cmd[LIS3DH_CMD_DATA_INDEX_1] = spi0_base_address->RXD;
 
     // Disable Slave CS (HIGH) 
     //

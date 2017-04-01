@@ -649,6 +649,16 @@
               <FileType>5</FileType>
               <FilePath>.\Source\nrf51_tag_spi0_lis3dh.h</FilePath>
             </File>
+            <File>
+              <FileName>nrf51_tag_lis3dh.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\nrf51_tag_lis3dh.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf51_tag_lis3dh.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\nrf51_tag_lis3dh.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

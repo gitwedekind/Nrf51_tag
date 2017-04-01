@@ -15,6 +15,7 @@
 #include "nrf51_tag_tx_power.h"
 #include "nrf51_tag_power_manage.h"
 #include "nrf51_tag_rtc.h"
+#include "nrf51_tag_lis3dh.h"
 #include "nrf51_tag_spi0_lis3dh.h"
 
 #include "nrf51_tag_initialize.h"
