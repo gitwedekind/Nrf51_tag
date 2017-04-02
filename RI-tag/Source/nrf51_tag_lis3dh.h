@@ -56,7 +56,6 @@
 
 #define GRAVITY_EARTH (9.80665F) /**< Earth's gravity in m/s^2 */
 
-
 typedef union
 {
     struct
@@ -71,7 +70,6 @@ typedef union
         // in normal power - 10 significant bits, left justified
         int16_t reserved : 6;
         int16_t value    : 10;
-
     } normalPower;
 
     struct
@@ -81,6 +79,7 @@ typedef union
         int16_t value    : 12;
 
     } highPower;
+    
     // the raw data as read from registers H and L
     uint16_t  raw;
 } LIS3DH_RAW_CONVERTER_T;

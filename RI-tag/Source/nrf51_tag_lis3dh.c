@@ -41,7 +41,7 @@ void GPIOTE_IRQHandler_LIS3DH(void)
     LIS3DH_CMD(tx_data, LIS3DH_STATUS_REG_r, LIS3DH_READ, 0);
     nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
     uint8_t status_pre = rx_data[LIS3DH_CMD_DATA_INDEX_1];
-
+#if 1
     LIS3DH_CMD(tx_data, LIS3DH_OUT_X_L_r, LIS3DH_READ, 0);
     nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
     xl = rx_data[LIS3DH_CMD_DATA_INDEX_1];
@@ -65,6 +65,7 @@ void GPIOTE_IRQHandler_LIS3DH(void)
     LIS3DH_CMD(tx_data, LIS3DH_OUT_Z_H_r, LIS3DH_READ, 0);
     nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
     zh = rx_data[LIS3DH_CMD_DATA_INDEX_1];
+#endif
     
     LIS3DH_CMD(tx_data, LIS3DH_STATUS_REG_r, LIS3DH_READ, 0);
     nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
@@ -301,17 +302,17 @@ void nrf51_tag_lis3dh_init(void)
 
 void nrf51_tag_lis3dh_configure(void)
 {
-    #define LIS3DH_CONFIG_CTRL_REG1 0x0F // LPen, Zen, Yen, Xen
+    #define LIS3DH_CONFIG_CTRL_REG1 0x07 // LPen, Zen, Yen, Xen
     #define LIS3DH_CONFIG_CTRL_REG2 0x00 // Default Settings
-    #define LIS3DH_CONFIG_CTRL_REG3 0x10 // I1_IA1
-    #define LIS3DH_CONFIG_CTRL_REG4 0x80 // Default Settings
+    #define LIS3DH_CONFIG_CTRL_REG3 0x50 // I1_IA1
+    #define LIS3DH_CONFIG_CTRL_REG4 0x88 // Default Settings
     #define LIS3DH_CONFIG_CTRL_REG5 0x00 // Default Settings
     #define LIS3DH_CONFIG_CTRL_REG6 0x00 // Default Settings
     
     #define LIS3DH_CONFIG_REFERENCE 0x00 // Default Settings
     
     #define LIS3DH_CONFIG_INT1_CFG      0x40 // Movement
-    #define LIS3DH_CONFIG_INT1_THS      0x16 // Default Settings
+    #define LIS3DH_CONFIG_INT1_THS      0x04 // Default Settings
     #define LIS3DH_CONFIG_INT1_DURATION 0x01 // Default Settings
     
     nrf51_tag_spi0_lis3dh_set_register(LIS3DH_CTRL_REG1_rw, LIS3DH_CONFIG_CTRL_REG1);
@@ -329,9 +330,12 @@ void nrf51_tag_lis3dh_configure(void)
     nrf51_tag_spi0_lis3dh_set_feature(LIS3DH_CTRL_REG1_rw, LIS3DH_NORMAL_1HZ_ENABLE);
     nrf51_tag_spi0_lis3dh_set_feature(LIS3DH_CTRL_REG4_rw, LIS3DH_HR_ENABLE);
     
+    nrf51_tag_spi0_lis3dh_set_register(LIS3DH_ACT_THS_rw, 0x00);
+    nrf51_tag_spi0_lis3dh_set_register(LIS3DH_ACT_DUR_rw, 0x00);
+
     //nrf51_tag_spi0_lis3dh_reg_dump(DUMP_CTRL_REGS);
 
-#if 1
+#if 0
     uint8_t tx_data[LIS3DH_CMD_LENGTH] = {0x00, 0x00};
     uint8_t rx_data[LIS3DH_CMD_LENGTH] = {0x00, 0x00};
 
@@ -356,6 +360,6 @@ void nrf51_tag_lis3dh_configure(void)
 
     s_lis3dh_ready = 1;
     DBG("--> %s\r\n", LIS3DH_READY(s_lis3dh_ready) );
-        
+
     nrf51_tag_spi0_lis3dh_set_register(LIS3DH_CTRL_REG3_rw, LIS3DH_CONFIG_CTRL_REG3);
 }
