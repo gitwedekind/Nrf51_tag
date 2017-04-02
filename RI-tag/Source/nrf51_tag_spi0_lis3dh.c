@@ -28,9 +28,12 @@ void GPIOTE_IRQHandler(void)
 {
     if ( NRF_GPIOTE->EVENTS_PORT )
     {
-        DBG("--> NRF_GPIOTE: 0x%x\r\n", NRF_GPIOTE->EVENTS_PORT);
+        //DBG("--> NRF_GPIOTE: 0x%x\r\n", NRF_GPIOTE->EVENTS_PORT);
         
         NRF_GPIOTE->EVENTS_PORT = 0;
+        
+        void GPIOTE_IRQHandler_LIS3DH(void);
+        GPIOTE_IRQHandler_LIS3DH();
         
         DEV_BOARD_BUTTONS();
     }
@@ -69,7 +72,7 @@ void nrf51_tag_spi0_lis3dh_init()
 
     // Configure the GPIOTE PORT_EVENTS input signal
     //
-    nrf51_tag_gpio_port_event_init(NRF_GPIO_PIN_SENSE_LOW);    
+    nrf51_tag_gpio_port_event_init(NRF_GPIO_PIN_SENSE_HIGH);    
 
     // Configure GPIO pins used for pselsck, pselmosi, pselmiso and pselss for SPI0 
     //

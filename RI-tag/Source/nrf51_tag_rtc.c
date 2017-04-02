@@ -16,42 +16,38 @@ static uint32_t s_system_uptime = 0;
 void nrf51_tag_system_uptime_callback(void)
 {
     ++s_system_uptime;
-#if 0    
+#if 0 
     uint8_t tx_data[LIS3DH_CMD_LENGTH] = {0x00, 0x00};
     uint8_t rx_data[LIS3DH_CMD_LENGTH] = {0x00, 0x00};
+    
+    uint8_t xl, yl, zl;
+    uint8_t xh, yh, zh;
 
-    LIS3DH_CMD(tx_data, LIS3DH_OUT_X_L, LIS3DH_READ, 0);
+    LIS3DH_CMD(tx_data, LIS3DH_OUT_X_L_r, LIS3DH_READ, 0);
     nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
-    DBG("--> LIS3DH_OUT_X_L: 0x%02x\r\n", rx_data[LIS3DH_CMD_INDEX_1]);
+    xl = rx_data[LIS3DH_CMD_DATA_INDEX_1];
+    
+    LIS3DH_CMD(tx_data, LIS3DH_OUT_Y_L_r, LIS3DH_READ, 0);
+    nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
+    yl = rx_data[LIS3DH_CMD_DATA_INDEX_1];
 
-    LIS3DH_CMD(tx_data, LIS3DH_OUT_X_H, LIS3DH_READ, 0);
+    LIS3DH_CMD(tx_data, LIS3DH_OUT_Z_L_r, LIS3DH_READ, 0);
     nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
-    DBG("--> LIS3DH_OUT_X_H: 0x%02x\r\n", rx_data[LIS3DH_CMD_INDEX_1]);
+    zl = rx_data[LIS3DH_CMD_DATA_INDEX_1];
 
-    LIS3DH_CMD(tx_data, LIS3DH_OUT_X_L, LIS3DH_READ, 0);
+    LIS3DH_CMD(tx_data, LIS3DH_OUT_X_H_r, LIS3DH_READ, 0);
     nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
-    DBG("--> LIS3DH_OUT_X_L: 0x%02x\r\n", rx_data[LIS3DH_CMD_INDEX_1]);
+    xh = rx_data[LIS3DH_CMD_DATA_INDEX_1];
+    
+    LIS3DH_CMD(tx_data, LIS3DH_OUT_Y_H_r, LIS3DH_READ, 0);
+    nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
+    yh = rx_data[LIS3DH_CMD_DATA_INDEX_1];
 
-    LIS3DH_CMD(tx_data, LIS3DH_OUT_X_H, LIS3DH_READ, 0);
+    LIS3DH_CMD(tx_data, LIS3DH_OUT_Z_H_r, LIS3DH_READ, 0);
     nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
-    DBG("--> LIS3DH_OUT_X_H: 0x%02x\r\n", rx_data[LIS3DH_CMD_INDEX_1]);
-    LIS3DH_CMD(tx_data, LIS3DH_OUT_X_L, LIS3DH_READ, 0);
-    nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
-    DBG("--> LIS3DH_OUT_X_L: 0x%02x\r\n", rx_data[LIS3DH_CMD_INDEX_1]);
+    zh = rx_data[LIS3DH_CMD_DATA_INDEX_1];
 
-    LIS3DH_CMD(tx_data, LIS3DH_OUT_X_H, LIS3DH_READ, 0);
-    nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
-    DBG("--> LIS3DH_OUT_X_H: 0x%02x\r\n", rx_data[LIS3DH_CMD_INDEX_1]);
-#endif
-
-#if 0    
-    LIS3DH_CMD(tx_data, LIS3DH_OUT_ADC3_L, LIS3DH_READ, 0);
-    nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
-    DBG("--> LIS3DH_OUT_ADC3_L: 0x%02x\r\n", rx_data[LIS3DH_CMD_INDEX_1]);
-
-    LIS3DH_CMD(tx_data, LIS3DH_OUT_ADC3_H, LIS3DH_READ, 0);
-    nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
-    DBG("--> LIS3DH_OUT_ADC3_H: 0x%02x\r\n", rx_data[LIS3DH_CMD_INDEX_1]);
+    DBG("--> X,Y,Z: %04x:%04x:%04x\r\n", MAKE_U16(xl,xh), MAKE_U16(yl,yh), MAKE_U16(zl,zh));
 #endif
 }
 

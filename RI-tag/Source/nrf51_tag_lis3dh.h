@@ -7,6 +7,8 @@
 
 #include "nrf51_tag_headers.h"
 
+#include <math.h>
+
 // ------------------------------------------------------------------------------------------------
 // LIS3DH
 // ------------------------------------------------------------------------------------------------
@@ -42,6 +44,53 @@
 
 #define LIS3DH_LPM_ENABLE 0x80
 #define LIS3DH_NORMAL_1HZ_ENABLE 0x10
+
+#define DUMP_ALL_REGS  0
+#define DUMP_CTRL_REGS 1
+#define DUMP_DATA_REGS 2
+
+#define LIS3DH_RANGE_16_G 1365
+#define LIS3DH_RANGE_8_G  4096
+#define LIS3DH_RANGE_4_G  8190
+#define LIS3DH_RANGE_2_G  16380
+
+#define GRAVITY_EARTH (9.80665F) /**< Earth's gravity in m/s^2 */
+
+
+typedef union
+{
+    struct
+    {
+        // in low power - 8 significant bits, left justified
+        int16_t reserved : 8;
+        int16_t value    : 8;
+    } lowPower;
+
+    struct
+    {
+        // in normal power - 10 significant bits, left justified
+        int16_t reserved : 6;
+        int16_t value    : 10;
+
+    } normalPower;
+
+    struct
+    {
+        // in high resolution - 12 significant bits, left justified
+        int16_t reserved : 4;
+        int16_t value    : 12;
+
+    } highPower;
+    // the raw data as read from registers H and L
+    uint16_t  raw;
+} LIS3DH_RAW_CONVERTER_T;
+
+typedef struct 
+{
+    float x;
+    float y;
+    float z;
+} sensors_vec_t;
 
 // ------------------------------------------------------------------------------------------------
 // LIS3DH Control Registers
@@ -187,3 +236,8 @@ static const uint8_t LIS3DH_ResetRegisters[LIS3DH_RW_REG_COUNT][LIS3DH_CMD_LENGT
 /**
  */
 void nrf51_tag_lis3dh_init(void);
+
+/**
+ */
+void nrf51_tag_lis3dh_configure(void);
+

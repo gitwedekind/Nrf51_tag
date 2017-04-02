@@ -15,13 +15,13 @@
 */
 #define SPI0_OPERATING_FREQUENCY ( 0x02000000UL << (uint32_t)Freq_125Kbps )  
 
-/* LIS3DH Wake Pin
-*/
-#define LIS3DH_WAKE_IRQ_PIN 20   
-
 /* NRF SPI0 Pins
 */
 #ifdef ENABLE_BLE400_DEV_BOARD
+
+/* LIS3DH Wake Pin
+*/
+#define LIS3DH_WAKE_IRQ_PIN 20   
 
 #define SPI_PSELSCK0  25   /*!< GPIO pin number for SPI clock SCLK           */
 #define SPI_PSELMOSI0 24   /*!< GPIO pin number for Master Out Slave In MOSI */
@@ -29,6 +29,10 @@
 #define SPI_PSELSS0   30   /*!< GPIO pin number for Slave Select CS          */
 
 #else
+
+/* LIS3DH Wake Pin
+*/
+#define LIS3DH_WAKE_IRQ_PIN 1   
 
 #define SPI_PSELSCK0  7   /*!< GPIO pin number for SPI clock SCLK           */
 #define SPI_PSELMOSI0 6   /*!< GPIO pin number for Master Out Slave In MOSI */
