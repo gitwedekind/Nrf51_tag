@@ -10,6 +10,8 @@
 */
 static uint8_t s_lis3dh_ready = 0;
 
+static uint8_t nrf51_tag_spi0_lis3dh_set_register(uint8_t reg_cmd, uint8_t reg_value);
+
 uint8_t tx_data[LIS3DH_CMD_LENGTH] = {0x00, 0x00};
 uint8_t rx_data[LIS3DH_CMD_LENGTH] = {0x00, 0x00};
 
@@ -47,6 +49,34 @@ void lis3dh_read_data(void)
     x.raw = MAKE_U16(xl,xh);
     y.raw = MAKE_U16(yl,yh);
     z.raw = MAKE_U16(zl,zh);
+}
+
+uint8_t clearInterrupt() 
+{
+    uint8_t tx_data[LIS3DH_CMD_LENGTH] = {0x00, 0x00};
+    uint8_t rx_data[LIS3DH_CMD_LENGTH] = {0x00, 0x00};
+    
+    LIS3DH_CMD(tx_data, LIS3DH_INT1_SRC_r, LIS3DH_READ, 0);
+    nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
+    uint8_t int1_src = rx_data[LIS3DH_CMD_DATA_INDEX_1]; 
+    
+    return int1_src;
+
+    nrf_delay_us(10);
+    
+    uint32_t wake_pin = nrf_gpio_pin_read(LIS3DH_WAKE_IRQ_PIN);
+    
+	while( wake_pin ) 
+    {
+        LIS3DH_CMD(tx_data, LIS3DH_INT1_SRC_r, LIS3DH_READ, 0);
+        nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
+        
+        nrf_delay_us(10);
+
+        wake_pin = nrf_gpio_pin_read(LIS3DH_WAKE_IRQ_PIN);
+	}
+
+	return int1_src;
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -296,19 +326,22 @@ void nrf51_tag_lis3dh_configure(void)
     #define LIS3DH_CONFIG_CTRL_REG2 0x00 // Default Settings
     #define LIS3DH_CONFIG_CTRL_REG3 0x40 //
     #define LIS3DH_CONFIG_CTRL_REG4 0x88 // 
-    #define LIS3DH_CONFIG_CTRL_REG5 0x08 // 
+    #define LIS3DH_CONFIG_CTRL_REG5 0x00 // 
     #define LIS3DH_CONFIG_CTRL_REG6 0x00 // 
     
     #define LIS3DH_CONFIG_REFERENCE 0x00 // 
     
     #define LIS3DH_CONFIG_INT1_CFG      0x42 //
-    #define LIS3DH_CONFIG_INT1_THS      0x10 //
+    #define LIS3DH_CONFIG_INT1_THS      0x04 //
     #define LIS3DH_CONFIG_INT1_DURATION 0x00 //
     
     uint8_t tx_data[LIS3DH_CMD_LENGTH] = {0x00, 0x00};
     uint8_t rx_data[LIS3DH_CMD_LENGTH] = {0x00, 0x00};
 
     nrf51_tag_spi0_lis3dh_set_register(LIS3DH_CTRL_REG1_rw, LIS3DH_CONFIG_CTRL_REG1);
+    
+    nrf_delay_us(6000);
+    
     nrf51_tag_spi0_lis3dh_set_register(LIS3DH_CTRL_REG2_rw, LIS3DH_CONFIG_CTRL_REG2);
     nrf51_tag_spi0_lis3dh_set_register(LIS3DH_CTRL_REG3_rw, LIS3DH_CONFIG_CTRL_REG3);
     nrf51_tag_spi0_lis3dh_set_register(LIS3DH_CTRL_REG4_rw, LIS3DH_CONFIG_CTRL_REG4);
@@ -320,7 +353,7 @@ void nrf51_tag_lis3dh_configure(void)
     nrf51_tag_spi0_lis3dh_set_register(LIS3DH_INT1_THS_rw,      LIS3DH_CONFIG_INT1_THS);
     nrf51_tag_spi0_lis3dh_set_register(LIS3DH_INT1_DURATION_rw, LIS3DH_CONFIG_INT1_DURATION);
 
-    lis3dh_read_data();
+    //lis3dh_read_data();
 
     LIS3DH_CMD(tx_data, LIS3DH_STATUS_REG_r, LIS3DH_READ, 0);
     nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
@@ -329,20 +362,23 @@ void nrf51_tag_lis3dh_configure(void)
 
     uint8_t int_src = 0xFF;
     
-    lis3dh_read_data();
-
+    //lis3dh_read_data();
+#if 0
     while ( int_src )
     {
         LIS3DH_CMD(tx_data, LIS3DH_INT1_SRC_r, LIS3DH_READ, 0);
         nrf51_tag_spi_lis3dh_cmd(tx_data, rx_data);
         int_src = rx_data[LIS3DH_CMD_DATA_INDEX_1];
+        
+        nrf_delay_us(100);
     }
+#endif    
+    //DBG("--> INT1 SRC: 0x%x\r\n", clearInterrupt() );
     
-    DBG("--> INT1 SRC: 0x%x\r\n", int_src );
-    
-    lis3dh_read_data();
-    
-    nrf51_tag_spi0_lis3dh_set_register(LIS3DH_INT1_CFG_rw,      LIS3DH_CONFIG_INT1_CFG);
+    nrf51_tag_spi0_lis3dh_set_register(LIS3DH_INT1_CFG_rw, LIS3DH_CONFIG_INT1_CFG);
+    //nrf51_tag_spi0_lis3dh_set_register(LIS3DH_CTRL_REG1_rw, LIS3DH_CONFIG_CTRL_REG1);
+
+    //DBG("--> INT1 SRC: 0x%x\r\n", clearInterrupt() );
 
     s_lis3dh_ready = 1;
     DBG("--> %s\r\n", LIS3DH_READY(s_lis3dh_ready) );
