@@ -240,3 +240,4 @@ void nrf51_tag_lis3dh_init(void);
  */
 void nrf51_tag_lis3dh_configure(void);
 
+void nrf51_tag_spi0_lis3dh_enable_temperature(void);

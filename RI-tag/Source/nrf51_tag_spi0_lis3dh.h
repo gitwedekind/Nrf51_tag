@@ -13,7 +13,7 @@
 
 /*!< Slave clock frequency
 */
-#define SPI0_OPERATING_FREQUENCY ( 0x02000000UL << (uint32_t)Freq_125Kbps )  
+#define SPI0_OPERATING_FREQUENCY ( 0x02000000UL << (uint32_t)Freq_8Mbps )  
 
 /* NRF SPI0 Pins
 */

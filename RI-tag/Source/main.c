@@ -48,8 +48,8 @@ void timer_test(void)
  */
 int main(void)
 {
-	LED0_ENABLE();
-	LED0_OFF();
+	//LED0_ENABLE();
+	//LED0_OFF();
     
     TAG_UART_INITIALIZE();
     
@@ -57,21 +57,21 @@ int main(void)
     DBG_MAIN_STACK();
     DBG_RAM_START();
     
-    DEV_BOARD_INIT_LEDS();
-    DEV_BOARD_INIT_GPIO();
+    //DEV_BOARD_INIT_LEDS();
+    //DEV_BOARD_INIT_GPIO();
     
     ml_active_tasks_idle();
     
     nrf51_tag_initialize();
     
-    nrf51_tag_set_advertising_parameters(NRF51_TAG_ADV_INTERVAL, NRF51_TAG_ADV_TIMEOUT_IN_SECONDS);
+    //nrf51_tag_set_advertising_parameters(NRF51_TAG_ADV_INTERVAL, NRF51_TAG_ADV_TIMEOUT_IN_SECONDS);
     
-    nrf51_tag_update_device_name(153);
-    nrf51_tag_update_manufacturing_data(1, 2, 3);
+    //nrf51_tag_update_device_name(153);
+    //nrf51_tag_update_manufacturing_data(1, 2, 3);
     
-    nrf51_tag_advertising_packet_initialize();
+    //nrf51_tag_advertising_packet_initialize();
     
-    nrf51_tag_start_advertising();
+    //nrf51_tag_start_advertising();
 		
     while (1)
     {
