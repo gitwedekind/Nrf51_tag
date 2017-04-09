@@ -232,12 +232,41 @@ static const uint8_t LIS3DH_ResetRegisters[LIS3DH_RW_REG_COUNT][LIS3DH_CMD_LENGT
     LIS3DH_ACT_DUR_rw,       0x00,
 };
 
+static const char* LIS3DH_RESET_REGISTERS_str[LIS3DH_RW_REG_COUNT] =
+{
+    "LIS3DH_CTRL_REG0_rw    ",
+    "LIS3DH_TEMP_CFG_REG_rw ",
+    "LIS3DH_CTRL_REG1_rw    ",
+    "LIS3DH_CTRL_REG2_rw    ",
+    "LIS3DH_CTRL_REG3_rw    ",
+    "LIS3DH_CTRL_REG4_rw    ",
+    "LIS3DH_CTRL_REG5_rw    ",
+    "LIS3DH_CTRL_REG6_rw    ",
+    "LIS3DH_REFERENCE_rw    ",
+    "LIS3DH_FIFO_CTRL_REG_rw",
+    "LIS3DH_INT1_CFG_rw     ",
+    "LIS3DH_INT1_THS_rw     ",
+    "LIS3DH_INT1_DURATION_rw",
+    "LIS3DH_INT2_CFG_rw     ",
+    "LIS3DH_INT2_THS_rw     ",
+    "LIS3DH_INT2_DURATION_rw",
+    "LIS3DH_CLICK_CFG_rw    ",
+    "LIS3DH_CLICK_THS_rw    ",
+    "LIS3DH_TIME_LIMIT_rw   ",
+    "LIS3DH_TIME_LATENCY_rw ",
+    "LIS3DH_TIME_WINDOW_rw  ",
+    "LIS3DH_ACT_THS_rw      ",
+    "LIS3DH_ACT_DUR_rw      ",
+};
+
 /**
  */
 void nrf51_tag_lis3dh_init(void);
 
 /**
  */
-void nrf51_tag_lis3dh_configure(void);
+void nrf51_tag_lis3dh_suspend(void);
 
-void nrf51_tag_spi0_lis3dh_enable_temperature(void);
+/**
+ */
+void nrf51_tag_lis3dh_data_ready(void);
