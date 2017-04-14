@@ -8,6 +8,8 @@
 
 #include "nrf51_tag_headers.h"
 
+#define SERIAL_NUMBER_LENGTH 8
+
 //-------------------------------------------------------------------------------------------------
 // Tag Configuration Service Structure
 //-------------------------------------------------------------------------------------------------
@@ -17,11 +19,10 @@
 typedef struct ble_tag_configuration_service_t ble_tag_configuration_service_t;
 struct ble_tag_configuration_service_t
 {
-    uint16_t                    service_handle;                                    /**< Handle of Tag Configuration Service (as provided by the BLE stack). */
-    uint8_t                     uuid_type;                                         /**< UUID type for the Tag Service. */
-    ble_gatts_char_handles_t    tag_configuration_beacon_ids_char_handles;         /**< Handles related to the Tag Configuration Beacon Ids Characteristic. */
-    ble_gatts_char_handles_t    tag_configuration_adv_burst_interval_char_handles; /**< Handles related to the Tag Configuration Adv Burst Interval Characteristic. */
-    ble_gatts_char_handles_t    tag_configuration_adv_burst_duration_char_handles; /**< Handles related to the Tag Configuration Adv Burst Duration Characteristic. */
+    uint16_t                    service_handle;                               /**< Handle of Tag Configuration Service (as provided by the BLE stack). */
+    uint8_t                     uuid_type;                                    /**< UUID type for the Tag Service. */
+    ble_gatts_char_handles_t    tag_configuration_sample_rate_char_handles;   /**< Handles related to the Tag Configuration Beacon Ids Characteristic. */
+    ble_gatts_char_handles_t    tag_configuration_serial_number_char_handles; /**< Handles related to the Tag Configuration Adv Burst Interval Characteristic. */
 };
 
 //-------------------------------------------------------------------------------------------------
@@ -29,31 +30,19 @@ struct ble_tag_configuration_service_t
 //-------------------------------------------------------------------------------------------------
 #pragma pack(1)
 
-/** @brief Tag Configuration Beacon Ids
+/** @brief Tag Configuration Sample Rate
 */
 
-#define TAG_BEACON_ID_COUNT 5
-#define TAG_BEACON_ID_LENGTH 16
-
-typedef struct ble_tag_configuration_beacon_ids_t ble_tag_configuration_beacon_ids_t;
-struct ble_tag_configuration_beacon_ids_t
+typedef struct ble_tag_configuration_sample_rate_t ble_tag_configuration_sample_rate_t;
+struct ble_tag_configuration_sample_rate_t
 {
-    uint8_t beacon_ids[TAG_BEACON_ID_COUNT][TAG_BEACON_ID_LENGTH];
+    uint16_t sample_rate;
 };
 
-/** @brief Tag Configuration Adv Burst Interval
-*/
-
-typedef struct ble_tag_configuration_adv_burst_interval_t ble_tag_configuration_adv_burst_interval_t;
-struct ble_tag_configuration_adv_burst_interval_t
+typedef struct ble_tag_configuration_serial_number_t ble_tag_configuration_serial_number_t;
+struct ble_tag_configuration_serial_number_t
 {
-    uint16_t adv_burst_interval;
-};
-
-typedef struct ble_tag_configuration_adv_burst_duration_t ble_tag_configuration_adv_burst_duration_t;
-struct ble_tag_configuration_adv_burst_duration_t
-{
-    uint16_t adv_burst_duration;
+    uint8_t serial_number[SERIAL_NUMBER_LENGTH];
 };
 
 #pragma pack()
@@ -100,27 +89,19 @@ void nrf51_tag_configuration_timeout(ble_evt_t* p_ble_evt);
 
 /** @brief
  */
-void nrf51_tag_configuration_uptime_set(ble_tag_configuration_beacon_ids_t* p_tag_configuration_beacon_ids);
+void nrf51_tag_configuration_sample_rate_set(ble_tag_configuration_sample_rate_t* p_tag_configuration_sample_rate);
 
 /** @brief
  */
-void nrf51_tag_configuration_uptime_get(ble_tag_configuration_beacon_ids_t* p_tag_configuration_beacon_ids);
+void nrf51_tag_configuration_sample_rate_get(ble_tag_configuration_sample_rate_t* p_tag_configuration_sample_rate);
 
 /** @brief
  */
-void nrf51_tag_configuration_adv_burst_interval_set(ble_tag_configuration_adv_burst_interval_t* p_tag_configuration_adv_burst_interval);
+void nrf51_tag_configuration_serial_number_set(ble_tag_configuration_serial_number_t* p_tag_configuration_serial_number);
 
 /** @brief
  */
-void nrf51_tag_configuration_adv_burst_interval_get(ble_tag_configuration_adv_burst_interval_t* p_tag_configuration_adv_burst_interval);
-
-/** @brief
- */
-void nrf51_tag_configuration_adv_burst_duration_set(ble_tag_configuration_adv_burst_duration_t* p_tag_configuration_adv_burst_duration);
-
-/** @brief
- */
-void nrf51_tag_configuration_adv_burst_duration_get(ble_tag_configuration_adv_burst_duration_t* p_tag_configuration_adv_burst_duration);
+void nrf51_tag_configuration_serial_number_get(ble_tag_configuration_serial_number_t* p_tag_configuration_serial_number);
 
 //-------------------------------------------------------------------------------------------------
 // Tag Configuration handle(s) API 
@@ -128,24 +109,16 @@ void nrf51_tag_configuration_adv_burst_duration_get(ble_tag_configuration_adv_bu
 
 /** @brief
  */
-uint16_t nrf51_tag_configuration_beacon_ids_value_handle(void);
+uint16_t nrf51_tag_configuration_sample_rate_value_handle(void);
 
 /** @brief
  */
-uint16_t nrf51_tag_configuration_beacon_ids_cccd_handle(void);
+uint16_t nrf51_tag_configuration_sample_rate_cccd_handle(void);
 
 /** @brief
  */
-uint16_t nrf51_tag_configuration_adv_burst_interval_value_handle(void);
+uint16_t nrf51_tag_configuration_serial_number_value_handle(void);
 
 /** @brief
  */
-uint16_t nrf51_tag_configuration_adv_burst_interval_cccd_handle(void);
-
-/** @brief
- */
-uint16_t nrf51_tag_configuration_adv_burst_duration_value_handle(void);
-
-/** @brief
- */
-uint16_t nrf51_tag_configuration_adv_burst_duration_cccd_handle(void);
+uint16_t nrf51_tag_configuration_serial_number_cccd_handle(void);

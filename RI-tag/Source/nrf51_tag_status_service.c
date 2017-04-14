@@ -61,10 +61,40 @@ void nrf51_tag_status_service_initialize(void)
     void nrf51_tag_status_uptime_char_add(ble_tag_status_service_t* p_tag_status_uptime);
     nrf51_tag_status_uptime_char_add(&s_ble_tag_status_service);
 
-    // Add Tag Status Command Characteristic
+    // Add Tag Status Temperature Characteristic
     //
     void nrf51_tag_status_temperature_char_add(ble_tag_status_service_t* p_tag_status_service);
     nrf51_tag_status_temperature_char_add(&s_ble_tag_status_service);
+
+    // Add Tag Status Battery Level Characteristic
+    //
+    void nrf51_tag_status_battery_level_char_add(ble_tag_status_service_t* p_tag_status_service);
+    nrf51_tag_status_battery_level_char_add(&s_ble_tag_status_service);
+
+    // Add Tag Status Firmware Revision Characteristic
+    //
+    void nrf51_tag_status_firmware_revision_char_add(ble_tag_status_service_t* p_tag_status_service);
+    nrf51_tag_status_firmware_revision_char_add(&s_ble_tag_status_service);
+
+    // Add Tag Status Beacon Record Count Characteristic
+    //
+    void nrf51_tag_status_beacon_record_count_char_add(ble_tag_status_service_t* p_tag_status_service);
+    nrf51_tag_status_beacon_record_count_char_add(&s_ble_tag_status_service);
+
+    // Add Tag Status Beacon Read Records Characteristic
+    //
+    void nrf51_tag_status_beacon_read_records_char_add(ble_tag_status_service_t* p_tag_status_service);
+    nrf51_tag_status_beacon_read_records_char_add(&s_ble_tag_status_service);
+
+    // Add Tag Status Activity Record Count Characteristic
+    //
+    void nrf51_tag_status_activity_record_count_char_add(ble_tag_status_service_t* p_tag_status_service);
+    nrf51_tag_status_activity_record_count_char_add(&s_ble_tag_status_service);
+
+    // Add Tag Status Activity Read Records Characteristic
+    //
+    void nrf51_tag_status_activity_read_records_char_add(ble_tag_status_service_t* p_tag_status_service);
+    nrf51_tag_status_activity_read_records_char_add(&s_ble_tag_status_service);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -97,4 +127,88 @@ uint16_t nrf51_tag_status_temperature_value_handle(void)
 uint16_t nrf51_tag_status_temperature_cccd_handle(void)
 {
     return s_ble_tag_status_service.tag_status_temperature_char_handles.cccd_handle;
+}
+
+/** @brief
+ */
+uint16_t nrf51_tag_status_battery_level_value_handle(void)
+{
+    return s_ble_tag_status_service.tag_status_battery_level_char_handles.value_handle;
+}
+
+/** @brief
+ */
+uint16_t nrf51_tag_status_battery_level_cccd_handle(void)
+{
+    return s_ble_tag_status_service.tag_status_battery_level_char_handles.cccd_handle;
+}
+
+/** @brief
+ */
+uint16_t nrf51_tag_status_firmware_revision_value_handle(void)
+{
+    return s_ble_tag_status_service.tag_status_firmware_revision_char_handles.value_handle;
+}
+
+/** @brief
+ */
+uint16_t nrf51_tag_firmware_revision_cccd_handle(void)
+{
+    return s_ble_tag_status_service.tag_status_firmware_revision_char_handles.cccd_handle;
+}
+
+/** @brief
+ */
+uint16_t nrf51_tag_status_beacon_record_count_value_handle(void)
+{
+    return s_ble_tag_status_service.tag_status_beacon_record_count_char_handles.value_handle;
+}
+
+/** @brief
+ */
+uint16_t nrf51_tag_beacon_record_count_cccd_handle(void)
+{
+    return s_ble_tag_status_service.tag_status_beacon_record_count_char_handles.cccd_handle;
+}
+
+/** @brief
+ */
+uint16_t nrf51_tag_status_beacon_read_records_value_handle(void)
+{
+    return s_ble_tag_status_service.tag_status_beacon_read_records_char_handles.value_handle;
+}
+
+/** @brief
+ */
+uint16_t nrf51_tag_beacon_read_records_cccd_handle(void)
+{
+    return s_ble_tag_status_service.tag_status_beacon_read_records_char_handles.cccd_handle;
+}
+
+/** @brief
+ */
+uint16_t nrf51_tag_status_activity_record_count_value_handle(void)
+{
+    return s_ble_tag_status_service.tag_status_activity_record_count_char_handles.value_handle;
+}
+
+/** @brief
+ */
+uint16_t nrf51_tag_activity_record_count_cccd_handle(void)
+{
+    return s_ble_tag_status_service.tag_status_activity_record_count_char_handles.cccd_handle;
+}
+
+/** @brief
+ */
+uint16_t nrf51_tag_status_activity_read_records_value_handle(void)
+{
+    return s_ble_tag_status_service.tag_status_activity_read_records_char_handles.value_handle;
+}
+
+/** @brief
+ */
+uint16_t nrf51_tag_activity_read_records_cccd_handle(void)
+{
+    return s_ble_tag_status_service.tag_status_activity_read_records_char_handles.cccd_handle;
 }

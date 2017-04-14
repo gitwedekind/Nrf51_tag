@@ -35,7 +35,6 @@
 #include "nrf51_tag_debug_service.h"
 #include "nrf51_tag_status_service.h"
 #include "nrf51_tag_configuration_service.h"
-#include "nrf51_tag_activity_log_service.h"
 
 #include "nrf51_tag_on_ble_evt.h"
 #include "nrf51_tag_on_ble_evt_gap.h"

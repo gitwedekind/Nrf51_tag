@@ -56,20 +56,15 @@ void nrf51_tag_configuration_service_initialize(void)
     // Tag Configuration Characteristics
     // ------------------------------------------------------------------------
 
-    // Add Tag Configuration Beacon Ids Characteristic
+    // Add Tag Configuration Sample Rate Characteristic
     //
-    void nrf51_tag_configuration_beacon_ids_char_add(ble_tag_configuration_service_t* p_tag_configuration_service);
-    nrf51_tag_configuration_beacon_ids_char_add(&s_ble_tag_configuration_service);
+    void nrf51_tag_configuration_sample_rate_char_add(ble_tag_configuration_service_t* p_tag_configuration_service);
+    nrf51_tag_configuration_sample_rate_char_add(&s_ble_tag_configuration_service);
 
-    // Add Tag Configuration Adv Burst Interval Characteristic
+    // Add Tag Configuration Serial Number Characteristic
     //
-    void nrf51_tag_configuration_adv_burst_interval_char_add(ble_tag_configuration_service_t* p_tag_configuration_service);
-    nrf51_tag_configuration_adv_burst_interval_char_add(&s_ble_tag_configuration_service);
-
-    // Add Tag Configuration Adv Burst Duration Characteristic
-    //
-    void nrf51_tag_configuration_adv_burst_duration_char_add(ble_tag_configuration_service_t* p_tag_configuration_service);
-    nrf51_tag_configuration_adv_burst_duration_char_add(&s_ble_tag_configuration_service);
+    void nrf51_tag_configuration_serial_number_char_add(ble_tag_configuration_service_t* p_tag_configuration_service);
+    nrf51_tag_configuration_serial_number_char_add(&s_ble_tag_configuration_service);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -78,42 +73,28 @@ void nrf51_tag_configuration_service_initialize(void)
 
 /** @brief
  */
-uint16_t nrf51_tag_configuration_beacon_ids_value_handle(void)
+uint16_t nrf51_tag_configuration_sample_rate_value_handle(void)
 {
-    return s_ble_tag_configuration_service.tag_configuration_beacon_ids_char_handles.value_handle;
+    return s_ble_tag_configuration_service.tag_configuration_sample_rate_char_handles.value_handle;
 }
 
 /** @brief
  */
-uint16_t nrf51_tag_configuration_beacon_ids_cccd_handle(void)
+uint16_t nrf51_tag_configuration_sample_rate_cccd_handle(void)
 {
-    return s_ble_tag_configuration_service.tag_configuration_beacon_ids_char_handles.cccd_handle;
+    return s_ble_tag_configuration_service.tag_configuration_sample_rate_char_handles.cccd_handle;
 }
 
 /** @brief
  */
-uint16_t nrf51_tag_configuration_adv_burst_interval_value_handle(void)
+uint16_t nrf51_tag_configuration_serial_number_value_handle(void)
 {
-    return s_ble_tag_configuration_service.tag_configuration_adv_burst_interval_char_handles.value_handle;
+    return s_ble_tag_configuration_service.tag_configuration_serial_number_char_handles.value_handle;
 }
 
 /** @brief
  */
-uint16_t nrf51_tag_configuration_adv_burst_interval_cccd_handle(void)
+uint16_t nrf51_tag_configuration_serial_number_cccd_handle(void)
 {
-    return s_ble_tag_configuration_service.tag_configuration_adv_burst_interval_char_handles.cccd_handle;
-}
-
-/** @brief
- */
-uint16_t nrf51_tag_configuration_adv_burst_duration_value_handle(void)
-{
-    return s_ble_tag_configuration_service.tag_configuration_adv_burst_duration_char_handles.value_handle;
-}
-
-/** @brief
- */
-uint16_t nrf51_tag_configuration_adv_burst_duration_cccd_handle(void)
-{
-    return s_ble_tag_configuration_service.tag_configuration_adv_burst_duration_char_handles.cccd_handle;
+    return s_ble_tag_configuration_service.tag_configuration_serial_number_char_handles.cccd_handle;
 }

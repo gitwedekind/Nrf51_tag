@@ -58,6 +58,8 @@ typedef enum
     Freq_8Mbps               /*!< drive SClk with frequency 8Mbps */
 } SPI_Frequency_t;
 
+typedef void (*PFN_LIS3DH_CB)(void);
+
 // ------------------------------------------------------------------------------------------------
 // Function Declarations
 // ------------------------------------------------------------------------------------------------
