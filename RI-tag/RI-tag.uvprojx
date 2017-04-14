@@ -734,26 +734,6 @@
               <FileType>5</FileType>
               <FilePath>.\Source\nrf51_tag_configuration_service.h</FilePath>
             </File>
-            <File>
-              <FileName>nrf51_tag_activity_log_characteristic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\nrf51_tag_activity_log_characteristic.c</FilePath>
-            </File>
-            <File>
-              <FileName>nrf51_tag_activity_log_gatt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\nrf51_tag_activity_log_gatt.c</FilePath>
-            </File>
-            <File>
-              <FileName>nrf51_tag_activity_log_service.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\nrf51_tag_activity_log_service.c</FilePath>
-            </File>
-            <File>
-              <FileName>nrf51_tag_activity_log_service.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\nrf51_tag_activity_log_service.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
