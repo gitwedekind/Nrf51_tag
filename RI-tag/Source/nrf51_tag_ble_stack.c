@@ -131,7 +131,7 @@ void nrf51_tag_ble_stack_enable(void)
         );
         APP_ERROR_CHECK(err_code);
 
-        ble_enable_params.common_enable_params.vs_uuid_count = 10;
+        ble_enable_params.common_enable_params.vs_uuid_count = 1;
 
         // Enable BLE stack
         //

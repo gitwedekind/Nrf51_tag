@@ -58,7 +58,7 @@ void nrf51_tag_status_service_initialize(void)
 
     // Add Tag Status Uptime Characteristic
     //
-    void nrf51_tag_status_uptime_char_add(ble_tag_status_service_t* p_tag_status_uptime);
+    void nrf51_tag_status_uptime_char_add(ble_tag_status_service_t* p_tag_status_service);
     nrf51_tag_status_uptime_char_add(&s_ble_tag_status_service);
 
     // Add Tag Status Temperature Characteristic

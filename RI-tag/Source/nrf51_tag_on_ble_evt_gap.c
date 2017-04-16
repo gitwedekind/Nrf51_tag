@@ -31,6 +31,8 @@ void nrf51_tag_gap_evt_connect(ble_evt_t* p_ble_evt)
 void nrf51_tag_gap_evt_disconnect(ble_evt_t* p_ble_evt)
 {
     nrf51_tag_disconnect(p_ble_evt->evt.gap_evt.params.disconnected);
+    
+    nrf51_tag_start_advertising();
 }
 
 /**@brief Function for handling the Connection Parameters Update event - BLE_GAP_EVT_CONN_PARAM_UPDATE.

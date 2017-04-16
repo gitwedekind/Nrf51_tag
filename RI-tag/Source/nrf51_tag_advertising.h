@@ -9,7 +9,7 @@
 #include "nrf51_tag_headers.h"
 
 #define NRF51_TAG_ADV_INTERVAL           300 /**< The advertising interval (in units of 0.625 ms. This value corresponds to 187.5 ms). */
-#define NRF51_TAG_ADV_TIMEOUT_IN_SECONDS 10 /**< The advertising timeout in units of seconds. */
+#define NRF51_TAG_ADV_TIMEOUT_IN_SECONDS 600*100 /**< The advertising timeout in units of seconds. */
 
 //----------------------------------------------------------------------------
 // Radio Advertising Functions
@@ -21,7 +21,7 @@ uint8_t* nrf51_tag_get_device_name(void);
 
 uint8_t nrf51_tag_get_device_name_length(void);
 
-void nrf51_tag_update_manufacturing_data(uint8_t tag_id, uint8_t beacon_record_count, uint8_t activity_log_record_count);
+void nrf51_tag_update_manufacturing_data(uint8_t ping, uint16_t tag_id, uint16_t beacon_record_count, uint16_t activity_log_record_count);
 
 uint8_t* nrf51_tag_get_manufacturing_data(void);
 

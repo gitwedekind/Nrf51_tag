@@ -26,3 +26,8 @@ char const * nrf51_tag_version_get_version(void)
 {
 	return strVersion;
 }
+
+uint32_t nrf51_tag_version_get_version_length(void)
+{
+	return strlen(strVersion);
+}

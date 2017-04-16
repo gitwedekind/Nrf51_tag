@@ -13,8 +13,8 @@ void nrf51_tag_initialize_services(void)
 {
     nrf51_tag_status_service_initialize();
 
-    nrf51_tag_configuration_service_initialize();
+    //nrf51_tag_configuration_service_initialize();
 
-    nrf51_tag_debug_service_initialize();
+    //nrf51_tag_debug_service_initialize();
 
 }

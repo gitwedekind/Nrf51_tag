@@ -38,7 +38,7 @@ struct ble_tag_status_service_t
 typedef struct ble_tag_status_uptime_t ble_tag_status_uptime_t;
 struct ble_tag_status_uptime_t
 {
-    uint32_t uptime;
+    uint32_t timestamp;
 };
 #pragma pack()
 
@@ -49,7 +49,7 @@ struct ble_tag_status_uptime_t
 typedef struct ble_tag_status_temperature_t ble_tag_status_temperature_t;
 struct ble_tag_status_temperature_t
 {
-    int8_t temperature;
+    int8_t degrees_celsius;
 };
 #pragma pack()
 
@@ -60,7 +60,7 @@ struct ble_tag_status_temperature_t
 typedef struct ble_tag_status_battery_level_t ble_tag_status_battery_level_t;
 struct ble_tag_status_battery_level_t
 {
-    int8_t battery_level;
+    int8_t percent;
 };
 #pragma pack()
 
@@ -71,7 +71,7 @@ struct ble_tag_status_battery_level_t
 typedef struct ble_tag_status_firmware_revision_t ble_tag_status_firmware_revision_t;
 struct ble_tag_status_firmware_revision_t
 {
-    uint8_t firmware_revision[FIRMWARE_REVISION_LENGTH];
+    uint8_t version[FIRMWARE_REVISION_LENGTH];
 };
 #pragma pack()
 
@@ -94,9 +94,9 @@ typedef struct ble_tag_status_beacon_read_records_t ble_tag_status_beacon_read_r
 struct ble_tag_status_beacon_read_records_t
 {
     uint32_t timestamp;
-    uint8_t x;
-    uint8_t y;
-    uint8_t z;
+    uint16_t x;
+    uint16_t y;
+    uint16_t z;
 };
 #pragma pack()
 
@@ -119,9 +119,9 @@ typedef struct ble_tag_status_activity_read_records_t ble_tag_status_activity_re
 struct ble_tag_status_activity_read_records_t
 {
     uint32_t timestamp;
-    uint8_t x;
-    uint8_t y;
-    uint8_t z;
+    uint16_t x;
+    uint16_t y;
+    uint16_t z;
 };
 #pragma pack()
 

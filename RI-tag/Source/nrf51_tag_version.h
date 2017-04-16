@@ -27,4 +27,6 @@
 #define VERSION_FW_REVISION		0
 
 char const* nrf51_tag_version_get_name(void);
+
 char const* nrf51_tag_version_get_version(void);
+uint32_t nrf51_tag_version_get_version_length(void);

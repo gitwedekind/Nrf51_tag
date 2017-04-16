@@ -49,13 +49,15 @@ uint8_t nrf51_tag_get_device_name_length(void)
 
 /** @brief Update Manufacturing Data.
 */
-void nrf51_tag_update_manufacturing_data(uint8_t tag_id, uint8_t beacon_record_count, uint8_t activity_log_record_count)
+void nrf51_tag_update_manufacturing_data(uint8_t ping, uint16_t tag_id, uint16_t beacon_record_count, uint16_t activity_log_record_count)
 {
     memset(s_manufacturing_data, '\0', sizeof(s_manufacturing_data));
     
-    s_manufacturing_data[0] = tag_id;
-    s_manufacturing_data[1] = beacon_record_count;
-    s_manufacturing_data[2] = activity_log_record_count;
+    uint16_encode(0xFFFF, &s_manufacturing_data[0]);                    // 0,1
+    s_manufacturing_data[2] = ping;                                     // 2
+    uint16_encode(tag_id, &s_manufacturing_data[3]);                    // 3, 4
+    uint16_encode(beacon_record_count, &s_manufacturing_data[5]);       // 5, 6
+    uint16_encode(activity_log_record_count, &s_manufacturing_data[7]); // 7, 8
 }
 
 uint8_t* nrf51_tag_get_manufacturing_data(void)
@@ -156,8 +158,8 @@ void nrf51_tag_advertising_packet_initialize(void)
     advdata.include_appearance            = false;
     advdata.flags                         = flags;
     
-    advdata.include_ble_device_addr       = true;
-    advdata.p_tx_power_level              = &s_tx_power_level;
+    //advdata.include_ble_device_addr       = true;
+    //advdata.p_tx_power_level              = &s_tx_power_level;
     
     advdata.uuids_more_available.uuid_cnt = sizeof(adv_uuids) / sizeof(adv_uuids[0]);
     advdata.uuids_more_available.p_uuids  = adv_uuids;

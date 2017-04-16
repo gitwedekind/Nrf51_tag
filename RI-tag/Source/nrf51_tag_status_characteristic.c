@@ -26,7 +26,7 @@ void nrf51_tag_status_uptime_char_add(ble_tag_status_service_t* p_tag_status_ser
     //
     ble_gatts_char_md_t char_md = {0};
     
-    char_md.char_props.write = 1;
+    char_md.char_props.write = 0;
     char_md.char_props.read  = 1;
     
     char_md.p_cccd_md = &cccd_md;
@@ -98,7 +98,7 @@ void nrf51_tag_status_temperature_char_add(ble_tag_status_service_t* p_tag_statu
     //
     ble_gatts_char_md_t char_md = {0};
     
-    char_md.char_props.write = 1;
+    char_md.char_props.write = 0;
     char_md.char_props.read  = 1;
     
     char_md.p_cccd_md = &cccd_md;
@@ -170,7 +170,7 @@ void nrf51_tag_status_battery_level_char_add(ble_tag_status_service_t* p_tag_sta
     //
     ble_gatts_char_md_t char_md = {0};
     
-    char_md.char_props.write = 1;
+    char_md.char_props.write = 0;
     char_md.char_props.read  = 1;
     
     char_md.p_cccd_md = &cccd_md;
@@ -242,7 +242,7 @@ void nrf51_tag_status_firmware_revision_char_add(ble_tag_status_service_t* p_tag
     //
     ble_gatts_char_md_t char_md = {0};
     
-    char_md.char_props.write = 1;
+    char_md.char_props.write = 0;
     char_md.char_props.read  = 1;
     
     char_md.p_cccd_md = &cccd_md;
@@ -314,7 +314,7 @@ void nrf51_tag_status_beacon_record_count_char_add(ble_tag_status_service_t* p_t
     //
     ble_gatts_char_md_t char_md = {0};
     
-    char_md.char_props.write = 1;
+    char_md.char_props.write = 0;
     char_md.char_props.read  = 1;
     
     char_md.p_cccd_md = &cccd_md;
@@ -386,7 +386,7 @@ void nrf51_tag_status_beacon_read_records_char_add(ble_tag_status_service_t* p_t
     //
     ble_gatts_char_md_t char_md = {0};
     
-    char_md.char_props.write = 1;
+    char_md.char_props.write = 0;
     char_md.char_props.read  = 1;
     
     char_md.p_cccd_md = &cccd_md;
@@ -458,7 +458,7 @@ void nrf51_tag_status_activity_record_count_char_add(ble_tag_status_service_t* p
     //
     ble_gatts_char_md_t char_md = {0};
     
-    char_md.char_props.write = 1;
+    char_md.char_props.write = 0;
     char_md.char_props.read  = 1;
     
     char_md.p_cccd_md = &cccd_md;
@@ -468,7 +468,7 @@ void nrf51_tag_status_activity_record_count_char_add(ble_tag_status_service_t* p
     ble_uuid_t ble_uuid = {0};
     
     ble_uuid.type = p_tag_status_service->uuid_type;
-    ble_uuid.uuid = BLE_UUID_TAG_STATUS_BEACON_RECORD_COUNT_CHAR;
+    ble_uuid.uuid = BLE_UUID_TAG_STATUS_ACTIVITY_RECORD_COUNT_CHAR;
 
     // Attribute Meta Data
     //
@@ -530,7 +530,7 @@ void nrf51_tag_status_activity_read_records_char_add(ble_tag_status_service_t* p
     //
     ble_gatts_char_md_t char_md = {0};
     
-    char_md.char_props.write = 1;
+    char_md.char_props.write = 0;
     char_md.char_props.read  = 1;
     
     char_md.p_cccd_md = &cccd_md;
@@ -540,7 +540,7 @@ void nrf51_tag_status_activity_read_records_char_add(ble_tag_status_service_t* p
     ble_uuid_t ble_uuid = {0};
     
     ble_uuid.type = p_tag_status_service->uuid_type;
-    ble_uuid.uuid = BLE_UUID_TAG_STATUS_BEACON_READ_RECORDS_CHAR;
+    ble_uuid.uuid = BLE_UUID_TAG_STATUS_ACTIVITY_READ_RECORDS_CHAR;
 
     // Attribute Meta Data
     //

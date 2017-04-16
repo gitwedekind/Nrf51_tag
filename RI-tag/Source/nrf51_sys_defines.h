@@ -31,14 +31,14 @@ static const char * const NRF51_TAG_DEVICE_NAME = "RI_Tag #";
 
 #define TAG_SHORT_DEVICE_NAME_LENGTH 6
 
-#define TAG_MANUFACTURING_DATA_LENGTH 3
+#define TAG_MANUFACTURING_DATA_LENGTH 9
 
 static const char * const NRF51_TAG_MANUFACTURE_NAME = "RemoteInsights";
 
 #define NRF_BLE_CENTRAL_LINK_COUNT    0
 #define NRF_BLE_PERIPHERAL_LINK_COUNT 1
 
-#define ADV_COMPANY_ID 0x0001
+#define ADV_COMPANY_ID 0xFFFF
 
 //-----------------------------------------------------------------------------
 // Tag Debug Service Definitions

@@ -11,7 +11,7 @@
 // 
 // ----------------------------------------------------------------------------
 
-uint32_t nrf51_tag_temperature_get(void)
+int8_t nrf51_tag_temperature_get(void)
 {
     int32_t temp = 0;
     uint32_t err_code = NRF_SUCCESS;
@@ -19,11 +19,9 @@ uint32_t nrf51_tag_temperature_get(void)
     err_code = sd_temp_get(&temp);
     APP_ERROR_CHECK(err_code);
     
-    temp = (temp / 4) * 100;
+    temp /= 4;
     
-    int8_t exponent = -2;
-    
-    return ((exponent & 0xFF) << 24) | (temp & 0x00FFFFFF);
+    return temp;
 }
 
 /**@brief Function for initializing the Dexcom application code.
@@ -41,11 +39,12 @@ void nrf51_tag_initialize(void)
     
     initialize_power_manage();
 
-    nrf51_tag_stack_init();
-    
     nrf51_tag_timers_init();
 
-    nrf51_tag_lis3dh_init();
+    nrf51_tag_stack_init();
+    
+
+    //nrf51_tag_lis3dh_init();
     
     DBG_GAP_ADDR();
     DBG_TEMPERATURE();

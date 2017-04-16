@@ -20,7 +20,7 @@
  */
 void nrf51_tag_initialize(void);
 
-uint32_t nrf51_tag_temperature_get(void);
+int8_t nrf51_tag_temperature_get(void);
 
 // ------------------------------------------------------------------------------------------------
 // Debug Message(s)

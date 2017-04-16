@@ -89,7 +89,7 @@ static void nrf51_tag_module_power_settings(void)
     NRF_TIMER1->POWER = 0; // Timer / Counter 1
     NRF_TIMER2->POWER = 0; // Timer / Counter 2
     NRF_RTC0->POWER   = 1; // Real Time Counter 0 
-    NRF_TEMP->POWER   = 0; // Temperature Sensor
+    NRF_TEMP->POWER   = 1; // Temperature Sensor
     NRF_RNG->POWER    = 1; // Random Number Generator
     NRF_ECB->POWER    = 1; // Crypto ECB
     NRF_AAR->POWER    = 1; // Accelerated Address Resolver
