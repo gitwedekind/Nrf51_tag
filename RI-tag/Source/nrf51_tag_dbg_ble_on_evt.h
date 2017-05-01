@@ -21,14 +21,14 @@
 //#define ENABLE_SEC_INFO_REQUEST_DEBUG
 //#define ENABLE_GAP_ENC_INFO_DEBUG
 
-static const char* BLE_GAP_ROLE[] =
+static char const * const BLE_GAP_ROLE[] =
 {
     "BLE_GAP_ROLE_INVALID",
     "BLE_GAP_ROLE_PERIPH",
     "BLE_GAP_ROLE_CENTRAL",
 };
 
-static const char* BLE_GAP_TIMEOUT[] =
+static char const * const BLE_GAP_TIMEOUT[] =
 {
     "BLE_GAP_TIMEOUT_SRC_ADVERTISING",
     "BLE_GAP_TIMEOUT_SRC_SECURITY_REQUEST",
@@ -36,7 +36,7 @@ static const char* BLE_GAP_TIMEOUT[] =
     "BLE_GAP_TIMEOUT_SRC_CONN",
 };
 
-static const char* BLE_GAP_ADDR_TYPE[] =
+static char const * const BLE_GAP_ADDR_TYPE[] =
 {
     "BLE_GAP_ADDR_TYPE_PUBLIC",
     "BLE_GAP_ADDR_TYPE_RANDOM_STATIC",

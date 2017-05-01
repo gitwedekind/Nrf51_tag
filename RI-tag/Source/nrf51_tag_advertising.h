@@ -9,7 +9,7 @@
 #include "nrf51_tag_headers.h"
 
 #define NRF51_TAG_ADV_INTERVAL           300 /**< The advertising interval (in units of 0.625 ms. This value corresponds to 187.5 ms). */
-#define NRF51_TAG_ADV_TIMEOUT_IN_SECONDS 600*100 /**< The advertising timeout in units of seconds. */
+#define NRF51_TAG_ADV_TIMEOUT_IN_SECONDS 30 /**< The advertising timeout in units of seconds. */
 
 //----------------------------------------------------------------------------
 // Radio Advertising Functions
@@ -50,7 +50,7 @@ void nrf51_tag_stop_advertising(void);
 
 #if defined(ENABLE_ADVERTISING_MESSAGES)
 
-static char* ADV[] =
+static char const * const ADV[] =
 {
     "BLE_ADV_EVT_IDLE",
     "BLE_ADV_EVT_DIRECTED",

@@ -60,9 +60,9 @@ typedef union
 {
     struct
     {
-        // in low power - 8 significant bits, left justified
-        int16_t reserved : 8;
-        int16_t value    : 8;
+        // in low power populate value directly
+        int8_t reserved;
+        int8_t value;
     } lowPower;
 
     struct
@@ -232,7 +232,7 @@ static const uint8_t LIS3DH_ResetRegisters[LIS3DH_RW_REG_COUNT][LIS3DH_CMD_LENGT
     LIS3DH_ACT_DUR_rw,       0x00,
 };
 
-static const char* LIS3DH_RESET_REGISTERS_str[LIS3DH_RW_REG_COUNT] =
+static char const * const LIS3DH_RESET_REGISTERS_str[LIS3DH_RW_REG_COUNT] =
 {
     "LIS3DH_CTRL_REG0_rw    ",
     "LIS3DH_TEMP_CFG_REG_rw ",
@@ -265,8 +265,8 @@ void nrf51_tag_lis3dh_init(void);
 
 /**
  */
-void nrf51_tag_lis3dh_suspend(void);
+void nrf51_tag_lis3dh_write_register(uint8_t reg_cmd, uint8_t reg_value);
 
 /**
  */
-void nrf51_tag_lis3dh_data_ready(void);
+uint8_t nrf51_tag_lis3dh_read_register(uint8_t reg_cmd);

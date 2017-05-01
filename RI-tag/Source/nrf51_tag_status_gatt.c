@@ -101,9 +101,9 @@ static void nrf51_tag_status_set_authorize_reply_read_beacon_read_records(ble_ev
     
     beacon_read_records.timestamp = nrf51_tag_get_system_uptime();
     
-    beacon_read_records.x = 0;
-    beacon_read_records.y = 0;
-    beacon_read_records.z = 0;
+    beacon_read_records.data.x = 0;
+    beacon_read_records.data.y = 0;
+    beacon_read_records.data.z = 0;
     
     nrf51_tag_status_set_authorize_reply(p_ble_evt, (const uint8_t*)&beacon_read_records, sizeof(ble_tag_status_beacon_read_records_t));
 }
@@ -129,9 +129,9 @@ static void nrf51_tag_status_set_authorize_reply_read_activity_read_records(ble_
     
     activity_read_records.timestamp = nrf51_tag_get_system_uptime();
     
-    activity_read_records.x = 1;
-    activity_read_records.y = 2;
-    activity_read_records.z = 3;
+    activity_read_records.data.x = 1;
+    activity_read_records.data.y = 2;
+    activity_read_records.data.z = 3;
     
     nrf51_tag_status_set_authorize_reply(p_ble_evt, (const uint8_t*)&activity_read_records, sizeof(ble_tag_status_activity_read_records_t));
 }

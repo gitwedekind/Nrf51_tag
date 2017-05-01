@@ -43,7 +43,7 @@ static void ble_evt_dispatch(ble_evt_t * p_ble_evt)
  */
 static void sys_evt_dispatch(uint32_t sys_evt)
 {
-    DBG("--> sys_evt: 0x%x\r\n", sys_evt);
+    nrf51_tag_database_sys_evt(sys_evt);
 }
 
 /**@brief Function for initializing the Device Information Service.

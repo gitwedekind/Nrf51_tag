@@ -13,8 +13,6 @@
 
 static ble_gap_adv_params_t s_adv_params = {0};
 
-static int8_t s_tx_power_level = 0;
-
 static char s_device_name_with_tag_id[TAG_DEVICE_NAME_LENGTH + TAG_SERIAL_NUMBER_LENGTH + 1] = {0};
 
 static uint8_t s_manufacturing_data[TAG_MANUFACTURING_DATA_LENGTH + 1] = {0};
@@ -127,8 +125,6 @@ void nrf51_tag_advertising_packet_initialize(void)
 {
     uint32_t err_code = NRF_SUCCESS;
     
-    s_tx_power_level = (int8_t)nrf51_tag_get_tx_power();
-    
     ble_advdata_t advdata;
     ble_adv_modes_config_t options = {0};
 
@@ -170,9 +166,10 @@ void nrf51_tag_advertising_packet_initialize(void)
     advdata.p_manuf_specific_data  = &manuf_data;
 
     memset(&options, 0, sizeof(options));
+    
     options.ble_adv_fast_enabled  = true;
-    options.ble_adv_fast_interval = NRF51_TAG_ADV_INTERVAL;
-    options.ble_adv_fast_timeout  = NRF51_TAG_ADV_TIMEOUT_IN_SECONDS;
+    options.ble_adv_fast_interval = get_adv_interval();
+    options.ble_adv_fast_timeout  = get_adv_timeout();
     
     err_code = ble_advertising_init(&advdata, NULL, &options, on_adv_evt, NULL);
     APP_ERROR_CHECK(err_code);
@@ -182,6 +179,18 @@ void nrf51_tag_advertising_packet_initialize(void)
  */
 uint32_t nrf51_tag_start_advertising()
 {
+    nrf51_tag_set_advertising_parameters(get_adv_interval(), get_adv_timeout());
+    
+    nrf51_tag_update_device_name(get_tag_serial_number());
+    
+    nrf51_tag_update_manufacturing_data(1, get_tag_serial_number(),  0, 1);
+    
+    nrf51_tag_advertising_packet_initialize();
+    
+    DBG("nrf51_tag_start_advertising()\r\n");
+    DBG("serial number: %d\r\n", get_tag_serial_number());
+    DBG("adv_interval: %d, adv_timeout: %d\r\n", get_adv_interval(), get_adv_timeout());
+    
     uint32_t err_code = ble_advertising_start(BLE_ADV_MODE_FAST);
     APP_ERROR_CHECK(err_code);
     

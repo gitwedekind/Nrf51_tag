@@ -17,6 +17,8 @@
 #include "nrf51_tag_rtc.h"
 #include "nrf51_tag_lis3dh.h"
 #include "nrf51_tag_spi0_lis3dh.h"
+#include "nrf51_tag_flash.h"
+#include "nrf51_tag_config_params.h"
 
 #include "nrf51_tag_initialize.h"
 #include "nrf51_tag_ble_stack.h"
@@ -32,12 +34,12 @@
 #include "nrf51_tag_authentication_status.h"
 
 #include "nrf51_tag_services_init.h"
-#include "nrf51_tag_debug_service.h"
 #include "nrf51_tag_status_service.h"
-#include "nrf51_tag_configuration_service.h"
 
 #include "nrf51_tag_on_ble_evt.h"
 #include "nrf51_tag_on_ble_evt_gap.h"
 #include "nrf51_tag_on_ble_evt_gatt.h"
 #include "nrf51_tag_on_ble_evt_sd.h"
 #include "nrf51_tag_dbg_ble_on_evt.h"
+
+#include "nrf51_tag_db.h"

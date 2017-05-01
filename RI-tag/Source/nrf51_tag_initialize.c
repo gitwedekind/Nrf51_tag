@@ -7,6 +7,9 @@
 #include "nrf51_tag_error.h"
 #include "nrf51_tag_initialize.h"
 
+#include "nrf51_tag_flash.h"
+#include "nrf51_tag_db.h"
+
 // ----------------------------------------------------------------------------
 // 
 // ----------------------------------------------------------------------------
@@ -38,13 +41,16 @@ void nrf51_tag_initialize(void)
     DBG_TX_POWER();
     
     initialize_power_manage();
-
+    
     nrf51_tag_timers_init();
 
-    nrf51_tag_stack_init();
-    
+    nrf51_tag_initialize_rtc();
 
-    //nrf51_tag_lis3dh_init();
+    nrf51_tag_stack_init();
+
+    nrf51_tag_db_initialize();
+    
+    nrf51_tag_lis3dh_init();
     
     DBG_GAP_ADDR();
     DBG_TEMPERATURE();

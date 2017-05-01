@@ -10,6 +10,16 @@
 
 #define FIRMWARE_REVISION_LENGTH 8
 
+#pragma pack(1)
+typedef struct ble_tag_data_t ble_tag_data_t;
+struct ble_tag_data_t
+{
+    uint16_t x;
+    uint16_t y;
+    uint16_t z;
+};
+#pragma pack()
+
 //-------------------------------------------------------------------------------------------------
 // Tag Status Service Structures
 //-------------------------------------------------------------------------------------------------
@@ -94,9 +104,7 @@ typedef struct ble_tag_status_beacon_read_records_t ble_tag_status_beacon_read_r
 struct ble_tag_status_beacon_read_records_t
 {
     uint32_t timestamp;
-    uint16_t x;
-    uint16_t y;
-    uint16_t z;
+    ble_tag_data_t data;
 };
 #pragma pack()
 
@@ -119,9 +127,7 @@ typedef struct ble_tag_status_activity_read_records_t ble_tag_status_activity_re
 struct ble_tag_status_activity_read_records_t
 {
     uint32_t timestamp;
-    uint16_t x;
-    uint16_t y;
-    uint16_t z;
+    ble_tag_data_t data;
 };
 #pragma pack()
 

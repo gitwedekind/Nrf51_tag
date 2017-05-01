@@ -63,15 +63,6 @@ int main(void)
     ml_active_tasks_idle();
     
     nrf51_tag_initialize();
-    
-    nrf51_tag_set_advertising_parameters(NRF51_TAG_ADV_INTERVAL, NRF51_TAG_ADV_TIMEOUT_IN_SECONDS);
-    
-    nrf51_tag_update_device_name(153);
-    nrf51_tag_update_manufacturing_data(0, 153,  0, 1);
-    
-    nrf51_tag_advertising_packet_initialize();
-    
-    nrf51_tag_start_advertising();
 		
     while (1)
     {

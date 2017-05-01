@@ -14,3 +14,7 @@
 // ------------------------------------------------------------------------------------------------
 
 uint32_t nrf51_tag_get_system_uptime(void);
+
+void nrf51_tag_data_ready(void);
+
+void nrf51_tag_initialize_rtc(void);

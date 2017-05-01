@@ -40,10 +40,10 @@
 
 #if defined(TAG_UART_ENABLED) || defined(TAG_RTT_ENABLED)
 
-static const char* CLEAR_SCREEN_STR = "\033[2J\033[1;1H";
+static char const * const CLEAR_SCREEN_STR = "\033[2J\033[1;1H";
 
-static const char* CRLF  = "\r\n";
-static const char* ARROW = "\r\n--> ";
+static char const * const CRLF  = "\r\n";
+static char const * const ARROW = "\r\n--> ";
 
 //-------------------------------------------------------------------------------------------------
 // Preprocessor Magic

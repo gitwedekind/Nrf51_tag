@@ -640,24 +640,19 @@
               <FilePath>.\Source\nrf51_tag_rtc.h</FilePath>
             </File>
             <File>
-              <FileName>nrf51_tag_spi0_lis3dh.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\nrf51_tag_spi0_lis3dh.c</FilePath>
-            </File>
-            <File>
-              <FileName>nrf51_tag_spi0_lis3dh.h</FileName>
+              <FileName>nrf51_tag_flash.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Source\nrf51_tag_spi0_lis3dh.h</FilePath>
+              <FilePath>.\Source\nrf51_tag_flash.h</FilePath>
             </File>
             <File>
-              <FileName>nrf51_tag_lis3dh.c</FileName>
+              <FileName>nrf51_tag_db.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\nrf51_tag_lis3dh.c</FilePath>
+              <FilePath>.\Source\nrf51_tag_db.c</FilePath>
             </File>
             <File>
-              <FileName>nrf51_tag_lis3dh.h</FileName>
+              <FileName>nrf51_tag_db.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Source\nrf51_tag_lis3dh.h</FilePath>
+              <FilePath>.\Source\nrf51_tag_db.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -673,26 +668,6 @@
               <FileName>nrf51_tag_services_init.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Source\nrf51_tag_services_init.h</FilePath>
-            </File>
-            <File>
-              <FileName>nrf51_tag_debug_cmd_characteristic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\nrf51_tag_debug_cmd_characteristic.c</FilePath>
-            </File>
-            <File>
-              <FileName>nrf51_tag_debug_service.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\nrf51_tag_debug_service.c</FilePath>
-            </File>
-            <File>
-              <FileName>nrf51_tag_debug_service.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\nrf51_tag_debug_service.h</FilePath>
-            </File>
-            <File>
-              <FileName>nrf51_tag_debug_cmd_gatt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\nrf51_tag_debug_cmd_gatt.c</FilePath>
             </File>
             <File>
               <FileName>nrf51_tag_status_characteristic.c</FileName>
@@ -715,24 +690,14 @@
               <FilePath>.\Source\nrf51_tag_status_service.h</FilePath>
             </File>
             <File>
-              <FileName>nrf51_tag_configuration_characteristic.c</FileName>
+              <FileName>nrf51_tag_config_params.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\nrf51_tag_configuration_characteristic.c</FilePath>
+              <FilePath>.\Source\nrf51_tag_config_params.c</FilePath>
             </File>
             <File>
-              <FileName>nrf51_tag_configuration_gatt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\nrf51_tag_configuration_gatt.c</FilePath>
-            </File>
-            <File>
-              <FileName>nrf51_tag_configuration_service.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\nrf51_tag_configuration_service.c</FilePath>
-            </File>
-            <File>
-              <FileName>nrf51_tag_configuration_service.h</FileName>
+              <FileName>nrf51_tag_config_params.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Source\nrf51_tag_configuration_service.h</FilePath>
+              <FilePath>.\Source\nrf51_tag_config_params.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1226,6 +1191,31 @@
               <FileName>SEGGER_RTT_printf.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Segger\SEGGER_RTT_printf.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>LIS3DH</GroupName>
+          <Files>
+            <File>
+              <FileName>nrf51_tag_lis3dh.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\nrf51_tag_lis3dh.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf51_tag_lis3dh.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\nrf51_tag_lis3dh.h</FilePath>
+            </File>
+            <File>
+              <FileName>nrf51_tag_spi0_lis3dh.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\nrf51_tag_spi0_lis3dh.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf51_tag_spi0_lis3dh.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\nrf51_tag_spi0_lis3dh.h</FilePath>
             </File>
           </Files>
         </Group>
