@@ -63,7 +63,7 @@ static void lis3dh_read_int1_data(void)
 
     ++s_db_record_index;
     
-    if ( s_db_record_index == MAX_DB_RECORDS )
+    if ( s_db_record_index == MAX_DB_RECORDS_PER_ENTRY )
     {
         nrf51_tag_db_write_entry(&s_tag_db_entry[s_db_entry_index]);
         

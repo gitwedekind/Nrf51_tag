@@ -7,6 +7,12 @@
 #include "nrf51_tag_error.h"
 #include "nrf51_tag_headers.h"
 
+static ble_tag_db_entry_t s_db_entry = {0};
+
+static uint32_t s_entry_count = 0; 
+
+static uint8_t s_entry_index = 0; 
+
 /** @brief
 *
 */
@@ -114,8 +120,14 @@ static void nrf51_tag_status_set_authorize_reply_read_beacon_read_records(ble_ev
 static void nrf51_tag_status_set_authorize_reply_read_activity_record_count(ble_evt_t* p_ble_evt)
 {
     ble_tag_status_activity_record_count_t activity_record_count = {0};
-
-    activity_record_count.br_count = 1;
+    
+    s_entry_count = nrf51_tag_db_entry_count();
+    
+    s_entry_index = 0;
+    
+    nrf51_tag_db_read_entry(&s_db_entry);
+    
+    activity_record_count.br_count = s_entry_count * MAX_DB_RECORDS_PER_ENTRY;
     
     nrf51_tag_status_set_authorize_reply(p_ble_evt, (const uint8_t*)&activity_record_count, sizeof(ble_tag_status_activity_record_count_t));
 }
@@ -127,11 +139,17 @@ static void nrf51_tag_status_set_authorize_reply_read_activity_read_records(ble_
 {
     ble_tag_status_activity_read_records_t activity_read_records = {0};
     
-    activity_read_records.timestamp = nrf51_tag_get_system_uptime();
+    if ( s_entry_index > MAX_DB_RECORDS_PER_ENTRY )
+    {
+        s_entry_index = 0;
+        nrf51_tag_db_read_entry(&s_db_entry);
+    }
     
-    activity_read_records.data.x = 1;
-    activity_read_records.data.y = 2;
-    activity_read_records.data.z = 3;
+    activity_read_records.timestamp = s_db_entry.timestamp + ( s_entry_index * (get_rtc_sample_rate() / get_accelerometer_sample_rate()) );
+    
+    activity_read_records.data.x = s_db_entry.data[s_entry_index].x;
+    activity_read_records.data.y = s_db_entry.data[s_entry_index].y;
+    activity_read_records.data.z = s_db_entry.data[s_entry_index].z;
     
     nrf51_tag_status_set_authorize_reply(p_ble_evt, (const uint8_t*)&activity_read_records, sizeof(ble_tag_status_activity_read_records_t));
 }

@@ -15,16 +15,28 @@
 // Radio Advertising Functions
 //----------------------------------------------------------------------------
 
+/**@brief
+ */
 void nrf51_tag_update_device_name(uint32_t tag_serial_number);
 
+/**@brief
+ */
 uint8_t* nrf51_tag_get_device_name(void);
 
+/**@brief
+ */
 uint8_t nrf51_tag_get_device_name_length(void);
 
+/**@brief
+ */
 void nrf51_tag_update_manufacturing_data(uint8_t ping, uint16_t tag_id, uint16_t beacon_record_count, uint16_t activity_log_record_count);
 
+/**@brief
+ */
 uint8_t* nrf51_tag_get_manufacturing_data(void);
 
+/**@brief
+ */
 uint8_t nrf51_tag_get_manufacturing_data_length(void);
 
 /**@brief

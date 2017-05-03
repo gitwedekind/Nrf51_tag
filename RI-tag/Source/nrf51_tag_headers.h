@@ -19,6 +19,7 @@
 #include "nrf51_tag_spi0_lis3dh.h"
 #include "nrf51_tag_flash.h"
 #include "nrf51_tag_config_params.h"
+#include "nrf51_tag_db.h"
 
 #include "nrf51_tag_initialize.h"
 #include "nrf51_tag_ble_stack.h"
@@ -41,5 +42,3 @@
 #include "nrf51_tag_on_ble_evt_gatt.h"
 #include "nrf51_tag_on_ble_evt_sd.h"
 #include "nrf51_tag_dbg_ble_on_evt.h"
-
-#include "nrf51_tag_db.h"

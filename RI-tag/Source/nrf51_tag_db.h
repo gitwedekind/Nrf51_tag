@@ -18,20 +18,21 @@ struct ble_tag_db_record_t
     uint8_t z;
 };
 
-#define MAX_DB_RECORDS 4
+#define MAX_DB_RECORDS_PER_ENTRY 4
 
 typedef struct ble_tag_db_entry_t ble_tag_db_entry_t;
 struct ble_tag_db_entry_t
 {
     uint32_t timestamp;
-    ble_tag_db_record_t data[MAX_DB_RECORDS];
+    ble_tag_db_record_t data[MAX_DB_RECORDS_PER_ENTRY];
 };
 
-typedef struct ble_tag_entry_info_t ble_tag_entry_info_t;
-struct ble_tag_entry_info_t
+typedef struct ble_tag_db_ring_buffer_t ble_tag_db_ring_buffer_t;
+struct ble_tag_db_ring_buffer_t
 {
-    uint32_t total_records;
-    uint32_t active_records;
+	uint16_t head;
+	uint16_t tail;
+    uint16_t entry_count;
 };
 
 #pragma pack()
@@ -44,12 +45,11 @@ void nrf51_tag_db_erase(void);
 
 uint8_t nrf51_tag_db_erased(void);
 
-ble_tag_entry_info_t nrf51_tag_db_record_count(void);
+uint16_t nrf51_tag_db_entry_count(void);
 
 void nrf51_tag_db_write_entry(ble_tag_db_entry_t* p_ble_tag_db_entry);
 
-void nrf51_tag_db_read_record(ble_tag_status_activity_read_records_t* p_ble_tag_status_activity_read_records);
-
+void nrf51_tag_db_read_entry(ble_tag_db_entry_t* p_ble_tag_db_entry);
 
 // ------------------------------------------------------------------------------------------------
 // Debug Message(s)
@@ -58,20 +58,53 @@ void nrf51_tag_db_read_record(ble_tag_status_activity_read_records_t* p_ble_tag_
 
 #if defined(ENABLE_INITIALIZE_DB_MESSAGES)
 
-#define DBG_DB_INITIALIZE() FUNCTION()
-    
-#define DBG_DB_RECORDS(x_info) \
-    DBG("--> Tag Db, Total Records: %d Active Records: %d\r\n", x_info.total_records, x_info.active_records)
+#define ENABLE_DB_INITIALIZE
+#define ENABLE_DB_RING_BUFFER
+#define ENABLE_DB_WRITE_ADDRESS
+#define ENABLE_DB_READ_ADDRESS
 
+#ifdef ENABLE_DB_INITIALIZE
+#define DBG_DB_INITIALIZE() FUNCTION() \
+    DBG("--> (DB_ADDRESS_END - DB_ADDRESS_START): 0x%x, %d\r\n", (DB_ADDRESS_END - DB_ADDRESS_START), (DB_ADDRESS_END - DB_ADDRESS_START) ); \
+    DBG("--> MAX_DB_PAGE_NUMBER     : %d\r\n", MAX_DB_PAGE_NUMBER); \
+    DBG("--> MAX_DB_ENTRIES_PER_PAGE: %d\r\n", MAX_DB_ENTRIES_PER_PAGE); \
+    DBG("--> DB_ENTRY_LENGTH_32: %d\r\n", DB_ENTRY_LENGTH_32); \
+    DBG("--> MAX_DB_ENTRIES    : %d\r\n", MAX_DB_ENTRIES); \
+    DBG("--> MAX_DB_RECORDS    : %d\r\n", MAX_DB_RECORDS)
+#else
+#define DBG_DB_INITIALIZE()
+#endif
+
+#ifdef ENABLE_DB_RING_BUFFER
+#define DB_RING_BUFFER(x_db_ring_buffer) \
+    DBG("--> head: %d\r\n", x_db_ring_buffer.head); \
+    DBG("--> tail: %d\r\n", x_db_ring_buffer.tail); \
+    DBG("--> entry count: %d\r\n", x_db_ring_buffer.entry_count)
+#else
+#define DB_RING_BUFFER(x_db_ring_buffer)
+#endif
+
+#ifdef ENABLE_DB_WRITE_ADDRESS
 #define DBG_DB_WRITE_ADDRESS(x_addr) \
-DBG("--> Tag Db, Write Address: 0x%x\r\n", x_addr)
+    DBG("--> Tag Db, Write Address: 0x%x\r\n", x_addr)
+#else
+#define DBG_DB_WRITE_ADDRESS(x_addr)
+#endif
+
+#ifdef ENABLE_DB_READ_ADDRESS
+#define DBG_DB_READ_ADDRESS(x_addr) \
+    DBG("--> Tag Db, Read Address: 0x%x\r\n", x_addr)
+#else
+#define DBG_DB_READ_ADDRESS(x_addr)
+#endif
 
 #else
 
 #define DBG_DB_INITIALIZE()
 
-#define DBG_DB_RECORDS(x_info)
+#define DB_RING_BUFFER(x_db_ring_buffer)
 
 #define DBG_DB_WRITE_ADDRESS(x_addr)
+#define DBG_DB_READ_ADDRESS(x_addr)
 
 #endif

@@ -183,7 +183,7 @@ uint32_t nrf51_tag_start_advertising()
     
     nrf51_tag_update_device_name(get_tag_serial_number());
     
-    nrf51_tag_update_manufacturing_data(1, get_tag_serial_number(),  0, 1);
+    nrf51_tag_update_manufacturing_data(1, get_tag_serial_number(),  0, nrf51_tag_db_entry_count() );
     
     nrf51_tag_advertising_packet_initialize();
     
