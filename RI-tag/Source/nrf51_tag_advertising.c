@@ -192,9 +192,16 @@ uint32_t nrf51_tag_start_advertising()
     DBG("adv_interval: %d, adv_timeout: %d\r\n", get_adv_interval(), get_adv_timeout());
     
     uint32_t err_code = ble_advertising_start(BLE_ADV_MODE_FAST);
-    APP_ERROR_CHECK(err_code);
     
-    DBG_START_ADVERTISING();
+    if ( err_code == NRF_ERROR_INVALID_STATE )
+    {
+        DBG("** Error - ble_advertising_start(): %d\r\n", err_code);
+    }
+    else
+    {
+        APP_ERROR_CHECK(err_code);
+        DBG_START_ADVERTISING();
+    }
     
     return get_system_time();
 }

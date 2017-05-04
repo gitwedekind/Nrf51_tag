@@ -126,7 +126,10 @@ void nrf51_tag_system_uptime_callback(void)
     {
         s_adv_trigger_time = s_system_uptime; 
         
-        nrf51_tag_start_advertising();
+        if ( nrf51_tag_get_connection_handle() == BLE_CONN_HANDLE_INVALID )
+        {
+            nrf51_tag_start_advertising();
+        }
     }
 }
 
@@ -137,7 +140,8 @@ uint32_t nrf51_tag_get_system_uptime(void)
 
 void nrf51_tag_initialize_rtc(void)
 {
-    s_adv_trigger_threshold = ( get_adv_time() * 60 ) * RTC_SAMPLE_RATE;
+    //s_adv_trigger_threshold = ( get_adv_time() * 60 ) * RTC_SAMPLE_RATE;
+    s_adv_trigger_threshold = ( get_adv_time() * 15 ) * RTC_SAMPLE_RATE;
 }
 
 void nrf51_tag_data_ready(void)

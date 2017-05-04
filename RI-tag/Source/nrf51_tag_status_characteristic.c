@@ -295,6 +295,7 @@ void nrf51_tag_status_firmware_revision_char_add(ble_tag_status_service_t* p_tag
     APP_ERROR_CHECK(err_code);
 }
 
+#if 0
 /**@brief Add Tag Status Beacon Record Count Characteristic to the Service.
 */
 void nrf51_tag_status_beacon_record_count_char_add(ble_tag_status_service_t* p_tag_status_service)
@@ -438,6 +439,7 @@ void nrf51_tag_status_beacon_read_records_char_add(ble_tag_status_service_t* p_t
     
     APP_ERROR_CHECK(err_code);
 }
+#endif
 
 /**@brief Add Tag Status Activity Record Count Characteristic to the Service.
 */

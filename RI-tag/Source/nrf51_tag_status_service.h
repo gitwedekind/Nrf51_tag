@@ -35,8 +35,8 @@ struct ble_tag_status_service_t
     ble_gatts_char_handles_t    tag_status_temperature_char_handles;           /**< Handles related to the Tag Status Temperature Characteristic. */
     ble_gatts_char_handles_t    tag_status_battery_level_char_handles;         /**< Handles related to the Tag Status Battery_level Characteristic. */
     ble_gatts_char_handles_t    tag_status_firmware_revision_char_handles;     /**< Handles related to the Tag Status Firmware_revision Characteristic. */
-    ble_gatts_char_handles_t    tag_status_beacon_record_count_char_handles;   /**< Handles related to the Tag Status Beacon Record Count Characteristic. */
-    ble_gatts_char_handles_t    tag_status_beacon_read_records_char_handles;   /**< Handles related to the Tag Status Beacon Read Records Characteristic. */
+    //ble_gatts_char_handles_t    tag_status_beacon_record_count_char_handles;   /**< Handles related to the Tag Status Beacon Record Count Characteristic. */
+    //ble_gatts_char_handles_t    tag_status_beacon_read_records_char_handles;   /**< Handles related to the Tag Status Beacon Read Records Characteristic. */
     ble_gatts_char_handles_t    tag_status_activity_record_count_char_handles; /**< Handles related to the Tag Status Activity Record Count Characteristic. */
     ble_gatts_char_handles_t    tag_status_activity_read_records_char_handles; /**< Handles related to the Tag Status Activity Read Records Characteristic. */
 };

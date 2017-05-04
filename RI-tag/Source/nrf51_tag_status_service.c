@@ -78,23 +78,27 @@ void nrf51_tag_status_service_initialize(void)
 
     // Add Tag Status Beacon Record Count Characteristic
     //
-    void nrf51_tag_status_beacon_record_count_char_add(ble_tag_status_service_t* p_tag_status_service);
-    nrf51_tag_status_beacon_record_count_char_add(&s_ble_tag_status_service);
+    //void nrf51_tag_status_beacon_record_count_char_add(ble_tag_status_service_t* p_tag_status_service);
+    //nrf51_tag_status_beacon_record_count_char_add(&s_ble_tag_status_service);
 
     // Add Tag Status Beacon Read Records Characteristic
     //
-    void nrf51_tag_status_beacon_read_records_char_add(ble_tag_status_service_t* p_tag_status_service);
-    nrf51_tag_status_beacon_read_records_char_add(&s_ble_tag_status_service);
+    //void nrf51_tag_status_beacon_read_records_char_add(ble_tag_status_service_t* p_tag_status_service);
+    //nrf51_tag_status_beacon_read_records_char_add(&s_ble_tag_status_service);
 
     // Add Tag Status Activity Record Count Characteristic
     //
     void nrf51_tag_status_activity_record_count_char_add(ble_tag_status_service_t* p_tag_status_service);
     nrf51_tag_status_activity_record_count_char_add(&s_ble_tag_status_service);
+    
+    DBG("activity_record_count_value_handle: 0x%x\r\n", s_ble_tag_status_service.tag_status_activity_record_count_char_handles.value_handle );
 
     // Add Tag Status Activity Read Records Characteristic
     //
     void nrf51_tag_status_activity_read_records_char_add(ble_tag_status_service_t* p_tag_status_service);
     nrf51_tag_status_activity_read_records_char_add(&s_ble_tag_status_service);
+
+    DBG("activity_read_records_value_handle: 0x%x\r\n", s_ble_tag_status_service.tag_status_activity_read_records_char_handles.value_handle );
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -157,6 +161,7 @@ uint16_t nrf51_tag_firmware_revision_cccd_handle(void)
     return s_ble_tag_status_service.tag_status_firmware_revision_char_handles.cccd_handle;
 }
 
+#if 0
 /** @brief
  */
 uint16_t nrf51_tag_status_beacon_record_count_value_handle(void)
@@ -184,6 +189,7 @@ uint16_t nrf51_tag_beacon_read_records_cccd_handle(void)
 {
     return s_ble_tag_status_service.tag_status_beacon_read_records_char_handles.cccd_handle;
 }
+#endif
 
 /** @brief
  */

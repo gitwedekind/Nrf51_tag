@@ -86,6 +86,7 @@ static void nrf51_tag_status_set_authorize_reply_read_firmware_revision(ble_evt_
     nrf51_tag_status_set_authorize_reply(p_ble_evt, (const uint8_t*)&firmware_revision, sizeof(ble_tag_status_firmware_revision_t));
 }
 
+#if 0
 /** @brief
 *
 */
@@ -113,6 +114,7 @@ static void nrf51_tag_status_set_authorize_reply_read_beacon_read_records(ble_ev
     
     nrf51_tag_status_set_authorize_reply(p_ble_evt, (const uint8_t*)&beacon_read_records, sizeof(ble_tag_status_beacon_read_records_t));
 }
+#endif
 
 /** @brief
 *
@@ -129,6 +131,8 @@ static void nrf51_tag_status_set_authorize_reply_read_activity_record_count(ble_
     
     activity_record_count.br_count = s_entry_count * MAX_DB_RECORDS_PER_ENTRY;
     
+    DBG("activity_record_count.br_count: %d\r\n", activity_record_count.br_count);
+    
     nrf51_tag_status_set_authorize_reply(p_ble_evt, (const uint8_t*)&activity_record_count, sizeof(ble_tag_status_activity_record_count_t));
 }
 
@@ -139,19 +143,23 @@ static void nrf51_tag_status_set_authorize_reply_read_activity_read_records(ble_
 {
     ble_tag_status_activity_read_records_t activity_read_records = {0};
     
-    if ( s_entry_index > MAX_DB_RECORDS_PER_ENTRY )
-    {
-        s_entry_index = 0;
-        nrf51_tag_db_read_entry(&s_db_entry);
-    }
-    
     activity_read_records.timestamp = s_db_entry.timestamp + ( s_entry_index * (get_rtc_sample_rate() / get_accelerometer_sample_rate()) );
     
     activity_read_records.data.x = s_db_entry.data[s_entry_index].x;
     activity_read_records.data.y = s_db_entry.data[s_entry_index].y;
     activity_read_records.data.z = s_db_entry.data[s_entry_index].z;
     
+    DBG("%d, %d, %d\r\n", activity_read_records.data.x, activity_read_records.data.y, activity_read_records.data.z);
+
     nrf51_tag_status_set_authorize_reply(p_ble_evt, (const uint8_t*)&activity_read_records, sizeof(ble_tag_status_activity_read_records_t));
+
+    ++s_entry_index;
+    
+    if ( s_entry_index >= MAX_DB_RECORDS_PER_ENTRY )
+    {
+        s_entry_index = 0;
+        nrf51_tag_db_read_entry(&s_db_entry);
+    }
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -181,12 +189,12 @@ void nrf51_tag_status_write(ble_evt_t* p_ble_evt)
     else if ( p_write->handle == nrf51_tag_status_firmware_revision_value_handle() )
     {
     }
-    else if ( p_write->handle == nrf51_tag_status_beacon_record_count_value_handle() )
-    {
-    }
-    else if ( p_write->handle == nrf51_tag_status_beacon_read_records_value_handle() )
-    {
-    }
+    //else if ( p_write->handle == nrf51_tag_status_beacon_record_count_value_handle() )
+    //{
+    //}
+    //else if ( p_write->handle == nrf51_tag_status_beacon_read_records_value_handle() )
+    //{
+    //}
     else if ( p_write->handle == nrf51_tag_status_activity_record_count_value_handle() )
     {
     }
@@ -201,6 +209,8 @@ void nrf51_tag_status_write(ble_evt_t* p_ble_evt)
 void nrf51_tag_status_authorize_request(ble_evt_t* p_ble_evt)
 {
     ble_gatts_evt_rw_authorize_request_t* p_rw_authorize_request = &p_ble_evt->evt.gatts_evt.params.authorize_request;
+    
+    DBG("nrf51_tag_status_authorize_request(), handle: 0x%02x\r\n", p_rw_authorize_request->request.read.handle);
     
     if ( p_rw_authorize_request->type == BLE_GATTS_AUTHORIZE_TYPE_READ )
     {
@@ -220,14 +230,14 @@ void nrf51_tag_status_authorize_request(ble_evt_t* p_ble_evt)
         {
             nrf51_tag_status_set_authorize_reply_read_firmware_revision(p_ble_evt);
         }
-        else if ( p_rw_authorize_request->request.read.handle == nrf51_tag_status_beacon_record_count_value_handle() )
-        {
-            nrf51_tag_status_set_authorize_reply_read_beacon_record_count(p_ble_evt);
-        }
-        else if ( p_rw_authorize_request->request.read.handle == nrf51_tag_status_beacon_read_records_value_handle() )
-        {
-            nrf51_tag_status_set_authorize_reply_read_beacon_read_records(p_ble_evt);
-        }
+        //else if ( p_rw_authorize_request->request.read.handle == nrf51_tag_status_beacon_record_count_value_handle() )
+        //{
+        //    nrf51_tag_status_set_authorize_reply_read_beacon_record_count(p_ble_evt);
+        //}
+        //else if ( p_rw_authorize_request->request.read.handle == nrf51_tag_status_beacon_read_records_value_handle() )
+        //{
+        //    nrf51_tag_status_set_authorize_reply_read_beacon_read_records(p_ble_evt);
+        //}
         else if ( p_rw_authorize_request->request.read.handle == nrf51_tag_status_activity_record_count_value_handle() )
         {
             nrf51_tag_status_set_authorize_reply_read_activity_record_count(p_ble_evt);
@@ -458,6 +468,7 @@ void nrf51_tag_status_firmware_revision_get(ble_tag_status_firmware_revision_t* 
     APP_ERROR_CHECK(err_code);
 }
 
+#if 0
 /** @brief
 *
 */
@@ -549,6 +560,7 @@ void nrf51_tag_status_beacon_read_records_get(ble_tag_status_beacon_read_records
     
     APP_ERROR_CHECK(err_code);
 }
+#endif
 
 /** @brief
 *

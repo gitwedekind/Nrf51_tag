@@ -192,8 +192,6 @@ void nrf51_tag_db_read_entry(ble_tag_db_entry_t* p_ble_tag_db_entry)
     {
         uint32_t* p_read_address = (uint32_t*)(DB_ADDRESS_START + (sizeof(ble_tag_db_entry_t) * s_db_ring_buffer.tail));
         
-        DBG("--> p_read_address: 0x%x\r\n", p_read_address);
-            
         memcpy(p_ble_tag_db_entry, p_read_address, sizeof(ble_tag_db_entry_t));
         
         ++s_db_ring_buffer.tail;
@@ -230,6 +228,9 @@ void nrf51_tag_db_read_entry(ble_tag_db_entry_t* p_ble_tag_db_entry)
             
             sd_flash_page_erase(page_number);
         }
+        
+        DBG("--> nrf51_tag_db_read_entry(): head: %d, tail: %d\r\n", s_db_ring_buffer.head, s_db_ring_buffer.tail);
+        DBG("--> p_read_address: 0x%x\r\n", p_read_address);
     }
     else
     {
