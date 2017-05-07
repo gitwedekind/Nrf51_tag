@@ -10,16 +10,6 @@
 
 #define FIRMWARE_REVISION_LENGTH 8
 
-#pragma pack(1)
-typedef struct ble_tag_data_t ble_tag_data_t;
-struct ble_tag_data_t
-{
-    uint16_t x;
-    uint16_t y;
-    uint16_t z;
-};
-#pragma pack()
-
 //-------------------------------------------------------------------------------------------------
 // Tag Status Service Structures
 //-------------------------------------------------------------------------------------------------
@@ -35,8 +25,6 @@ struct ble_tag_status_service_t
     ble_gatts_char_handles_t    tag_status_temperature_char_handles;           /**< Handles related to the Tag Status Temperature Characteristic. */
     ble_gatts_char_handles_t    tag_status_battery_level_char_handles;         /**< Handles related to the Tag Status Battery_level Characteristic. */
     ble_gatts_char_handles_t    tag_status_firmware_revision_char_handles;     /**< Handles related to the Tag Status Firmware_revision Characteristic. */
-    //ble_gatts_char_handles_t    tag_status_beacon_record_count_char_handles;   /**< Handles related to the Tag Status Beacon Record Count Characteristic. */
-    //ble_gatts_char_handles_t    tag_status_beacon_read_records_char_handles;   /**< Handles related to the Tag Status Beacon Read Records Characteristic. */
     ble_gatts_char_handles_t    tag_status_activity_record_count_char_handles; /**< Handles related to the Tag Status Activity Record Count Characteristic. */
     ble_gatts_char_handles_t    tag_status_activity_read_records_char_handles; /**< Handles related to the Tag Status Activity Read Records Characteristic. */
 };
@@ -85,29 +73,6 @@ struct ble_tag_status_firmware_revision_t
 };
 #pragma pack()
 
-/** @brief Tag Status Beacon Record Count
-*/
-
-#pragma pack(1)
-typedef struct ble_tag_status_beacon_record_count_t ble_tag_status_beacon_record_count_t;
-struct ble_tag_status_beacon_record_count_t
-{
-    uint16_t br_count;
-};
-#pragma pack()
-
-/** @brief Tag Status Beacon Read Records
-*/
-
-#pragma pack(1)
-typedef struct ble_tag_status_beacon_read_records_t ble_tag_status_beacon_read_records_t;
-struct ble_tag_status_beacon_read_records_t
-{
-    uint32_t timestamp;
-    ble_tag_data_t data;
-};
-#pragma pack()
-
 /** @brief Tag Status Activity Record Count
 */
 
@@ -123,12 +88,24 @@ struct ble_tag_status_activity_record_count_t
 */
 
 #pragma pack(1)
+
+typedef struct ble_tag_status_activity_read_record_t ble_tag_status_activity_read_record_t;
+struct ble_tag_status_activity_read_record_t
+{
+    uint32_t timestamp;
+    uint16_t x;
+    uint16_t y;
+    uint16_t z;
+};
+
+#define ACTIVITY_READ_RECORDS 4
+
 typedef struct ble_tag_status_activity_read_records_t ble_tag_status_activity_read_records_t;
 struct ble_tag_status_activity_read_records_t
 {
-    uint32_t timestamp;
-    ble_tag_data_t data;
+    ble_tag_status_activity_read_record_t activity_read_record[ACTIVITY_READ_RECORDS];
 };
+
 #pragma pack()
 
 //-------------------------------------------------------------------------------------------------

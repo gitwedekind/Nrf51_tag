@@ -59,7 +59,7 @@ static void lis3dh_read_int1_data(void)
     s_y = s_tag_db_entry[s_db_entry_index].data[s_db_record_index].y = nrf51_tag_lis3dh_read_register(LIS3DH_OUT_Y_H_r);
     s_z = s_tag_db_entry[s_db_entry_index].data[s_db_record_index].z = nrf51_tag_lis3dh_read_register(LIS3DH_OUT_Z_H_r);
     
-    DBG("INT1: %d, %d, %d\r\n", s_x, s_x, s_z); 
+    DBG("INT1: %d, %d, %d\r\n", s_x, s_y, s_z); 
 
     ++s_db_record_index;
     

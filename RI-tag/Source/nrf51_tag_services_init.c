@@ -12,5 +12,8 @@
 void nrf51_tag_initialize_services(void)
 {
     nrf51_tag_status_service_initialize();
+    
+    void init_arr(void);
+    init_arr();
 
 }

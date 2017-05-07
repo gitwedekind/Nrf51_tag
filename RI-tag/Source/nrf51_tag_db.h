@@ -8,34 +8,31 @@
 
 #include "nrf51_tag_headers.h"
 
-#pragma pack(1)
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-typedef struct ble_tag_db_record_t ble_tag_db_record_t;
-struct ble_tag_db_record_t
-{
-    uint8_t x;
-    uint8_t y;
-    uint8_t z;
-};
+#pragma pack()
 
-#define MAX_DB_RECORDS_PER_ENTRY 4
-
-typedef struct ble_tag_db_entry_t ble_tag_db_entry_t;
-struct ble_tag_db_entry_t
+typedef struct ble_tag_db_activity_read_record_t ble_tag_db_activity_read_record_t;
+struct ble_tag_db_activity_read_record_t
 {
     uint32_t timestamp;
-    ble_tag_db_record_t data[MAX_DB_RECORDS_PER_ENTRY];
+    uint16_t x;
+    uint16_t y;
+    uint16_t z;
 };
+
+#pragma pack()
+
 
 typedef struct ble_tag_db_ring_buffer_t ble_tag_db_ring_buffer_t;
 struct ble_tag_db_ring_buffer_t
 {
-	uint16_t head;
-	uint16_t tail;
+    uint16_t head;
+    uint16_t tail;
     uint16_t entry_count;
 };
-
-#pragma pack()
 
 void nrf51_tag_database_sys_evt(uint32_t sys_evt);
 
@@ -47,9 +44,9 @@ uint8_t nrf51_tag_db_erased(void);
 
 uint16_t nrf51_tag_db_entry_count(void);
 
-void nrf51_tag_db_write_entry(ble_tag_db_entry_t* p_ble_tag_db_entry);
+void nrf51_tag_db_write_entry(ble_tag_db_activity_read_record_t* p_db_activity_read_record);
 
-void nrf51_tag_db_read_entry(ble_tag_db_entry_t* p_ble_tag_db_entry);
+void nrf51_tag_db_read_entry(ble_tag_db_activity_read_record_t* p_db_activity_read_record, uint16_t length);
 
 // ------------------------------------------------------------------------------------------------
 // Debug Message(s)
@@ -107,4 +104,8 @@ void nrf51_tag_db_read_entry(ble_tag_db_entry_t* p_ble_tag_db_entry);
 #define DBG_DB_WRITE_ADDRESS(x_addr)
 #define DBG_DB_READ_ADDRESS(x_addr)
 
+#endif
+
+#ifdef __cplusplus
+}
 #endif

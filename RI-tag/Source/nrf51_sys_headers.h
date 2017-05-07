@@ -23,8 +23,11 @@
 #include "nrf51822_peripherals.h"
 
 #include "nrf_delay.h"
+
+#ifndef WIN32
 #include "nrf_gpio.h"
 #include "nrf_gpiote.h"
+#endif
 
 #include "nrf_drv_rtc.h"
 #include "nrf_drv_clock.h"

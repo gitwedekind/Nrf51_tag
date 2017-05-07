@@ -4,10 +4,26 @@
 #pragma once
 
 #include "nrf51_std_headers.h"
+
+#ifndef WIN32
+
 #include "nrf51_sys_headers.h"
 
 #include "nrf51_tag_debug.h"
 #include "nrf51_tag_power_manage.h"
+
+#else
+
+#define DBG(...)
+
+#define FUNCTION() DBG("--> %s\r\n", __PRETTY_FUNCTION__ );
+#define FUNCTION_COMPLETE() DBG("<-- %s\r\n", __PRETTY_FUNCTION__ );
+
+#define __align(x)
+
+#define APP_ERROR_CHECK(err_code)
+
+#endif
 
 #define NRF_TAG_ERROR_BASE (0x8000)
 

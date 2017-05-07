@@ -10,6 +10,8 @@
 // RI-tag Headers
 //-------------------------------------------------------------------------------------------------
 
+#ifndef WIN32
+
 #include "nrf51_tag_version.h"
 #include "nrf51_tag_timers.h"
 #include "nrf51_tag_tx_power.h"
@@ -42,3 +44,40 @@
 #include "nrf51_tag_on_ble_evt_gatt.h"
 #include "nrf51_tag_on_ble_evt_sd.h"
 #include "nrf51_tag_dbg_ble_on_evt.h"
+
+#else
+
+#include "nrf51_std_headers.h"
+
+#define __STATIC_INLINE static inline
+#define __INLINE inline
+
+/**@brief SoC Events. */
+enum NRF_SOC_EVTS
+{
+  NRF_EVT_HFCLKSTARTED,                         /**< Event indicating that the HFCLK has started. */
+  NRF_EVT_POWER_FAILURE_WARNING,                /**< Event indicating that a power failure warning has occurred. */
+  NRF_EVT_FLASH_OPERATION_SUCCESS,              /**< Event indicating that the ongoing flash operation has completed successfully. */
+  NRF_EVT_FLASH_OPERATION_ERROR,                /**< Event indicating that the ongoing flash operation has timed out with an error. */
+  NRF_EVT_RADIO_BLOCKED,                        /**< Event indicating that a radio timeslot was blocked. */
+  NRF_EVT_RADIO_CANCELED,                       /**< Event indicating that a radio timeslot was canceled by SoftDevice. */
+  NRF_EVT_RADIO_SIGNAL_CALLBACK_INVALID_RETURN, /**< Event indicating that a radio timeslot signal callback handler return was invalid. */
+  NRF_EVT_RADIO_SESSION_IDLE,                   /**< Event indicating that a radio timeslot session is idle. */
+  NRF_EVT_RADIO_SESSION_CLOSED,                 /**< Event indicating that a radio timeslot session is closed. */
+  NRF_EVT_NUMBER_OF_EVTS
+};
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+uint32_t sd_flash_write(uint32_t * const p_dst, uint32_t const * const p_src, uint32_t size);
+uint32_t sd_flash_page_erase(uint32_t page_number);
+
+#ifdef __cplusplus
+}
+#endif
+
+#include "nrf51_tag_flash.h"
+
+#endif
