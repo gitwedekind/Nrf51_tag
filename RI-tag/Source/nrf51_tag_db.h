@@ -23,6 +23,14 @@ struct ble_tag_db_activity_read_record_t
     uint16_t z;
 };
 
+#define MAX_DB_RECORDS_PER_ENTRY 4
+
+typedef struct ble_tag_db_entry_t ble_tag_db_entry_t;
+struct ble_tag_db_entry_t
+{
+    ble_tag_db_activity_read_record_t activity_read_record[MAX_DB_RECORDS_PER_ENTRY];
+};
+
 #pragma pack()
 
 
@@ -32,6 +40,7 @@ struct ble_tag_db_ring_buffer_t
     uint16_t head;
     uint16_t tail;
     uint16_t entry_count;
+    uint16_t max_entry_count;
 };
 
 void nrf51_tag_database_sys_evt(uint32_t sys_evt);
@@ -44,9 +53,15 @@ uint8_t nrf51_tag_db_erased(void);
 
 uint16_t nrf51_tag_db_entry_count(void);
 
-void nrf51_tag_db_write_entry(ble_tag_db_activity_read_record_t* p_db_activity_read_record);
+uint16_t nrf51_tag_db_max_entry_count(void);
 
-void nrf51_tag_db_read_entry(ble_tag_db_activity_read_record_t* p_db_activity_read_record, uint16_t length);
+uint16_t nrf51_tag_db_ring_buffer_head(void);
+
+uint16_t nrf51_tag_db_ring_buffer_tail(void);
+
+void nrf51_tag_db_write_entry(ble_tag_db_entry_t* p_ble_tag_db_entry);
+
+void nrf51_tag_db_read_entry(ble_tag_db_entry_t* p_ble_tag_db_entry, uint16_t length);
 
 // ------------------------------------------------------------------------------------------------
 // Debug Message(s)

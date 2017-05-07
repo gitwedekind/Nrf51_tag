@@ -7,13 +7,13 @@
 #include "nrf51_tag_error.h"
 #include "nrf51_tag_headers.h"
 
-static ble_tag_db_entry_t s_db_entry = {0};
+//static ble_tag_db_entry_t s_db_entry = {0};
 
-static uint32_t s_entry_count = 0; 
+//static uint32_t s_entry_count = 0; 
 
-static uint8_t s_entry_index = 0; 
+//static uint8_t s_entry_index = 0; 
 
-static ble_tag_status_activity_read_records_t s_activity_read_records = {0};
+//static ble_tag_status_activity_read_records_t s_activity_read_records = {0};
     
 /** @brief
 *
@@ -88,36 +88,6 @@ static void nrf51_tag_status_set_authorize_reply_read_firmware_revision(ble_evt_
     nrf51_tag_status_set_authorize_reply(p_ble_evt, (const uint8_t*)&firmware_revision, sizeof(ble_tag_status_firmware_revision_t));
 }
 
-#if 0
-/** @brief
-*
-*/
-static void nrf51_tag_status_set_authorize_reply_read_beacon_record_count(ble_evt_t* p_ble_evt)
-{
-    ble_tag_status_beacon_record_count_t beacon_record_count = {0};
-
-    beacon_record_count.br_count = 0;
-    
-    nrf51_tag_status_set_authorize_reply(p_ble_evt, (const uint8_t*)&beacon_record_count, sizeof(ble_tag_status_beacon_record_count_t));
-}
-
-/** @brief
-*
-*/
-static void nrf51_tag_status_set_authorize_reply_read_beacon_read_records(ble_evt_t* p_ble_evt)
-{
-    ble_tag_status_beacon_read_records_t beacon_read_records = {0};
-    
-    beacon_read_records.timestamp = nrf51_tag_get_system_uptime();
-    
-    beacon_read_records.data.x = 0;
-    beacon_read_records.data.y = 0;
-    beacon_read_records.data.z = 0;
-    
-    nrf51_tag_status_set_authorize_reply(p_ble_evt, (const uint8_t*)&beacon_read_records, sizeof(ble_tag_status_beacon_read_records_t));
-}
-#endif
-
 /** @brief
 *
 */
@@ -125,46 +95,7 @@ static void nrf51_tag_status_set_authorize_reply_read_activity_record_count(ble_
 {
     ble_tag_status_activity_record_count_t activity_record_count = {0};
     
-    s_entry_count = nrf51_tag_db_entry_count();
-    
-    s_entry_index = 0;
-    
-    nrf51_tag_db_read_entry(&s_db_entry);
-    
-    activity_record_count.br_count = 4; // s_entry_count * MAX_DB_RECORDS_PER_ENTRY;
-    
-    DBG("activity_record_count.br_count: %d\r\n", activity_record_count.br_count);
-    
-    s_db_entry.timestamp = nrf51_tag_get_system_uptime();
-    
-    s_db_entry.data[0].x = 1;
-    s_db_entry.data[0].y = 2;
-    s_db_entry.data[0].z = 3;
-    
-    s_db_entry.data[1].x = 4;
-    s_db_entry.data[1].y = 5;
-    s_db_entry.data[1].z = 6;
-
-    s_db_entry.data[2].x = 7;
-    s_db_entry.data[2].y = 8;
-    s_db_entry.data[2].z = 9;
-
-    s_db_entry.data[3].x = 10;
-    s_db_entry.data[3].y = 11;
-    s_db_entry.data[3].z = 12;
-
     nrf51_tag_status_set_authorize_reply(p_ble_evt, (const uint8_t*)&activity_record_count, sizeof(ble_tag_status_activity_record_count_t));
-}
-
-void init_arr(void)
-{
-    for (uint16_t index = 0; index < ACTIVITY_READ_RECORDS; ++index)
-    {
-        s_activity_read_records.activity_read_record[index].timestamp = nrf51_tag_get_system_uptime();
-        s_activity_read_records.activity_read_record[index].data.x = 0x1111 + (index * 0x1111);
-        s_activity_read_records.activity_read_record[index].data.y = 0x1111 + (index * 0x1111);
-        s_activity_read_records.activity_read_record[index].data.z = 0x1111 + (index * 0x1111);
-    }
 }
 
 /** @brief
@@ -172,31 +103,9 @@ void init_arr(void)
 */
 static void nrf51_tag_status_set_authorize_reply_read_activity_read_records(ble_evt_t* p_ble_evt)
 {
-    ble_tag_status_activity_read_record_t activity_read_record = {0};
-    
-    nrf51_tag_db_read_entry(&s_db_entry);
-        
-    activity_read_record.timestamp = s_db_entry.timestamp + ( s_entry_index * (get_rtc_sample_rate() / get_accelerometer_sample_rate()) );
-    
-    activity_read_record.data.x = (int16_t)s_db_entry.data[s_entry_index].x;
-    activity_read_record.data.y = (int16_t)s_db_entry.data[s_entry_index].y;
-    activity_read_record.data.z = (int16_t)s_db_entry.data[s_entry_index].z;
-    
-    nrf51_tag_status_set_authorize_reply(p_ble_evt, (const uint8_t*)&activity_read_record, sizeof(activity_read_record));
+    //nrf51_tag_status_set_authorize_reply(p_ble_evt, (const uint8_t*)&activity_read_record, sizeof(activity_read_record));
 
-    DBG("%d, %d, %d\r\n", activity_read_record.data.x, activity_read_record.data.y, activity_read_record.data.z);
-
-    //DBG("--> nrf51_tag_status_set_authorize_reply(), length: %d\r\n", sizeof(ble_tag_status_activity_read_records_t));
-
-    //nrf51_tag_status_set_authorize_reply(p_ble_evt, (const uint8_t*)&s_activity_read_records, sizeof(ble_tag_status_activity_read_records_t));
-
-    //++s_entry_index;
-    
-    if ( s_entry_index >= MAX_DB_RECORDS_PER_ENTRY )
-    {
-        s_entry_index = 0;
-        //nrf51_tag_db_read_entry(&s_db_entry);
-    }
+    //DBG("%d, %d, %d\r\n", activity_read_record.data.x, activity_read_record.data.y, activity_read_record.data.z);
 }
 
 //-------------------------------------------------------------------------------------------------

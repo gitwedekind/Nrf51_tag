@@ -182,22 +182,6 @@ void nrf51_tag_status_firmware_revision_get(ble_tag_status_firmware_revision_t* 
 
 /** @brief
  */
-void nrf51_tag_status_beacon_record_count_set(ble_tag_status_beacon_record_count_t* p_tag_status_beacon_record_count);
-
-/** @brief
- */
-void nrf51_tag_status_beacon_record_count_get(ble_tag_status_beacon_record_count_t* p_tag_status_beacon_record_count);
-
-/** @brief
- */
-void nrf51_tag_status_beacon_read_records_set(ble_tag_status_beacon_read_records_t* p_tag_status_beacon_read_records);
-
-/** @brief
- */
-void nrf51_tag_status_beacon_read_records_get(ble_tag_status_beacon_read_records_t* p_tag_status_beacon_read_records);
-
-/** @brief
- */
 void nrf51_tag_status_activity_record_count_set(ble_tag_status_activity_record_count_t* p_tag_status_activity_record_count);
 
 /** @brief

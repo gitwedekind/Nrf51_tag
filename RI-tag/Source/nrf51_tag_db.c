@@ -56,9 +56,9 @@ static uint32_t nrf51_tag_db_flash_read(uint32_t * const p_dst, uint32_t const *
 
 static uint8_t nrf51_tag_db_entry_empty(uint32_t* p_entry_address)
 {
-    nrf51_tag_db_flash_read((uint32_t*)&s_db_entry, p_entry_address, sizeof(ble_tag_db_activity_read_record_t));
+    nrf51_tag_db_flash_read((uint32_t*)&s_db_entry, p_entry_address, sizeof(ble_tag_db_entry_t));
 
-    return s_db_entry.timestamp == FLASH_BLANK_VALUE ? 1 : 0;
+    return s_db_entry.activity_read_record[0].timestamp == FLASH_BLANK_VALUE ? 1 : 0;
 }
 
 static uint16_t nrf51_tag_db_find_tail(void)
@@ -87,7 +87,8 @@ static uint16_t nrf51_tag_db_entry_count_scan(void)
     s_db_ring_buffer.head = 0;
     s_db_ring_buffer.tail = 0;
 
-    s_db_ring_buffer.entry_count = 0;
+    s_db_ring_buffer.entry_count     = 0;
+    s_db_ring_buffer.max_entry_count = 0;
 
     uint32_t* p_entry_address = (uint32_t*)DB_ADDRESS_START;
 
@@ -97,6 +98,8 @@ static uint16_t nrf51_tag_db_entry_count_scan(void)
         {
             ++s_db_ring_buffer.entry_count;
         }
+        
+        ++s_db_ring_buffer.max_entry_count;
 
         p_entry_address += DB_ENTRY_LENGTH_32;
     }
@@ -179,9 +182,24 @@ uint16_t nrf51_tag_db_entry_count(void)
     return s_db_ring_buffer.entry_count;
 }
 
-void nrf51_tag_db_write_entry(ble_tag_db_activity_read_record_t* p_db_activity_read_record)
+uint16_t nrf51_tag_db_max_entry_count(void)
 {
-    uint32_t* p_write_address = (uint32_t*)(DB_ADDRESS_START + (sizeof(ble_tag_db_activity_read_record_t) * s_db_ring_buffer.head));
+    return s_db_ring_buffer.max_entry_count;
+}
+
+uint16_t nrf51_tag_db_ring_buffer_head(void)
+{
+    return s_db_ring_buffer.head;
+}
+
+uint16_t nrf51_tag_db_ring_buffer_tail(void)
+{
+    return s_db_ring_buffer.tail;
+}
+
+void nrf51_tag_db_write_entry(ble_tag_db_entry_t* p_ble_tag_db_entry)
+{
+    uint32_t* p_write_address = (uint32_t*)(DB_ADDRESS_START + (sizeof(ble_tag_db_entry_t) * s_db_ring_buffer.head));
 
     if (nrf51_tag_db_entry_empty(p_write_address))
     {
@@ -190,7 +208,7 @@ void nrf51_tag_db_write_entry(ble_tag_db_activity_read_record_t* p_db_activity_r
         s_db_command = DB_CMD_WRITE_ENTRY;
         s_database_write_complete = 0;
 
-        uint32_t err_code = sd_flash_write(p_write_address, (uint32_t*)p_db_activity_read_record, DB_ENTRY_LENGTH_32);
+        uint32_t err_code = sd_flash_write(p_write_address, (uint32_t*)p_ble_tag_db_entry, sizeof(ble_tag_db_entry_t) / sizeof(uint32_t));
         APP_ERROR_CHECK(err_code);
 
         ++s_db_ring_buffer.head;
@@ -202,13 +220,13 @@ void nrf51_tag_db_write_entry(ble_tag_db_activity_read_record_t* p_db_activity_r
     }
 }
 
-void nrf51_tag_db_read_entry(ble_tag_db_entry_t* p_ble_tag_db_entry)
+void nrf51_tag_db_read_entry(ble_tag_db_entry_t* p_ble_tag_db_entry, uint16_t length)
 {
     if (s_db_ring_buffer.head != s_db_ring_buffer.tail)
     {
         uint32_t* p_read_address = (uint32_t*)(DB_ADDRESS_START + (sizeof(ble_tag_db_entry_t) * s_db_ring_buffer.tail));
 
-        nrf51_tag_db_flash_read((uint32_t*)p_ble_tag_db_entry, p_read_address, sizeof(ble_tag_db_entry_t));
+        nrf51_tag_db_flash_read((uint32_t*)p_ble_tag_db_entry, p_read_address, length);
 
         ++s_db_ring_buffer.tail;
 

@@ -37,7 +37,6 @@ static uint32_t s_reference_time = 0;
 
 #define MAX_DB_ENTRIES 2
 
-
 static __align(4) ble_tag_db_entry_t s_tag_db_entry[MAX_DB_ENTRIES] = {0};
 
 static uint8_t s_db_record_index = 0;
@@ -50,14 +49,11 @@ static void lis3dh_read_int1_data(void)
 {
 #ifdef ENABLE_8_BIT_MODE
     
-    if ( s_db_record_index == 0 )
-    {
-        s_tag_db_entry[s_db_entry_index].timestamp = s_system_uptime;
-    }
+    s_tag_db_entry[s_db_entry_index].activity_read_record[s_db_record_index].timestamp = s_system_uptime;
     
-    s_x = s_tag_db_entry[s_db_entry_index].data[s_db_record_index].x = nrf51_tag_lis3dh_read_register(LIS3DH_OUT_X_H_r);
-    s_y = s_tag_db_entry[s_db_entry_index].data[s_db_record_index].y = nrf51_tag_lis3dh_read_register(LIS3DH_OUT_Y_H_r);
-    s_z = s_tag_db_entry[s_db_entry_index].data[s_db_record_index].z = nrf51_tag_lis3dh_read_register(LIS3DH_OUT_Z_H_r);
+    s_x = s_tag_db_entry[s_db_entry_index].activity_read_record[s_db_record_index].x = nrf51_tag_lis3dh_read_register(LIS3DH_OUT_X_H_r);
+    s_y = s_tag_db_entry[s_db_entry_index].activity_read_record[s_db_record_index].y = nrf51_tag_lis3dh_read_register(LIS3DH_OUT_Y_H_r);
+    s_z = s_tag_db_entry[s_db_entry_index].activity_read_record[s_db_record_index].z = nrf51_tag_lis3dh_read_register(LIS3DH_OUT_Z_H_r);
     
     DBG("INT1: %d, %d, %d\r\n", s_x, s_y, s_z); 
 

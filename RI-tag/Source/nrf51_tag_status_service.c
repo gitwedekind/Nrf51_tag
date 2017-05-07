@@ -76,16 +76,6 @@ void nrf51_tag_status_service_initialize(void)
     void nrf51_tag_status_firmware_revision_char_add(ble_tag_status_service_t* p_tag_status_service);
     nrf51_tag_status_firmware_revision_char_add(&s_ble_tag_status_service);
 
-    // Add Tag Status Beacon Record Count Characteristic
-    //
-    //void nrf51_tag_status_beacon_record_count_char_add(ble_tag_status_service_t* p_tag_status_service);
-    //nrf51_tag_status_beacon_record_count_char_add(&s_ble_tag_status_service);
-
-    // Add Tag Status Beacon Read Records Characteristic
-    //
-    //void nrf51_tag_status_beacon_read_records_char_add(ble_tag_status_service_t* p_tag_status_service);
-    //nrf51_tag_status_beacon_read_records_char_add(&s_ble_tag_status_service);
-
     // Add Tag Status Activity Record Count Characteristic
     //
     void nrf51_tag_status_activity_record_count_char_add(ble_tag_status_service_t* p_tag_status_service);
