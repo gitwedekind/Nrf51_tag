@@ -13,7 +13,7 @@
 
 /*!< Slave clock frequency
 */
-#define SPI0_OPERATING_FREQUENCY ( 0x02000000UL << (uint32_t)Freq_8Mbps )  
+#define SPI0_OPERATING_FREQUENCY ( 0x02000000UL << (uint32_t)Freq_500Kbps )  
 
 /* NRF SPI0 Pins
 */
@@ -28,16 +28,16 @@
 #define SPI_PSELMISO0 23   /*!< GPIO pin number for Master In Slave Out MISO */
 #define SPI_PSELSS0   30   /*!< GPIO pin number for Slave Select CS          */
 
-#else
+#else // NRF51_TAG
 
 /* LIS3DH Wake Pin
 */
-#define LIS3DH_WAKE_IRQ_PIN 1   
+#define LIS3DH_WAKE_IRQ_PIN 8   
 
-#define SPI_PSELSCK0  7   /*!< GPIO pin number for SPI clock SCLK           */
-#define SPI_PSELMOSI0 6   /*!< GPIO pin number for Master Out Slave In MOSI */
-#define SPI_PSELMISO0 4   /*!< GPIO pin number for Master In Slave Out MISO */
-#define SPI_PSELSS0   3   /*!< GPIO pin number for Slave Select CS          */
+#define SPI_PSELSCK0  12   /*!< GPIO pin number for SPI clock SCLK           */
+#define SPI_PSELMOSI0 11   /*!< GPIO pin number for Master Out Slave In MOSI */
+#define SPI_PSELMISO0 10   /*!< GPIO pin number for Master In Slave Out MISO */
+#define SPI_PSELSS0   9    /*!< GPIO pin number for Slave Select CS          */
 
 #endif
 

@@ -7,30 +7,30 @@
 #include "nrf51_tag_error.h"
 #include "nrf51_tag_headers.h"
 
-//static ble_tag_db_entry_t s_db_entry = {0};
-
-//static uint32_t s_entry_count = 0; 
-
-//static uint8_t s_entry_index = 0; 
-
-//static ble_tag_status_activity_read_records_t s_activity_read_records = {0};
-    
 /** @brief
 *
 */
 static void nrf51_tag_status_set_authorize_reply(ble_evt_t* p_ble_evt, const uint8_t* p_data, uint16_t length)
 {
     ble_gatts_rw_authorize_reply_params_t authorize_reply_params = {0};
-
-    authorize_reply_params.type                     = BLE_GATTS_AUTHORIZE_TYPE_READ;
-    authorize_reply_params.params.read.gatt_status  = BLE_GATT_STATUS_SUCCESS;
-
-    authorize_reply_params.params.read.update = 1;
-    authorize_reply_params.params.read.offset = 0;
     
-    authorize_reply_params.params.read.len    = length;
-    authorize_reply_params.params.read.p_data = p_data;
-    
+    if ( length == 0 )
+    {
+        authorize_reply_params.type                     = BLE_GATTS_AUTHORIZE_TYPE_READ;
+        authorize_reply_params.params.read.gatt_status  = BLE_GATT_STATUS_ATTERR_READ_NOT_PERMITTED;
+    }
+    else
+    {
+        authorize_reply_params.type                     = BLE_GATTS_AUTHORIZE_TYPE_READ;
+        authorize_reply_params.params.read.gatt_status  = BLE_GATT_STATUS_SUCCESS;
+
+        authorize_reply_params.params.read.update = 1;
+        authorize_reply_params.params.read.offset = 0;
+        
+        authorize_reply_params.params.read.len    = length;
+        authorize_reply_params.params.read.p_data = p_data;
+    }
+
     uint32_t err_code = sd_ble_gatts_rw_authorize_reply
     (
         p_ble_evt->evt.gatts_evt.conn_handle,
@@ -98,15 +98,52 @@ static void nrf51_tag_status_set_authorize_reply_read_activity_record_count(ble_
     nrf51_tag_status_set_authorize_reply(p_ble_evt, (const uint8_t*)&activity_record_count, sizeof(ble_tag_status_activity_record_count_t));
 }
 
+
 /** @brief
 *
 */
+#define ACTIVITY_READ_RECORD_COUNT 4
+
+static ble_tag_status_activity_read_records_t s_activity_read_records[ACTIVITY_READ_RECORD_COUNT] = {0};
+
+static ble_tag_db_entry_t s_ble_tag_db_entry = {0};
+
+static void convert_db_entry_to_activity_record(void)
+{
+    for (uint16_t index = 0; index < ACTIVITY_READ_RECORD_COUNT; ++index)
+    {
+        s_activity_read_records[index].timestamp = s_ble_tag_db_entry.timestamp + ( index * (get_rtc_sample_rate() / get_accelerometer_sample_rate()) );
+        
+        s_activity_read_records[index].data.x = s_ble_tag_db_entry.data[index].x;
+        s_activity_read_records[index].data.y = s_ble_tag_db_entry.data[index].y;
+        s_activity_read_records[index].data.z = s_ble_tag_db_entry.data[index].z;
+    }
+}
+
+static uint8_t s_read_flag = 1;
+
+uint8_t buffer[250] = {0};
+
 static void nrf51_tag_status_set_authorize_reply_read_activity_read_records(ble_evt_t* p_ble_evt)
 {
-    //nrf51_tag_status_set_authorize_reply(p_ble_evt, (const uint8_t*)&activity_read_record, sizeof(activity_read_record));
+    if (s_read_flag)
+    {
+        s_read_flag = 0;
+        
+        nrf51_tag_db_read_entry(&s_ble_tag_db_entry);
+        
+        convert_db_entry_to_activity_record();
+    }
+    
+    DBG("--> 0x%x, %d\r\n", (uint8_t*)&s_activity_read_records, sizeof(s_activity_read_records));
+    
+    nrf51_tag_status_set_authorize_reply(p_ble_evt, (uint8_t*)&buffer[0], sizeof(buffer));
+} 
 
-    //DBG("%d, %d, %d\r\n", activity_read_record.data.x, activity_read_record.data.y, activity_read_record.data.z);
-}
+static void nrf51_tag_status_set_authorize_reply_read_diagnosticss(ble_evt_t* p_ble_evt)
+{
+    nrf51_tag_status_set_authorize_reply(p_ble_evt, (uint8_t*)nrf51_tag_diagnostics(), nrf51_tag_diagnostics_length());
+} 
 
 //-------------------------------------------------------------------------------------------------
 // Tag Status GATT API
@@ -135,16 +172,13 @@ void nrf51_tag_status_write(ble_evt_t* p_ble_evt)
     else if ( p_write->handle == nrf51_tag_status_firmware_revision_value_handle() )
     {
     }
-    //else if ( p_write->handle == nrf51_tag_status_beacon_record_count_value_handle() )
-    //{
-    //}
-    //else if ( p_write->handle == nrf51_tag_status_beacon_read_records_value_handle() )
-    //{
-    //}
     else if ( p_write->handle == nrf51_tag_status_activity_record_count_value_handle() )
     {
     }
     else if ( p_write->handle == nrf51_tag_status_activity_read_records_value_handle() )
+    {
+    }
+    else if ( p_write->handle == nrf51_tag_status_diagnostics_value_handle() )
     {
     }
 }
@@ -176,14 +210,6 @@ void nrf51_tag_status_authorize_request(ble_evt_t* p_ble_evt)
         {
             nrf51_tag_status_set_authorize_reply_read_firmware_revision(p_ble_evt);
         }
-        //else if ( p_rw_authorize_request->request.read.handle == nrf51_tag_status_beacon_record_count_value_handle() )
-        //{
-        //    nrf51_tag_status_set_authorize_reply_read_beacon_record_count(p_ble_evt);
-        //}
-        //else if ( p_rw_authorize_request->request.read.handle == nrf51_tag_status_beacon_read_records_value_handle() )
-        //{
-        //    nrf51_tag_status_set_authorize_reply_read_beacon_read_records(p_ble_evt);
-        //}
         else if ( p_rw_authorize_request->request.read.handle == nrf51_tag_status_activity_record_count_value_handle() )
         {
             nrf51_tag_status_set_authorize_reply_read_activity_record_count(p_ble_evt);
@@ -191,6 +217,10 @@ void nrf51_tag_status_authorize_request(ble_evt_t* p_ble_evt)
         else if ( p_rw_authorize_request->request.read.handle == nrf51_tag_status_activity_read_records_value_handle() )
         {
             nrf51_tag_status_set_authorize_reply_read_activity_read_records(p_ble_evt);
+        }
+        else if ( p_rw_authorize_request->request.read.handle == nrf51_tag_status_diagnostics_value_handle() )
+        {
+            nrf51_tag_status_set_authorize_reply_read_diagnosticss(p_ble_evt);
         }
     }
     

@@ -12,38 +12,36 @@
 extern "C" {
 #endif
 
-#pragma pack()
+#pragma pack(1)
 
-typedef struct ble_tag_db_activity_read_record_t ble_tag_db_activity_read_record_t;
-struct ble_tag_db_activity_read_record_t
+STRUCT_DEF( ble_tag_db_record_t )
 {
-    uint32_t timestamp;
-    uint16_t x;
-    uint16_t y;
-    uint16_t z;
+    uint8_t x;
+    uint8_t y;
+    uint8_t z;
 };
 
 #define MAX_DB_RECORDS_PER_ENTRY 4
 
-typedef struct ble_tag_db_entry_t ble_tag_db_entry_t;
-struct ble_tag_db_entry_t
+STRUCT_DEF( ble_tag_db_entry_t )
 {
-    ble_tag_db_activity_read_record_t activity_read_record[MAX_DB_RECORDS_PER_ENTRY];
+    uint32_t timestamp;
+    ble_tag_db_record_t data[MAX_DB_RECORDS_PER_ENTRY];
 };
 
 #pragma pack()
 
-
-typedef struct ble_tag_db_ring_buffer_t ble_tag_db_ring_buffer_t;
-struct ble_tag_db_ring_buffer_t
+STRUCT_DEF( ble_tag_db_ring_buffer_t )
 {
-    uint16_t head;
-    uint16_t tail;
+	uint16_t head;
+	uint16_t tail;
     uint16_t entry_count;
     uint16_t max_entry_count;
 };
 
 void nrf51_tag_database_sys_evt(uint32_t sys_evt);
+
+uint16_t nrf51_tag_db_entry_count_scan(void);
 
 void nrf51_tag_db_initialize(void);
 
@@ -61,7 +59,23 @@ uint16_t nrf51_tag_db_ring_buffer_tail(void);
 
 void nrf51_tag_db_write_entry(ble_tag_db_entry_t* p_ble_tag_db_entry);
 
-void nrf51_tag_db_read_entry(ble_tag_db_entry_t* p_ble_tag_db_entry, uint16_t length);
+void nrf51_tag_db_read_entry(ble_tag_db_entry_t* p_ble_tag_db_entry);
+
+static const uint16_t MAX_DB_PAGE_NUMBER = DB_PAGE_END - DB_PAGE_START;
+
+static const uint16_t MAX_DB_ENTRIES_PER_PAGE = (CODE_PAGE_SIZE / sizeof(ble_tag_db_entry_t));
+
+#define MAX_DB_ENTRIES (MAX_DB_ENTRIES_PER_PAGE * DB_PAGE_MAX)
+#define MAX_DB_RECORDS (MAX_DB_ENTRIES * MAX_DB_RECORDS_PER_ENTRY)
+
+#define DB_ENTRY_LENGTH_32 ( sizeof(ble_tag_db_entry_t) / sizeof(uint32_t) )
+
+#define DB_SECTOR_START(x_num) ( ( (x_num) + (MAX_DB_ENTRIES_PER_PAGE-1) ) &~ (MAX_DB_ENTRIES_PER_PAGE-1) )
+
+#define DB_CMD_IDLE        0x00
+#define DB_CMD_ERASE_DB    0x01
+#define DB_CMD_ERASE_PAGE  0x02
+#define DB_CMD_WRITE_ENTRY 0x03
 
 // ------------------------------------------------------------------------------------------------
 // Debug Message(s)

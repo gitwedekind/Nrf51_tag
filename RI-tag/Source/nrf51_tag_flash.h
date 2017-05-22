@@ -23,27 +23,29 @@ extern "C" {
 	static const uint8_t FLASH_BYTE_ERASED = 0xFF;
 
 	static uint8_t const * const SOFT_DEVICE_ADDRESS_START = (uint8_t*)0x00000000;
-	static uint8_t const * const SOFT_DEVICE_ADDRESS_END = (uint8_t*)0x0001AC00;
+	static uint8_t const * const SOFT_DEVICE_ADDRESS_END = (uint8_t*)0x0001AC00 + (CODE_PAGE_SIZE-1);
 
 	static const uint8_t SOFT_DEVICE_PAGE_START = 0;
-	static const uint8_t SOFT_DEVICE_PAGE_END = 105;
+	static const uint8_t SOFT_DEVICE_PAGE_END = 107;
 
 	static uint8_t const * const PROGRAM_ADDRESS_START = (uint8_t*)0x0001B000;
-	static uint8_t const * const PROGRAM_ADDRESS_END = (uint8_t*)0x00024C00;
+	static uint8_t const * const PROGRAM_ADDRESS_END = (uint8_t*)0x00024C00 + (CODE_PAGE_SIZE - 1);
 
-	static const uint8_t PROGRAM_PAGE_START = 106;
+	static const uint8_t PROGRAM_PAGE_START = 108;
 	static const uint8_t PROGRAM_PAGE_END = 147;
 
 	static uint8_t const * const DB_ADDRESS_START = (uint8_t*)0x00025000;
-	static uint8_t const * const DB_ADDRESS_END = (uint8_t*)0x0003BC00;
-
-	static const uint32_t DB_SIZE = 0x16C00;
+	static uint8_t const * const DB_ADDRESS_END = (uint8_t*)0x0003BC00 + (CODE_PAGE_SIZE - 1);
 
 	enum DbPage_t
 	{
 		DB_PAGE_START = 148,
 		DB_PAGE_END = 239
 	};
+
+	static const uint32_t DB_PAGE_MAX = (DB_PAGE_END - DB_PAGE_START) + 1;
+	
+	#define DB_SIZE (DB_PAGE_MAX * CODE_PAGE_SIZE)
 
 	static uint8_t const * const GP0_BLOCK_ADDRESS = (uint8_t*)0x0003C000;
 	static uint8_t const * const GP1_BLOCK_ADDRESS = (uint8_t*)0x0003C400;
@@ -64,7 +66,7 @@ extern "C" {
 	static const uint8_t GP7_PAGE = 247;
 
 	static uint8_t const * const BOOTLOADER_ADDRESS_START = (uint8_t*)0x0003E000;
-	static uint8_t const * const BOOTLOADER_ADDRESS_END = (uint8_t*)0x00040000;
+	static uint8_t const * const BOOTLOADER_ADDRESS_END   = (uint8_t*)0x0003FFFF;
 
 	static const uint8_t BOOTLOADER_PAGE_START = 248;
 	static const uint8_t BOOTLOADER_PAGE_END = 255;

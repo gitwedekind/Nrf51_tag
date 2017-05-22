@@ -13,6 +13,7 @@
 #ifndef WIN32
 
 #include "nrf51_tag_version.h"
+#include "nrf51_tag_diagnostics.h"
 #include "nrf51_tag_timers.h"
 #include "nrf51_tag_tx_power.h"
 #include "nrf51_tag_power_manage.h"
@@ -51,6 +52,21 @@
 
 #define __STATIC_INLINE static inline
 #define __INLINE inline
+
+//---------------------------------------------------------------------------
+// Macro to remove "Tag vs Type Name" issues when defining structures,
+// i.e. removes typo's since the name is typed 3 times.
+//
+// Note: Based on Embedded.com Article by Dan Saks
+//       "Tag vs Type Names" Oct 01 2002
+//---------------------------------------------------------------------------
+#define STRUCT_DEF(x_struct_name) \
+    typedef struct x_struct_name x_struct_name; \
+    struct x_struct_name
+
+#define UNION_DEF(x_union_name) \
+    typedef union x_union_name x_union_name; \
+    union x_union_name
 
 /**@brief SoC Events. */
 enum NRF_SOC_EVTS

@@ -22,10 +22,12 @@ void nrf51_tag_initialize(void);
 
 int8_t nrf51_tag_temperature_get(void);
 
+uint8_t nrf51_tag_lf_clock_enabled(void);
+
 // ------------------------------------------------------------------------------------------------
 // Debug Message(s)
 // ------------------------------------------------------------------------------------------------
-//#define ENABLE_INITIALIZE_MESSAGES
+#define ENABLE_INITIALIZE_MESSAGES
 
 #if defined(ENABLE_INITIALIZE_MESSAGES)
 
@@ -70,6 +72,9 @@ static inline uint32_t ram_total_size_get(void)
 #define DBG_TEMPERATURE()
 #endif
     
+#define DBG_LF_CLOCK() {\
+    DBG("--> LF Clock Status: %d\r\n", NRF_CLOCK->EVENTS_LFCLKSTARTED ); }
+
 #else
 
 #define DBG_INITIALIZE()
@@ -85,5 +90,7 @@ static inline uint32_t ram_total_size_get(void)
 #define DBG_GAP_ADDR()
 #define DBG_TEMPERATURE()
     
+#define DBG_LF_CLOCK()
+
 #endif
 

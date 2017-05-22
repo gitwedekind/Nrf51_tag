@@ -14,6 +14,8 @@
 // 
 // ----------------------------------------------------------------------------
 
+static uint8_t s_lf_clock_enabled = 0;
+
 int8_t nrf51_tag_temperature_get(void)
 {
     int32_t temp = 0;
@@ -25,6 +27,39 @@ int8_t nrf51_tag_temperature_get(void)
     temp /= 4;
     
     return temp;
+}
+
+static void Enable_LF32k(void)
+{
+    uint32_t CNT = 0;
+    
+    s_lf_clock_enabled = 0;
+    
+    NRF_CLOCK->LFCLKSRC = (CLOCK_LFCLKSRCCOPY_SRC_Xtal << CLOCK_LFCLKSRCCOPY_SRC_Pos);
+
+    NRF_CLOCK->EVENTS_LFCLKSTARTED = 0;
+    NRF_CLOCK->TASKS_LFCLKSTART    = 1;
+    
+    while ( NRF_CLOCK->EVENTS_LFCLKSTARTED == 0 )
+    {
+        ++CNT;
+        
+        if ( CNT >= (16 * 1000 * 100) )
+        {
+            break;
+        }
+    }
+    
+    s_lf_clock_enabled = (NRF_CLOCK->EVENTS_LFCLKSTARTED == 1);
+    
+    nrf51_tag_diagnostic_lfclk(s_lf_clock_enabled);
+    
+    DBG_LF_CLOCK();
+}
+
+uint8_t nrf51_tag_lf_clock_enabled(void)
+{
+    return s_lf_clock_enabled;
 }
 
 /**@brief Function for initializing the Dexcom application code.
@@ -40,7 +75,11 @@ void nrf51_tag_initialize(void)
     DBG_GPRR();
     DBG_TX_POWER();
     
+    nrf51_tag_initialize_diagnostics();
+    
     initialize_power_manage();
+ 
+    Enable_LF32k();
     
     nrf51_tag_timers_init();
 

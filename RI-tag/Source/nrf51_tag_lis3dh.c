@@ -12,6 +12,8 @@
 
 static uint8_t s_lis3dh_ready = 0;
 
+static uint8_t s_lis3dh_enabled = 0;
+
 // ------------------------------------------------------------------------------------------------
 // LIS3Dh Read / Write Functions
 // ------------------------------------------------------------------------------------------------
@@ -164,6 +166,8 @@ void GPIOTE_IRQHandler_LIS3DH(void)
     if ( s_lis3dh_ready )
     {
         nrf51_tag_data_ready();
+        
+        nrf51_tag_diagnostic_lis3dh_int1();
     }
 }
 
@@ -171,7 +175,8 @@ void GPIOTE_IRQHandler_LIS3DH(void)
  */
 void nrf51_tag_lis3dh_init(void)
 {
-    s_lis3dh_ready = 0;
+    s_lis3dh_enabled = 0;
+    s_lis3dh_ready   = 0;
     
     nrf51_tag_spi0_lis3dh_init();
     
@@ -180,10 +185,21 @@ void nrf51_tag_lis3dh_init(void)
     
     if ( s_rx_data[LIS3DH_CMD_DATA_INDEX_1] == LIS3DH_WHO_AM_1_DEFAULT )
     {
+        s_lis3dh_enabled = 1;
+        
         nrf51_tag_lis3dh_reset();
+
+        nrf51_tag_lis3dh_int1_enabled();
     }
     
-    nrf51_tag_lis3dh_int1_enabled();
+    nrf51_tag_diagnostic_lis3dh_enabled(s_lis3dh_enabled);
+}
+
+/**
+ */
+uint8_t nrf51_tag_lis3dh_enabled(void)
+{
+    return s_lis3dh_enabled ;
 }
 
 /**

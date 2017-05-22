@@ -265,6 +265,10 @@ void nrf51_tag_lis3dh_init(void);
 
 /**
  */
+uint8_t nrf51_tag_lis3dh_enabled(void);
+
+/**
+ */
 void nrf51_tag_lis3dh_write_register(uint8_t reg_cmd, uint8_t reg_value);
 
 /**

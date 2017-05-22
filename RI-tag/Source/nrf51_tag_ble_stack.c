@@ -10,12 +10,24 @@
 //-------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------
+
+static nrf_clock_lf_cfg_t nrf_clock_rc_cfg =
+{
+    NRF_CLOCK_LF_SRC_RC,
+    16,
+    2,
+    NRF_CLOCK_LF_XTAL_ACCURACY_250_PPM
+};
+
+//-------------------------------------------------------------------------------------------------
+//
+//-------------------------------------------------------------------------------------------------
 static nrf_clock_lf_cfg_t nrf_clock_lf_cfg =
 {
     NRF_CLOCK_LF_SRC_XTAL,
     0,
     0,
-    NRF_CLOCK_LF_XTAL_ACCURACY_250_PPM
+    NRF_CLOCK_LF_XTAL_ACCURACY_100_PPM
 };
 
 //-------------------------------------------------------------------------------------------------
@@ -117,9 +129,16 @@ void nrf51_tag_ble_stack_enable(void)
     
     if ( !sd_is_enabled )
     {
-        // Initialize the SoftDevice handler module.
+        // Initialize the SoftDevice handler module.  If the LF Clock fails to start roll back to the RC Osc.
         //
-        SOFTDEVICE_HANDLER_INIT(&nrf_clock_lf_cfg, NULL);
+        if ( nrf51_tag_lf_clock_enabled() )
+        {
+            SOFTDEVICE_HANDLER_INIT(&nrf_clock_lf_cfg, NULL);
+        }
+        else
+        {
+            SOFTDEVICE_HANDLER_INIT(&nrf_clock_rc_cfg, NULL);
+        }
 
         ble_enable_params_t ble_enable_params = {0};
         

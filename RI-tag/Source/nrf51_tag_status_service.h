@@ -10,6 +10,16 @@
 
 #define FIRMWARE_REVISION_LENGTH 8
 
+#pragma pack(1)
+typedef struct ble_tag_data_t ble_tag_data_t;
+struct ble_tag_data_t
+{
+    uint16_t x;
+    uint16_t y;
+    uint16_t z;
+};
+#pragma pack()
+
 //-------------------------------------------------------------------------------------------------
 // Tag Status Service Structures
 //-------------------------------------------------------------------------------------------------
@@ -27,6 +37,7 @@ struct ble_tag_status_service_t
     ble_gatts_char_handles_t    tag_status_firmware_revision_char_handles;     /**< Handles related to the Tag Status Firmware_revision Characteristic. */
     ble_gatts_char_handles_t    tag_status_activity_record_count_char_handles; /**< Handles related to the Tag Status Activity Record Count Characteristic. */
     ble_gatts_char_handles_t    tag_status_activity_read_records_char_handles; /**< Handles related to the Tag Status Activity Read Records Characteristic. */
+    ble_gatts_char_handles_t    tag_status_diagnostics_char_handles;           /**< Handles related to the Tag Status Diagnostics Characteristic. */
 };
 
 /** @brief Tag Status Uptime
@@ -88,24 +99,23 @@ struct ble_tag_status_activity_record_count_t
 */
 
 #pragma pack(1)
-
-typedef struct ble_tag_status_activity_read_record_t ble_tag_status_activity_read_record_t;
-struct ble_tag_status_activity_read_record_t
-{
-    uint32_t timestamp;
-    uint16_t x;
-    uint16_t y;
-    uint16_t z;
-};
-
-#define ACTIVITY_READ_RECORDS 4
-
 typedef struct ble_tag_status_activity_read_records_t ble_tag_status_activity_read_records_t;
 struct ble_tag_status_activity_read_records_t
 {
-    ble_tag_status_activity_read_record_t activity_read_record[ACTIVITY_READ_RECORDS];
+    uint32_t timestamp;
+    ble_tag_data_t data;
 };
+#pragma pack()
 
+/** @brief Tag Status Diagnostics
+*/
+
+#pragma pack(1)
+typedef struct ble_tag_status_diagnostics_t ble_tag_status_diagnostics_t;
+struct ble_tag_status_diagnostics_t
+{
+    uint16_t flags;
+};
 #pragma pack()
 
 //-------------------------------------------------------------------------------------------------
@@ -196,6 +206,14 @@ void nrf51_tag_status_activity_read_records_set(ble_tag_status_activity_read_rec
  */
 void nrf51_tag_status_activity_read_records_get(ble_tag_status_activity_read_records_t* p_tag_status_activity_read_records);
 
+/** @brief
+ */
+void nrf51_tag_status_diagnostics_set(ble_tag_status_diagnostics_t* p_tag_status_diagnostics);
+
+/** @brief
+ */
+void nrf51_tag_status_diagnostics_get(ble_tag_status_diagnostics_t* p_tag_status_diagnostics);
+
 //-------------------------------------------------------------------------------------------------
 // Tag Status handle(s) API 
 //-------------------------------------------------------------------------------------------------
@@ -263,3 +281,12 @@ uint16_t nrf51_tag_status_activity_read_records_value_handle(void);
 /** @brief
  */
 uint16_t nrf51_tag_status_activity_read_records_cccd_handle(void);
+
+/** @brief
+ */
+uint16_t nrf51_tag_status_diagnostics_value_handle(void);
+
+/** @brief
+ */
+uint16_t nrf51_tag_status_diagnostics_cccd_handle(void);
+

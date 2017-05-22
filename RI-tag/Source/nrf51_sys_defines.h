@@ -6,6 +6,21 @@
 
 #pragma once
 
+//---------------------------------------------------------------------------
+// Macro to remove "Tag vs Type Name" issues when defining structures,
+// i.e. removes typo's since the name is typed 3 times.
+//
+// Note: Based on Embedded.com Article by Dan Saks
+//       "Tag vs Type Names" Oct 01 2002
+//---------------------------------------------------------------------------
+#define STRUCT_DEF(x_struct_name) \
+    typedef struct x_struct_name x_struct_name; \
+    struct x_struct_name
+
+#define UNION_DEF(x_union_name) \
+    typedef union x_union_name x_union_name; \
+    union x_union_name
+
 /**
 */
 #define MAKE_U16( x_lo, x_hi ) \
@@ -17,8 +32,9 @@
 //#define TAG_UART_ENABLED
 #define TAG_RTT_ENABLED
 
-#define ENABLE_BLE400_DEV_BOARD
-//#define ENABLE_CJMCU_DEV_BOARD
+//#define ENABLE_BLE400_DEV_BOARD 1
+//#define ENABLE_CJMCU_DEV_BOARD 1
+#define ENABLE_RI_TAG_BOARD 1
 
 //-------------------------------------------------------------------------------------------------
 // LIS3DH Mode 
@@ -27,6 +43,8 @@
 #define ENABLE_8_BIT_MODE
 //#define ENABLE_10_BIT_MODE
 //#define ENABLE_12_BIT_MODE
+
+//#define ENABLE_WHO_AM_1_TEST_MODE    
 
 //-------------------------------------------------------------------------------------------------
 // BLE Parameters
@@ -94,6 +112,7 @@ static const char * const NRF51_TAG_MANUFACTURE_NAME = "RemoteInsights";
 // Tag Status Beacon Read Records Char   = {0DE35B69-A433-47AE-AF41-668B062001CD}
 // Tag Status Activity Record Count Char = {0DE35B69-A433-47AE-AF41-668B072001CD}
 // Tag Status Activity Read Records Char = {0DE35B69-A433-47AE-AF41-668B082001CD}
+// Tag Status Diagnostics Char           = {0DE35B69-A433-47AE-AF41-668B092001CD}
 
 // Tag Status 128-bit Base Service UUID
 //
@@ -107,10 +126,11 @@ static const char * const NRF51_TAG_MANUFACTURE_NAME = "RemoteInsights";
 #define BLE_UUID_TAG_STATUS_TEMPERATURE_CHAR           0x2002
 #define BLE_UUID_TAG_STATUS_BATTERY_LEVEL_CHAR         0x2003
 #define BLE_UUID_TAG_STATUS_FIRMWARE_REVISION_CHAR     0x2004
-//#define BLE_UUID_TAG_STATUS_BEACON_RECORD_COUNT_CHAR   0x2005
-//#define BLE_UUID_TAG_STATUS_BEACON_READ_RECORDS_CHAR   0x2006
+#define BLE_UUID_TAG_STATUS_BEACON_RECORD_COUNT_CHAR   0x2005
+#define BLE_UUID_TAG_STATUS_BEACON_READ_RECORDS_CHAR   0x2006
 #define BLE_UUID_TAG_STATUS_ACTIVITY_RECORD_COUNT_CHAR 0x2006
 #define BLE_UUID_TAG_STATUS_ACTIVITY_READ_RECORDS_CHAR 0x2008
+#define BLE_UUID_TAG_STATUS_DIAGNOSTICS_CHAR           0x2009
 
 //-----------------------------------------------------------------------------
 // Tag Configuration Service Definitions
