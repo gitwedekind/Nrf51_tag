@@ -32,9 +32,9 @@
 //#define TAG_UART_ENABLED
 #define TAG_RTT_ENABLED
 
-//#define ENABLE_BLE400_DEV_BOARD 1
+#define ENABLE_BLE400_DEV_BOARD 1
 //#define ENABLE_CJMCU_DEV_BOARD 1
-#define ENABLE_RI_TAG_BOARD 1
+//#define ENABLE_RI_TAG_BOARD 1
 
 //-------------------------------------------------------------------------------------------------
 // LIS3DH Mode 

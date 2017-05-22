@@ -654,6 +654,16 @@
               <FileType>5</FileType>
               <FilePath>.\Source\nrf51_tag_db.h</FilePath>
             </File>
+            <File>
+              <FileName>nrf51_tag_diagnostics.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\nrf51_tag_diagnostics.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf51_tag_diagnostics.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\nrf51_tag_diagnostics.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

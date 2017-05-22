@@ -420,10 +420,10 @@ void nrf51_tag_status_activity_read_records_char_add(ble_tag_status_service_t* p
 
     attr_char_value.p_uuid    = &ble_uuid;
     attr_char_value.p_attr_md = &attr_md;
-    attr_char_value.init_len  = 0;
+    attr_char_value.init_len  = nrf51_tag_update_gateway_data_length();
     attr_char_value.init_offs = 0;
-    attr_char_value.max_len   = 250;
-    attr_char_value.p_value   = (uint8_t*)0;
+    attr_char_value.max_len   = nrf51_tag_update_gateway_data_length();
+    attr_char_value.p_value   = nrf51_tag_update_gateway_data_ptr();
     
     // Add Tag Status Characteristic
     // Note: Populates the tag_status_cmd_char_handles field 

@@ -14,9 +14,9 @@
 typedef struct ble_tag_data_t ble_tag_data_t;
 struct ble_tag_data_t
 {
-    uint16_t x;
-    uint16_t y;
-    uint16_t z;
+    int16_t x;
+    int16_t y;
+    int16_t z;
 };
 #pragma pack()
 
@@ -106,6 +106,12 @@ struct ble_tag_status_activity_read_records_t
     ble_tag_data_t data;
 };
 #pragma pack()
+
+#define ACTIVITY_READ_RECORD_COUNT 4
+
+#define GATEWAY_DATA_MAX_ENTRIES 12
+#define GATEWAY_DATA_RECORDS (GATEWAY_DATA_MAX_ENTRIES * ACTIVITY_READ_RECORD_COUNT)
+#define GATEWAY_DATA_BUFFER_LENGTH (GATEWAY_DATA_RECORDS * sizeof(ble_tag_status_activity_read_records_t))
 
 /** @brief Tag Status Diagnostics
 */
@@ -290,3 +296,14 @@ uint16_t nrf51_tag_status_diagnostics_value_handle(void);
  */
 uint16_t nrf51_tag_status_diagnostics_cccd_handle(void);
 
+/** @brief
+ */
+void nrf51_tag_update_gateway_data(void);
+
+/** @brief
+ */
+uint8_t* nrf51_tag_update_gateway_data_ptr(void);
+
+/** @brief
+ */
+uint16_t nrf51_tag_update_gateway_data_length(void);

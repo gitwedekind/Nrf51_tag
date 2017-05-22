@@ -183,17 +183,28 @@ uint32_t nrf51_tag_start_advertising()
     
     nrf51_tag_update_device_name(get_tag_serial_number());
     
-    nrf51_tag_update_manufacturing_data(1, get_tag_serial_number(),  0, nrf51_tag_db_entry_count() );
+    uint16_t db_entry_count = nrf51_tag_db_entry_count();
+    
+    uint8_t ping_flag = 1;
+    
+    if ( db_entry_count >= GATEWAY_DATA_MAX_ENTRIES )
+    {
+        nrf51_tag_update_gateway_data();
+        ping_flag = 0;
+    }
+    
+    nrf51_tag_update_manufacturing_data(ping_flag, get_tag_serial_number(),  0, db_entry_count );
     
     nrf51_tag_advertising_packet_initialize();
     
     DBG("nrf51_tag_start_advertising()\r\n");
-    DBG("serial number: %d\r\n", get_tag_serial_number());
+    DBG("serial number: %d, ping_flag: %d\r\n", get_tag_serial_number(), ping_flag);
     DBG("adv_interval: %d, adv_timeout: %d\r\n", get_adv_interval(), get_adv_timeout());
+    DBG("db_entry_count: %d, gateway_data_length: %d\r\n", db_entry_count, nrf51_tag_update_gateway_data_length());
     
     uint32_t err_code = ble_advertising_start(BLE_ADV_MODE_FAST);
     
-    if ( err_code == NRF_ERROR_INVALID_STATE )
+    if ( (err_code == NRF_ERROR_INVALID_STATE) || (err_code == NRF_ERROR_BUSY) )
     {
         DBG("** Error - ble_advertising_start(): %d\r\n", err_code);
     }

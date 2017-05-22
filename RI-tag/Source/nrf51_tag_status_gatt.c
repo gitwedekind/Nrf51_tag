@@ -102,42 +102,72 @@ static void nrf51_tag_status_set_authorize_reply_read_activity_record_count(ble_
 /** @brief
 *
 */
-#define ACTIVITY_READ_RECORD_COUNT 4
-
-static ble_tag_status_activity_read_records_t s_activity_read_records[ACTIVITY_READ_RECORD_COUNT] = {0};
 
 static ble_tag_db_entry_t s_ble_tag_db_entry = {0};
 
-static void convert_db_entry_to_activity_record(void)
+#pragma pack(1)
+
+UNION_DEF( ble_gateway_data_t )
 {
-    for (uint16_t index = 0; index < ACTIVITY_READ_RECORD_COUNT; ++index)
+    ble_tag_status_activity_read_records_t activity_read_records[ GATEWAY_DATA_RECORDS ];
+    uint8_t tag_data_buffer[GATEWAY_DATA_BUFFER_LENGTH];
+};
+
+#pragma pack()
+
+static ble_gateway_data_t s_ble_gateway_data = {0};
+
+static uint8_t s_gateway_data_ready = 0;
+
+void nrf51_tag_update_gateway_data(void)
+{
+    if ( !s_gateway_data_ready )
     {
-        s_activity_read_records[index].timestamp = s_ble_tag_db_entry.timestamp + ( index * (get_rtc_sample_rate() / get_accelerometer_sample_rate()) );
+        s_gateway_data_ready = 1;
         
-        s_activity_read_records[index].data.x = s_ble_tag_db_entry.data[index].x;
-        s_activity_read_records[index].data.y = s_ble_tag_db_entry.data[index].y;
-        s_activity_read_records[index].data.z = s_ble_tag_db_entry.data[index].z;
+        for (uint16_t entry_index = 0; entry_index < GATEWAY_DATA_RECORDS; entry_index += ACTIVITY_READ_RECORD_COUNT )
+        {   
+            nrf51_tag_db_read_entry(&s_ble_tag_db_entry);
+
+            for (uint16_t record_index = 0; record_index < ACTIVITY_READ_RECORD_COUNT; ++record_index)
+            {
+                s_ble_gateway_data.activity_read_records[entry_index + record_index ].timestamp = 
+                    s_ble_tag_db_entry.timestamp + ( record_index * (get_rtc_sample_rate() / get_accelerometer_sample_rate()) );
+                
+                s_ble_gateway_data.activity_read_records[entry_index + record_index ].data.x = s_ble_tag_db_entry.data[record_index].x;
+                s_ble_gateway_data.activity_read_records[entry_index + record_index ].data.y = s_ble_tag_db_entry.data[record_index].y;
+                s_ble_gateway_data.activity_read_records[entry_index + record_index ].data.z = s_ble_tag_db_entry.data[record_index].z;
+            }
+        }    
+
+        DBG("GATEWAY_DATA_RECORDS: %d\r\n", GATEWAY_DATA_RECORDS);
+        
+        for (uint16_t index = 0; index < GATEWAY_DATA_RECORDS; ++index)
+        {   
+            DBG("index[%2d] TS: %6d, x: %3d, y: %3d, z: %3d\r\n",
+                index,
+                s_ble_gateway_data.activity_read_records[index].timestamp,
+                s_ble_gateway_data.activity_read_records[index].data.x,
+                s_ble_gateway_data.activity_read_records[index].data.y,
+                s_ble_gateway_data.activity_read_records[index].data.z);
+        }    
     }
 }
 
-static uint8_t s_read_flag = 1;
+uint8_t* nrf51_tag_update_gateway_data_ptr(void)
+{
+    return &s_ble_gateway_data.tag_data_buffer[0];
+}
 
-uint8_t buffer[250] = {0};
+uint16_t nrf51_tag_update_gateway_data_length(void)
+{
+    return sizeof(s_ble_gateway_data);
+}
 
 static void nrf51_tag_status_set_authorize_reply_read_activity_read_records(ble_evt_t* p_ble_evt)
 {
-    if (s_read_flag)
-    {
-        s_read_flag = 0;
-        
-        nrf51_tag_db_read_entry(&s_ble_tag_db_entry);
-        
-        convert_db_entry_to_activity_record();
-    }
-    
-    DBG("--> 0x%x, %d\r\n", (uint8_t*)&s_activity_read_records, sizeof(s_activity_read_records));
-    
-    nrf51_tag_status_set_authorize_reply(p_ble_evt, (uint8_t*)&buffer[0], sizeof(buffer));
+    nrf51_tag_status_set_authorize_reply(p_ble_evt, &s_ble_gateway_data.tag_data_buffer[0], sizeof(s_ble_gateway_data));
+    s_gateway_data_ready = 0;
 } 
 
 static void nrf51_tag_status_set_authorize_reply_read_diagnosticss(ble_evt_t* p_ble_evt)
