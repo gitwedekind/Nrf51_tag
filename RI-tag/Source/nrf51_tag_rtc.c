@@ -31,8 +31,8 @@ static LIS3DH_RAW_CONVERTER_T s_z = {0};
 
 static const uint32_t SYSTEM_SIGNATURE = 0xBADDC0FF;
     
-static __attribute__((zero_init)) uint32_t s_system_signature;
-static __attribute__((zero_init)) uint32_t s_system_uptime;
+static __attribute__( ( section( "NoInit")) ) uint32_t s_system_signature;
+static __attribute__( ( section( "NoInit")) ) uint32_t s_system_uptime ;
 
 static uint8_t s_tag_data_ready = 0;
 
