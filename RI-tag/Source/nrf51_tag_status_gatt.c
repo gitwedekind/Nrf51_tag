@@ -134,6 +134,8 @@ void nrf51_tag_update_gateway_data(void)
                 s_ble_gateway_data.activity_read_records[entry_index + record_index ].timestamp = 
                     s_ble_tag_db_entry.timestamp + ( record_index * (get_rtc_sample_rate() / get_accelerometer_sample_rate()) );
                 
+                s_ble_gateway_data.activity_read_records[entry_index + record_index ].timestamp *= RTC_OFFSET;
+                
                 s_ble_gateway_data.activity_read_records[entry_index + record_index ].data.x = s_ble_tag_db_entry.data[record_index].x;
                 s_ble_gateway_data.activity_read_records[entry_index + record_index ].data.y = s_ble_tag_db_entry.data[record_index].y;
                 s_ble_gateway_data.activity_read_records[entry_index + record_index ].data.z = s_ble_tag_db_entry.data[record_index].z;
@@ -220,7 +222,7 @@ void nrf51_tag_status_authorize_request(ble_evt_t* p_ble_evt)
 {
     ble_gatts_evt_rw_authorize_request_t* p_rw_authorize_request = &p_ble_evt->evt.gatts_evt.params.authorize_request;
     
-    DBG("nrf51_tag_status_authorize_request(), handle: 0x%02x\r\n", p_rw_authorize_request->request.read.handle);
+    //DBG("nrf51_tag_status_authorize_request(), handle: 0x%02x\r\n", p_rw_authorize_request->request.read.handle);
     
     if ( p_rw_authorize_request->type == BLE_GATTS_AUTHORIZE_TYPE_READ )
     {

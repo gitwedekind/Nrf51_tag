@@ -21,6 +21,7 @@ static const uint16_t RTC1_SCALER = 1;
 static const uint16_t RTC2_SCALER = 1;
 
 #define RTC_SAMPLE_RATE 10 // 10 Hz
+#define RTC_OFFSET 100     // ms
 
 //----------------------------------------------------------------------------
 // System Timer Functions

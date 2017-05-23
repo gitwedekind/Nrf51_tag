@@ -29,7 +29,10 @@ static LIS3DH_RAW_CONVERTER_T s_y = {0};
 static LIS3DH_RAW_CONVERTER_T s_z = {0};
 #endif
 
-static uint32_t s_system_uptime = 0;
+static const uint32_t SYSTEM_SIGNATURE = 0xBADDC0FF;
+    
+static __attribute__((zero_init)) uint32_t s_system_signature;
+static __attribute__((zero_init)) uint32_t s_system_uptime;
 
 static uint8_t s_tag_data_ready = 0;
 
@@ -136,13 +139,25 @@ void nrf51_tag_system_uptime_callback(void)
 
 uint32_t nrf51_tag_get_system_uptime(void)
 {
-    return s_system_uptime;
+    return s_system_uptime * RTC_OFFSET;
 }
 
 void nrf51_tag_initialize_rtc(void)
 {
     //s_adv_trigger_threshold = ( get_adv_time() * 60 ) * RTC_SAMPLE_RATE;
     s_adv_trigger_threshold = ( get_adv_time() * 15 ) * RTC_SAMPLE_RATE;
+    
+    uint32_t reset_reason = 0;
+    sd_power_reset_reason_get(&reset_reason);
+    
+    if ( s_system_signature != SYSTEM_SIGNATURE )
+    {
+        DBG("--> system_uptime reset:  %d\r\n", nrf51_tag_get_system_uptime()); 
+        s_system_signature = SYSTEM_SIGNATURE;
+        s_system_uptime = 0;
+    }
+    
+    DBG("--> system_uptime %d\r\n", nrf51_tag_get_system_uptime()); 
 }
 
 void nrf51_tag_data_ready(void)

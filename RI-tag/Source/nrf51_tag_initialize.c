@@ -83,9 +83,9 @@ void nrf51_tag_initialize(void)
     
     nrf51_tag_timers_init();
 
-    nrf51_tag_initialize_rtc();
-
     nrf51_tag_stack_init();
+
+    nrf51_tag_initialize_rtc();
 
     nrf51_tag_db_initialize();
     
