@@ -185,7 +185,8 @@ static void nrf51_tag_status_set_authorize_reply_read_diagnosticss(ble_evt_t* p_
 
 static void nrf51_tag_status_set_authorize_reply_read_serial_number(ble_evt_t* p_ble_evt)
 {
-    //nrf51_tag_status_set_authorize_reply(p_ble_evt, (uint8_t*)nrf51_tag_diagnostics(), nrf51_tag_diagnostics_length());
+    uint32_t serial_number = get_tag_serial_number();
+    nrf51_tag_status_set_authorize_reply(p_ble_evt, (uint8_t*)&serial_number, sizeof(serial_number));
 } 
 
 //-------------------------------------------------------------------------------------------------
@@ -198,6 +199,8 @@ static void nrf51_tag_status_set_authorize_reply_read_serial_number(ble_evt_t* p
 void nrf51_tag_status_write(ble_evt_t* p_ble_evt)
 {
     ble_gatts_evt_write_t* p_write = &p_ble_evt->evt.gatts_evt.params.write;
+    
+    DBG("--> nrf51_tag_status_write(): 0x%x\r\n", p_write->handle);
     
     if ( p_write->handle == nrf51_tag_status_uptime_value_handle() )
     {
@@ -226,6 +229,8 @@ void nrf51_tag_status_write(ble_evt_t* p_ble_evt)
     }
     else if ( p_write->handle == nrf51_tag_status_serial_number_value_handle() )
     {
+        uint32_t serial_number = uint32_decode(p_write->data);
+        DBG("--> serial_number: 0x%x\r\n", serial_number);
     }
 }
 

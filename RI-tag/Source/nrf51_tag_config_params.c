@@ -60,6 +60,11 @@ uint32_t get_tag_serial_number(void)
     return s_config_params.tag_serial_number;
 }
 
+uint16_t get_tag_serial_number_length(void)
+{
+    return sizeof(s_config_params.tag_serial_number);
+}
+
 uint32_t get_adv_duration(void)
 {
     return s_config_params.adv_duration;
