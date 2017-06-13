@@ -81,21 +81,20 @@ void nrf51_tag_status_service_initialize(void)
     void nrf51_tag_status_activity_record_count_char_add(ble_tag_status_service_t* p_tag_status_service);
     nrf51_tag_status_activity_record_count_char_add(&s_ble_tag_status_service);
     
-    DBG("activity_record_count_value_handle: 0x%x\r\n", s_ble_tag_status_service.tag_status_activity_record_count_char_handles.value_handle );
-
     // Add Tag Status Activity Read Records Characteristic
     //
     void nrf51_tag_status_activity_read_records_char_add(ble_tag_status_service_t* p_tag_status_service);
     nrf51_tag_status_activity_read_records_char_add(&s_ble_tag_status_service);
-
-    DBG("activity_read_records_value_handle: 0x%x\r\n", s_ble_tag_status_service.tag_status_activity_read_records_char_handles.value_handle );
 
     // Add Tag Status Diagnostics Characteristic
     //
     void nrf51_tag_status_diagnostics_char_add(ble_tag_status_service_t* p_tag_status_service);
     nrf51_tag_status_diagnostics_char_add(&s_ble_tag_status_service);
 
-    DBG("activity_diagnostics_value_handle: 0x%x\r\n", s_ble_tag_status_service.tag_status_diagnostics_char_handles.value_handle );
+    // Add Tag Status Serial Number Characteristic
+    //
+    void nrf51_tag_status_serial_number_char_add(ble_tag_status_service_t* p_tag_status_service);
+    nrf51_tag_status_serial_number_char_add(&s_ble_tag_status_service);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -228,4 +227,18 @@ uint16_t nrf51_tag_status_diagnostics_value_handle(void)
 uint16_t nrf51_tag_diagnostics_cccd_handle(void)
 {
     return s_ble_tag_status_service.tag_status_diagnostics_char_handles.cccd_handle;
+}
+
+/** @brief
+ */
+uint16_t nrf51_tag_status_serial_number_value_handle(void)
+{
+    return s_ble_tag_status_service.tag_status_serial_number_char_handles.value_handle;
+}
+
+/** @brief
+ */
+uint16_t nrf51_tag_serial_number_cccd_handle(void)
+{
+    return s_ble_tag_status_service.tag_status_serial_number_char_handles.cccd_handle;
 }

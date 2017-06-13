@@ -190,14 +190,14 @@ uint32_t nrf51_tag_start_advertising()
     if ( db_entry_count >= GATEWAY_DATA_MAX_ENTRIES )
     {
         nrf51_tag_update_gateway_data();
-        ping_flag = 0;
+        ping_flag = 1;
     }
     
     nrf51_tag_update_manufacturing_data(ping_flag, get_tag_serial_number(),  0, db_entry_count );
     
     nrf51_tag_advertising_packet_initialize();
     
-    DBG("nrf51_tag_start_advertising()\r\n");
+    DBG("nrf51_tag_start_advertis ing()\r\n");
     DBG("serial number: %d, ping_flag: %d\r\n", get_tag_serial_number(), ping_flag);
     DBG("adv_interval: %d, adv_timeout: %d\r\n", get_adv_interval(), get_adv_timeout());
     DBG("db_entry_count: %d, gateway_data_length: %d\r\n", db_entry_count, nrf51_tag_update_gateway_data_length());

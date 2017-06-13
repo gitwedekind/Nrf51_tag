@@ -117,11 +117,6 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
-          <Key>DLGUARM</Key>
-          <Name>ˆô </Name>
-        </SetRegEntry>
-        <SetRegEntry>
-          <Number>0</Number>
           <Key>ARMRTXEVENTFLAGS</Key>
           <Name>-L70 -Z18 -C0 -M0 -T1</Name>
         </SetRegEntry>
@@ -152,7 +147,7 @@
           <Type>0</Type>
           <LineNumber>50</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>120208</Address>
+          <Address>120136</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -162,22 +157,6 @@
           <Filename>.\Source\main.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\RI_tag\Source/main.c\50</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>150</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>127722</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\Source\nrf51_tag_rtc.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\RI_tag\Source/nrf51_tag_rtc.c\150</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -195,6 +174,11 @@
           <count>2</count>
           <WinNumber>1</WinNumber>
           <ItemText>s_rx_data</ItemText>
+        </Ww>
+        <Ww>
+          <count>3</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>s_ble_gateway_data</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>

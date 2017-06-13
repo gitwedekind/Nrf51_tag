@@ -283,6 +283,9 @@ void nrf51_tag_db_initialize(void)
 
 uint16_t nrf51_tag_db_entry_count(void)
 {
+#ifdef ENABLE_GATEWAY_TEST_TAGS
+    return GATEWAY_DATA_MAX_ENTRIES;
+#else
 	if ( nrf51_tag_db_empty() )
 	{
 		s_db_ring_buffer.entry_count = 0;
@@ -304,6 +307,7 @@ uint16_t nrf51_tag_db_entry_count(void)
 	}
 
 	return s_db_ring_buffer.entry_count;
+#endif
 }
 
 uint16_t nrf51_tag_db_max_entry_count(void)

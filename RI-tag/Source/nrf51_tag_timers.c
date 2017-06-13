@@ -9,9 +9,7 @@
 
 APP_TIMER_DEF(s_connection_interval_timer_id);
 APP_TIMER_DEF(s_system_uptime_timer_id);
-//APP_TIMER_DEF(s_ble_start_timer_id);
-//APP_TIMER_DEF(s_ble_stop_timer_id);
-//APP_TIMER_DEF(s_stack_check_timer_id);
+APP_TIMER_DEF(s_data_ready_timer_id);
 
 // ------------------------------------------------------------------------------------------------
 //
@@ -37,7 +35,7 @@ void nrf51_tag_connection_interval_timeout_handler(void* p_context)
 
 void nrf51_tag_system_uptime_timer_start(void)
 {
-    uint32_t err_code = app_timer_start(s_system_uptime_timer_id, APP_TIMER_TICKS(100, SYS_TIMER_PRESCALER), NULL);
+    uint32_t err_code = app_timer_start(s_system_uptime_timer_id, APP_TIMER_TICKS(RTC_SYSTEM_UPTIME_INTERVAL, SYS_TIMER_PRESCALER), NULL);
     APP_ERROR_CHECK(err_code);
 }
 
@@ -45,6 +43,24 @@ void nrf51_tag_uptime_timeout_handler(void* p_context)
 {
     void nrf51_tag_system_uptime_callback(void);
     nrf51_tag_system_uptime_callback();
+}
+
+void nrf51_tag_data_ready_timer_start(void)
+{
+    uint32_t err_code = app_timer_start(s_data_ready_timer_id, APP_TIMER_TICKS(RTC_DATA_READY_INTERVAL, SYS_TIMER_PRESCALER), NULL);
+    APP_ERROR_CHECK(err_code);
+}
+
+void nrf51_tag_data_ready_timer_stop(void)
+{
+    uint32_t err_code = app_timer_stop(s_data_ready_timer_id);
+    APP_ERROR_CHECK(err_code);
+}
+
+void nrf51_tag_data_ready_timeout_handler(void* p_context)
+{
+    void nrf51_tag_data_ready_callback(void);
+    nrf51_tag_data_ready_callback();
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -84,6 +100,14 @@ void nrf51_tag_timers_init(void)
     );
     APP_ERROR_CHECK(err_code);
         
+    err_code = app_timer_create
+    (
+        &s_data_ready_timer_id,
+        APP_TIMER_MODE_REPEATED,
+        nrf51_tag_data_ready_timeout_handler
+    );
+    APP_ERROR_CHECK(err_code);
+
     nrf51_tag_system_uptime_timer_start();
 }
 

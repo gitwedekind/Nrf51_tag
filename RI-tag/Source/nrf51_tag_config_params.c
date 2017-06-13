@@ -31,7 +31,7 @@ static ble_tag_config_params_t s_config_params =
 {
     NRF51_TAG_ADV_INTERVAL, 
     NRF51_TAG_ADV_TIMEOUT_IN_SECONDS,
-    153,
+    157,
     1,
     DEFAULT_SAMPLE_RATE,
     10,

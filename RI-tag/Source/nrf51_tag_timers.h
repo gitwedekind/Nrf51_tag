@@ -20,8 +20,11 @@
 static const uint16_t RTC1_SCALER = 1;
 static const uint16_t RTC2_SCALER = 1;
 
-#define RTC_SAMPLE_RATE 10 // 10 Hz
-#define RTC_OFFSET 100     // ms
+#define RTC_SAMPLE_RATE             1    ///< 1 Hz
+#define RTC_SYSTEM_UPTIME_INTERVAL  1000 ///< 1 second
+#define RTC_DATA_READY_INTERVAL     100  ///< .1 seconds
+
+#define RTC_DATA_READY_OFFSET 100 ///< ms
 
 //----------------------------------------------------------------------------
 // System Timer Functions
@@ -31,6 +34,9 @@ void nrf51_tag_connection_interval_timer_start(void);
 void nrf51_tag_connection_interval_timer_stop(void);
 
 void nrf51_tag_system_uptime_timer_start(void);
+
+void nrf51_tag_data_ready_timer_start(void);
+void nrf51_tag_data_ready_timer_stop(void);
 
 /**@brief Function to initialize System Timers.
  */

@@ -121,6 +121,27 @@ static uint8_t s_gateway_data_ready = 0;
 
 void nrf51_tag_update_gateway_data(void)
 {
+#ifdef ENABLE_GATEWAY_TEST_TAGS
+    if ( !s_gateway_data_ready )
+    {
+        s_gateway_data_ready = 1;
+        
+        uint32_t timestamp = nrf51_tag_get_system_uptime();
+        uint32_t offset = (get_rtc_sample_rate() / get_accelerometer_sample_rate()) * RTC_DATA_READY_OFFSET;
+
+        for (uint16_t entry_index = 0; entry_index < GATEWAY_DATA_RECORDS; entry_index += ACTIVITY_READ_RECORD_COUNT )
+        {   
+            for (uint16_t record_index = 0; record_index < ACTIVITY_READ_RECORD_COUNT; ++record_index)
+            {
+                s_ble_gateway_data.activity_read_records[ entry_index + record_index ].timestamp = timestamp + ( (entry_index + record_index) * RTC_DATA_READY_OFFSET );
+                
+                s_ble_gateway_data.activity_read_records[ entry_index + record_index ].data.x = tag_data[0][entry_index + record_index];
+                s_ble_gateway_data.activity_read_records[ entry_index + record_index ].data.y = tag_data[1][entry_index + record_index];
+                s_ble_gateway_data.activity_read_records[ entry_index + record_index ].data.z = tag_data[2][entry_index + record_index];
+            }
+        }    
+    }
+#else    
     if ( !s_gateway_data_ready )
     {
         s_gateway_data_ready = 1;
@@ -131,29 +152,31 @@ void nrf51_tag_update_gateway_data(void)
 
             for (uint16_t record_index = 0; record_index < ACTIVITY_READ_RECORD_COUNT; ++record_index)
             {
-                s_ble_gateway_data.activity_read_records[entry_index + record_index ].timestamp = 
+                s_ble_gateway_data.activity_read_records[ entry_index + record_index ].timestamp = 
                     s_ble_tag_db_entry.timestamp + ( record_index * (get_rtc_sample_rate() / get_accelerometer_sample_rate()) );
                 
-                s_ble_gateway_data.activity_read_records[entry_index + record_index ].timestamp *= RTC_OFFSET;
+                s_ble_gateway_data.activity_read_records[ entry_index + record_index ].timestamp *= RTC_OFFSET;
                 
-                s_ble_gateway_data.activity_read_records[entry_index + record_index ].data.x = s_ble_tag_db_entry.data[record_index].x;
-                s_ble_gateway_data.activity_read_records[entry_index + record_index ].data.y = s_ble_tag_db_entry.data[record_index].y;
-                s_ble_gateway_data.activity_read_records[entry_index + record_index ].data.z = s_ble_tag_db_entry.data[record_index].z;
+                s_ble_gateway_data.activity_read_records[ entry_index + record_index ].data.x = s_ble_tag_db_entry.data[record_index].x;
+                s_ble_gateway_data.activity_read_records[ entry_index + record_index ].data.y = s_ble_tag_db_entry.data[record_index].y;
+                s_ble_gateway_data.activity_read_records[ entry_index + record_index ].data.z = s_ble_tag_db_entry.data[record_index].z;
             }
         }    
 
-        DBG("GATEWAY_DATA_RECORDS: %d\r\n", GATEWAY_DATA_RECORDS);
-        
-        for (uint16_t index = 0; index < GATEWAY_DATA_RECORDS; ++index)
-        {   
-            DBG("index[%2d] TS: %6d, x: %3d, y: %3d, z: %3d\r\n",
-                index,
-                s_ble_gateway_data.activity_read_records[index].timestamp,
-                s_ble_gateway_data.activity_read_records[index].data.x,
-                s_ble_gateway_data.activity_read_records[index].data.y,
-                s_ble_gateway_data.activity_read_records[index].data.z);
-        }    
     }
+#endif
+    
+    DBG("GATEWAY_DATA_RECORDS: %d\r\n", GATEWAY_DATA_RECORDS);
+    
+    for (uint16_t index = 0; index < GATEWAY_DATA_RECORDS; ++index)
+    {   
+        DBG("index[%2d] TS: %6d, x: %3d, y: %3d, z: %3d\r\n",
+            index,
+            s_ble_gateway_data.activity_read_records[index].timestamp,
+            s_ble_gateway_data.activity_read_records[index].data.x,
+            s_ble_gateway_data.activity_read_records[index].data.y,
+            s_ble_gateway_data.activity_read_records[index].data.z);
+    }    
 }
 
 uint8_t* nrf51_tag_update_gateway_data_ptr(void)
@@ -175,6 +198,11 @@ static void nrf51_tag_status_set_authorize_reply_read_activity_read_records(ble_
 static void nrf51_tag_status_set_authorize_reply_read_diagnosticss(ble_evt_t* p_ble_evt)
 {
     nrf51_tag_status_set_authorize_reply(p_ble_evt, (uint8_t*)nrf51_tag_diagnostics(), nrf51_tag_diagnostics_length());
+} 
+
+static void nrf51_tag_status_set_authorize_reply_read_serial_number(ble_evt_t* p_ble_evt)
+{
+    //nrf51_tag_status_set_authorize_reply(p_ble_evt, (uint8_t*)nrf51_tag_diagnostics(), nrf51_tag_diagnostics_length());
 } 
 
 //-------------------------------------------------------------------------------------------------
@@ -211,6 +239,9 @@ void nrf51_tag_status_write(ble_evt_t* p_ble_evt)
     {
     }
     else if ( p_write->handle == nrf51_tag_status_diagnostics_value_handle() )
+    {
+    }
+    else if ( p_write->handle == nrf51_tag_status_serial_number_value_handle() )
     {
     }
 }
@@ -254,8 +285,11 @@ void nrf51_tag_status_authorize_request(ble_evt_t* p_ble_evt)
         {
             nrf51_tag_status_set_authorize_reply_read_diagnosticss(p_ble_evt);
         }
+        else if ( p_rw_authorize_request->request.read.handle == nrf51_tag_status_serial_number_value_handle() )
+        {
+            nrf51_tag_status_set_authorize_reply_read_serial_number(p_ble_evt);
+        }
     }
-    
 }
 
 /** @brief
