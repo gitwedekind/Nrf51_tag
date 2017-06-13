@@ -14,7 +14,7 @@ uint16_t get_adv_timeout(void);
 
 uint32_t get_tag_serial_number(void);
 
-uint32_t get_adv_time(void);
+uint32_t get_adv_duration(void);
 
 uint8_t get_accelerometer_sample_rate(void);
 

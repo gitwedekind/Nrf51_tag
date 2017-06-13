@@ -276,7 +276,7 @@ void nrf51_tag_db_initialize(void)
 {
     DBG_DB_INITIALIZE();
 
-    //nrf51_tag_db_erase();
+    nrf51_tag_db_erase();
 
     nrf51_tag_db_entry_count_scan();
 }

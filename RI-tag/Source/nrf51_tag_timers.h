@@ -24,7 +24,8 @@ static const uint16_t RTC2_SCALER = 1;
 #define RTC_SYSTEM_UPTIME_INTERVAL  1000 ///< 1 second
 #define RTC_DATA_READY_INTERVAL     100  ///< .1 seconds
 
-#define RTC_DATA_READY_OFFSET 100 ///< ms
+#define RTC_SYSTEM_UPTIME_OFFSET 1000
+#define RTC_DATA_READY_OFFSET    100
 
 //----------------------------------------------------------------------------
 // System Timer Functions

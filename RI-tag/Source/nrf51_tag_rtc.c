@@ -55,7 +55,7 @@ static void lis3dh_read_int1_data(void)
     s_y = s_tag_db_entry[s_db_entry_index].data[s_db_record_index].y = nrf51_tag_lis3dh_read_register(LIS3DH_OUT_Y_H_r);
     s_z = s_tag_db_entry[s_db_entry_index].data[s_db_record_index].z = nrf51_tag_lis3dh_read_register(LIS3DH_OUT_Z_H_r);
     
-    DBG("INT1: %d, %d, %d\r\n", s_x, s_y, s_z); 
+    DBG("INT1 %d: %d, %d, %d\r\n", s_data_ready_time, s_x, s_y, s_z); 
 
     ++s_db_record_index;
     
@@ -127,12 +127,12 @@ void nrf51_tag_data_ready_callback(void)
 
 uint32_t nrf51_tag_get_system_uptime(void)
 {
-    return s_system_uptime;
+    return s_system_uptime * RTC_SYSTEM_UPTIME_OFFSET;
 }
 
 void nrf51_tag_initialize_rtc(void)
 {
-    s_adv_trigger_threshold = ( get_adv_time() * 15 ) * RTC_SAMPLE_RATE;
+    s_adv_trigger_threshold = get_adv_duration() * RTC_SAMPLE_RATE;
     
     uint32_t reset_reason = 0;
     sd_power_reset_reason_get(&reset_reason);
@@ -153,12 +153,12 @@ void nrf51_tag_data_ready(void)
     {
         s_tag_data_ready = 1;
 
-        nrf51_tag_data_ready_timer_start();
-        
         s_tag_threshold = get_accelerometer_threshold() / 2;
         
         s_tag_sample_time = get_rtc_sample_rate() / get_accelerometer_sample_rate();
         
         s_data_ready_time = s_system_uptime * 10;
+
+        nrf51_tag_data_ready_timer_start();
     }
 }

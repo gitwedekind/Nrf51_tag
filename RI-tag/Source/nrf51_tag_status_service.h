@@ -114,60 +114,6 @@ struct ble_tag_status_activity_read_records_t
 #define GATEWAY_DATA_RECORDS (GATEWAY_DATA_MAX_ENTRIES * ACTIVITY_READ_RECORD_COUNT)
 #define GATEWAY_DATA_BUFFER_LENGTH (GATEWAY_DATA_RECORDS * sizeof(ble_tag_status_activity_read_records_t))
     
-#define AXIS 3
-
-static const int16_t tag_data[AXIS][GATEWAY_DATA_RECORDS] = 
-{
-    -5, 16, -34,
-    -17, 3, -8,
-    -10, 2, -21,
-    0, -2, 2,
-    -73, 78, -61,
-    -45, 33, -22,
-    -79, 81, -51,
-    17, -16, 10,
-    25, -18, 7,
-    -57, 25, -40,
-    -10, 12, 2,
-    -32, -4, -29,
-    23, -23, 13,
-    21, -22, 11,
-    -22, 52, -56,
-    -14, 11, 3,
-    127, -11, 16,
-    -28, 18, -3,
-    0, -16, 1,
-    -17, -1, -29,
-    18, -18, 8,
-    0, -4, 3,
-    76, -71, 5,
-    -5, 3, 1,
-    12, -46, 1,
-    25, -30, 12,
-    12, -17, 5,
-    -26, 26, -2,
-    16, -13, 14,
-    4, -19, 12,
-    22, -21, 6,
-    52, -14, 32,
-    27, -31, 2,
-    8, 22, -12,
-    30, -22, 11,
-    -39, 53, 19,
-    4, -17, -1,
-    9, -33, 19,
-    50, -50, 15,
-    21, -46, 17,
-    12, -20, 7,
-    -16, 10, -6,
-    13, -15, 17,
-    20, -14, 3,
-    18, -46, 25,
-    20, -12, 2,
-    33, -42, 18,
-    -68, 46, -4,
-};
-
 /** @brief Tag Status Diagnostics
 */
 
@@ -389,3 +335,7 @@ uint8_t* nrf51_tag_update_gateway_data_ptr(void);
 /** @brief
  */
 uint16_t nrf51_tag_update_gateway_data_length(void);
+
+/** @brief
+ */
+uint8_t nrf51_tag_gateway_data_ready(void);

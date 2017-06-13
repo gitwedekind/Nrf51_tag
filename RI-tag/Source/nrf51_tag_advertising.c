@@ -187,10 +187,14 @@ uint32_t nrf51_tag_start_advertising()
     
     uint8_t ping_flag = 1;
     
-    if ( db_entry_count >= GATEWAY_DATA_MAX_ENTRIES )
+    if ( nrf51_tag_gateway_data_ready() )
+    {
+        ping_flag = 0;
+    }
+    else if ( db_entry_count >= GATEWAY_DATA_MAX_ENTRIES )
     {
         nrf51_tag_update_gateway_data();
-        ping_flag = 1;
+        ping_flag = 0;
     }
     
     nrf51_tag_update_manufacturing_data(ping_flag, get_tag_serial_number(),  0, db_entry_count );

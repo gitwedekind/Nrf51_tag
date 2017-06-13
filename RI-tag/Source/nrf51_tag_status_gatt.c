@@ -121,27 +121,6 @@ static uint8_t s_gateway_data_ready = 0;
 
 void nrf51_tag_update_gateway_data(void)
 {
-#ifdef ENABLE_GATEWAY_TEST_TAGS
-    if ( !s_gateway_data_ready )
-    {
-        s_gateway_data_ready = 1;
-        
-        uint32_t timestamp = nrf51_tag_get_system_uptime();
-        uint32_t offset = (get_rtc_sample_rate() / get_accelerometer_sample_rate()) * RTC_DATA_READY_OFFSET;
-
-        for (uint16_t entry_index = 0; entry_index < GATEWAY_DATA_RECORDS; entry_index += ACTIVITY_READ_RECORD_COUNT )
-        {   
-            for (uint16_t record_index = 0; record_index < ACTIVITY_READ_RECORD_COUNT; ++record_index)
-            {
-                s_ble_gateway_data.activity_read_records[ entry_index + record_index ].timestamp = timestamp + ( (entry_index + record_index) * RTC_DATA_READY_OFFSET );
-                
-                s_ble_gateway_data.activity_read_records[ entry_index + record_index ].data.x = tag_data[0][entry_index + record_index];
-                s_ble_gateway_data.activity_read_records[ entry_index + record_index ].data.y = tag_data[1][entry_index + record_index];
-                s_ble_gateway_data.activity_read_records[ entry_index + record_index ].data.z = tag_data[2][entry_index + record_index];
-            }
-        }    
-    }
-#else    
     if ( !s_gateway_data_ready )
     {
         s_gateway_data_ready = 1;
@@ -155,7 +134,7 @@ void nrf51_tag_update_gateway_data(void)
                 s_ble_gateway_data.activity_read_records[ entry_index + record_index ].timestamp = 
                     s_ble_tag_db_entry.timestamp + ( record_index * (get_rtc_sample_rate() / get_accelerometer_sample_rate()) );
                 
-                s_ble_gateway_data.activity_read_records[ entry_index + record_index ].timestamp *= RTC_OFFSET;
+                s_ble_gateway_data.activity_read_records[ entry_index + record_index ].timestamp *= RTC_DATA_READY_OFFSET;
                 
                 s_ble_gateway_data.activity_read_records[ entry_index + record_index ].data.x = s_ble_tag_db_entry.data[record_index].x;
                 s_ble_gateway_data.activity_read_records[ entry_index + record_index ].data.y = s_ble_tag_db_entry.data[record_index].y;
@@ -164,7 +143,6 @@ void nrf51_tag_update_gateway_data(void)
         }    
 
     }
-#endif
     
     DBG("GATEWAY_DATA_RECORDS: %d\r\n", GATEWAY_DATA_RECORDS);
     
@@ -187,6 +165,11 @@ uint8_t* nrf51_tag_update_gateway_data_ptr(void)
 uint16_t nrf51_tag_update_gateway_data_length(void)
 {
     return sizeof(s_ble_gateway_data);
+}
+
+uint8_t nrf51_tag_gateway_data_ready(void)
+{
+    return s_gateway_data_ready;
 }
 
 static void nrf51_tag_status_set_authorize_reply_read_activity_read_records(ble_evt_t* p_ble_evt)

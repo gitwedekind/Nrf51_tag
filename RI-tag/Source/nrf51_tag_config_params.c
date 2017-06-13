@@ -8,7 +8,7 @@
 #include "nrf51_tag_db.h"
 
 static const uint8_t DEFAULT_THRESHOLD = 0x10; // .25g  
-static const uint8_t DEFAULT_SAMPLE_RATE = 2; // 2 Hz  
+static const uint8_t DEFAULT_SAMPLE_RATE = 2;  // 2 Hz  
 
 
 #pragma pack(1)
@@ -19,7 +19,7 @@ struct ble_tag_config_params_t
     uint16_t adv_interval;
     uint16_t adv_timeout;
     uint32_t tag_serial_number;
-    uint32_t adv_time;
+    uint32_t adv_duration;
     uint8_t accelerometer_sample_rate;
     uint8_t rtc_sample_rate;
     uint8_t accelerometer_threshold;
@@ -27,12 +27,12 @@ struct ble_tag_config_params_t
 
 #pragma pack()
 
-static ble_tag_config_params_t s_config_params =
+static __align(4) ble_tag_config_params_t s_config_params =
 {
     NRF51_TAG_ADV_INTERVAL, 
     NRF51_TAG_ADV_TIMEOUT_IN_SECONDS,
-    157,
-    1,
+    200,
+    15,
     DEFAULT_SAMPLE_RATE,
     10,
     DEFAULT_THRESHOLD
@@ -60,9 +60,9 @@ uint32_t get_tag_serial_number(void)
     return s_config_params.tag_serial_number;
 }
 
-uint32_t get_adv_time(void)
+uint32_t get_adv_duration(void)
 {
-    return s_config_params.adv_time;
+    return s_config_params.adv_duration;
 }
 
 uint8_t get_accelerometer_sample_rate(void)
