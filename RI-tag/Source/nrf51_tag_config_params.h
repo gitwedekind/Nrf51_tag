@@ -8,6 +8,8 @@
 
 #include "nrf51_tag_headers.h"
 
+void initialize_config_parameters(void);
+
 uint16_t get_adv_interval(void);
 
 uint16_t get_adv_timeout(void);
@@ -15,6 +17,12 @@ uint16_t get_adv_timeout(void);
 uint32_t get_tag_serial_number(void);
 
 uint16_t get_tag_serial_number_length(void);
+
+void set_tag_serial_number(uint32_t serial_number);
+
+uint32_t* get_tag_config_params(void);
+
+uint32_t get_tag_config_params_length(void);
 
 uint32_t get_adv_duration(void);
 

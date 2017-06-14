@@ -84,6 +84,8 @@ void nrf51_tag_initialize(void)
     nrf51_tag_timers_init();
 
     nrf51_tag_stack_init();
+    
+    initialize_config_parameters();
 
     nrf51_tag_initialize_rtc();
 

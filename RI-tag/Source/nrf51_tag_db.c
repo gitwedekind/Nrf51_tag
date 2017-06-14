@@ -78,7 +78,6 @@ static __align(4) ble_tag_db_entry_t s_db_entry = { 0 };
 static uint8_t s_erase_database_page_number = 0;
 
 static uint8_t s_database_erased = 0;
-static uint8_t s_database_page_erased = 0;
 static uint8_t s_database_write_complete = 0;
 
 static uint16_t s_database_write_count = 0;
@@ -223,6 +222,8 @@ uint8_t nrf51_tag_get_db_cmd(void)
 
 void nrf51_tag_database_sys_evt(uint32_t sys_evt)
 {
+    DBG("--> Db nrf51_tag_database_sys_evt: %d\r\n", sys_evt);
+    
     if (sys_evt == NRF_EVT_FLASH_OPERATION_SUCCESS)
     {
         if (s_db_command == DB_CMD_ERASE_DB)
@@ -242,9 +243,18 @@ void nrf51_tag_database_sys_evt(uint32_t sys_evt)
         }
         else if (s_db_command == DB_CMD_ERASE_PAGE)
         {
-            s_database_page_erased = 1;
             s_db_command = DB_CMD_IDLE;
             DBG("--> Db Page Erased: %d\r\n", s_erase_database_page_number);
+            
+            if ( s_erase_database_page_number == GP0_PAGE )
+            {
+                uint32_t* p_write_address = (uint32_t*)(CODE_PAGE_SIZE * s_erase_database_page_number);
+                
+                uint32_t err_code = sd_flash_write(p_write_address, get_tag_config_params(), get_tag_config_params_length());
+                APP_ERROR_CHECK(err_code);
+                
+                s_erase_database_page_number = 0;
+            }
         }
         else if (s_db_command == DB_CMD_WRITE_ENTRY)
         {
@@ -276,7 +286,7 @@ void nrf51_tag_db_initialize(void)
 {
     DBG_DB_INITIALIZE();
 
-    nrf51_tag_db_erase();
+    //nrf51_tag_db_erase();
 
     nrf51_tag_db_entry_count_scan();
 }
@@ -367,7 +377,6 @@ void nrf51_tag_db_read_entry(ble_tag_db_entry_t* p_ble_tag_db_entry)
 			}
 
 			s_db_command = DB_CMD_ERASE_PAGE;
-			s_database_page_erased = 0;
 
 			sd_flash_page_erase(page_number);
 			DBG("--> page %d erased, head: %d, tail: %d\r\n", page_number, s_db_ring_buffer.head, s_db_ring_buffer.tail);
@@ -383,6 +392,27 @@ void nrf51_tag_db_read_entry(ble_tag_db_entry_t* p_ble_tag_db_entry)
 		uint32_t nrf51_tag_get_system_uptime(void);
 		p_ble_tag_db_entry->timestamp = nrf51_tag_get_system_uptime();
     }
+}
+
+void nrf51_tag_db_write_sector(uint8_t page_number)
+{
+    s_db_command = DB_CMD_ERASE_PAGE;
+    
+    s_erase_database_page_number = page_number;
+    
+    sd_flash_page_erase(s_erase_database_page_number);
+    
+    DBG("--> sd_flash_page_erase: %d\r\n", page_number);
+}
+
+void nrf51_tag_db_read_sector(uint8_t page_number, uint8_t* p_data, uint16_t length)
+{
+    uint32_t* p_read_address = (uint32_t*)(CODE_PAGE_SIZE * page_number);
+
+    // Note: sd_flash_write() needs size as the number of 32-bit words
+    //
+    uint32_t err_code = nrf51_tag_db_flash_read( (uint32_t*)p_data, p_read_address,length);
+    APP_ERROR_CHECK(err_code);
 }
 
 #ifdef __cplusplus

@@ -12,7 +12,7 @@
 //
 //-------------------------------------------------------------------------------------------------
 #define ENABLE_GAP_DEBUG
-#define ENABLE_GATTS_DEBUG
+//#define ENABLE_GATTS_DEBUG
 #define ENABLE_SD_DEBUG
 #define ENABLE_AUTH_STATUS_DEBUG
 

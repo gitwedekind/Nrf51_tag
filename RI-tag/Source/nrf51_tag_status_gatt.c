@@ -231,6 +231,7 @@ void nrf51_tag_status_write(ble_evt_t* p_ble_evt)
     {
         uint32_t serial_number = uint32_decode(p_write->data);
         DBG("--> serial_number: 0x%x\r\n", serial_number);
+        set_tag_serial_number(serial_number);
     }
 }
 

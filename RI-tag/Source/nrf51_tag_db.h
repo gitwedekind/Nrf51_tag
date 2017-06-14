@@ -61,6 +61,10 @@ void nrf51_tag_db_write_entry(ble_tag_db_entry_t* p_ble_tag_db_entry);
 
 void nrf51_tag_db_read_entry(ble_tag_db_entry_t* p_ble_tag_db_entry);
 
+void nrf51_tag_db_write_sector(uint8_t page_number);
+
+void nrf51_tag_db_read_sector(uint8_t page_number, uint8_t* p_data, uint16_t length);
+
 static const uint16_t MAX_DB_PAGE_NUMBER = DB_PAGE_END - DB_PAGE_START;
 
 static const uint16_t MAX_DB_ENTRIES_PER_PAGE = (CODE_PAGE_SIZE / sizeof(ble_tag_db_entry_t));
