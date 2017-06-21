@@ -93,6 +93,8 @@ void nrf51_tag_initialize(void)
     
     nrf51_tag_lis3dh_init();
     
+    nrf51_tag_initialize_buzzer();
+    
     DBG_GAP_ADDR();
     DBG_TEMPERATURE();
 

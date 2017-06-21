@@ -13,9 +13,9 @@
 // System Timer Constants
 //----------------------------------------------------------------------------
 
-#define SYS_TIMER_PRESCALER     326   /**< Value of the RTC1 PRESCALER register. - 100 Hz */
-#define SYS_TIMER_MAX_TIMERS    5     /**< Maximum number of simultaneously created timers. */
-#define SYS_TIMER_OP_QUEUE_SIZE 15    /**< Size of timer operation queues. */
+#define SYS_TIMER_PRESCALER     326  /**< Value of the RTC1 PRESCALER register. - 100 Hz */
+#define SYS_TIMER_MAX_TIMERS    5    /**< Maximum number of simultaneously created timers. */
+#define SYS_TIMER_OP_QUEUE_SIZE 15   /**< Size of timer operation queues. */
 
 static const uint16_t RTC1_SCALER = 1;
 static const uint16_t RTC2_SCALER = 1;

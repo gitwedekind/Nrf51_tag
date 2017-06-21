@@ -95,6 +95,11 @@ void nrf51_tag_status_service_initialize(void)
     //
     void nrf51_tag_status_serial_number_char_add(ble_tag_status_service_t* p_tag_status_service);
     nrf51_tag_status_serial_number_char_add(&s_ble_tag_status_service);
+
+    // Add Tag Status Buzzer Characteristic
+    //
+    void nrf51_tag_status_buzzer_char_add(ble_tag_status_service_t* p_tag_status_service);
+    nrf51_tag_status_buzzer_char_add(&s_ble_tag_status_service);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -241,4 +246,18 @@ uint16_t nrf51_tag_status_serial_number_value_handle(void)
 uint16_t nrf51_tag_serial_number_cccd_handle(void)
 {
     return s_ble_tag_status_service.tag_status_serial_number_char_handles.cccd_handle;
+}
+
+/** @brief
+ */
+uint16_t nrf51_tag_status_buzzer_value_handle(void)
+{
+    return s_ble_tag_status_service.tag_status_buzzer_char_handles.value_handle;
+}
+
+/** @brief
+ */
+uint16_t nrf51_tag_buzzer_cccd_handle(void)
+{
+    return s_ble_tag_status_service.tag_status_buzzer_char_handles.cccd_handle;
 }

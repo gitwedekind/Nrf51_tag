@@ -32,9 +32,9 @@
 //#define TAG_UART_ENABLED
 #define TAG_RTT_ENABLED
 
-//#define ENABLE_BLE400_DEV_BOARD 1
+#define ENABLE_BLE400_DEV_BOARD 1
 //#define ENABLE_CJMCU_DEV_BOARD 1
-#define ENABLE_RI_TAG_BOARD 1
+//#define ENABLE_RI_TAG_BOARD 1
     
 //-------------------------------------------------------------------------------------------------
 // LIS3DH Mode 
@@ -87,7 +87,8 @@ static const char * const NRF51_TAG_MANUFACTURE_NAME = "RemoteInsights";
 // Tag Status Activity Record Count Char = {0DE35B69-A433-47AE-AF41-668B072001CD}
 // Tag Status Activity Read Records Char = {0DE35B69-A433-47AE-AF41-668B082001CD}
 // Tag Status Diagnostics Char           = {0DE35B69-A433-47AE-AF41-668B092001CD}
-// Tag Status sERIAL nUMBER Char         = {0DE35B69-A433-47AE-AF41-668B0A2001CD}
+// Tag Status Serial Number Char         = {0DE35B69-A433-47AE-AF41-668B0A2001CD}
+// Tag Status Buzzer Char                = {0DE35B69-A433-47AE-AF41-668B0B2001CD}
 
 // Tag Status 128-bit Base Service UUID
 //
@@ -107,3 +108,4 @@ static const char * const NRF51_TAG_MANUFACTURE_NAME = "RemoteInsights";
 #define BLE_UUID_TAG_STATUS_ACTIVITY_READ_RECORDS_CHAR 0x2008
 #define BLE_UUID_TAG_STATUS_DIAGNOSTICS_CHAR           0x2009
 #define BLE_UUID_TAG_STATUS_SERIAL_NUMBER_CHAR         0x200A
+#define BLE_UUID_TAG_STATUS_BUZZER_CHAR                0x200B

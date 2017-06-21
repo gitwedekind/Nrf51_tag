@@ -39,6 +39,7 @@ struct ble_tag_status_service_t
     ble_gatts_char_handles_t    tag_status_activity_read_records_char_handles; /**< Handles related to the Tag Status Activity Read Records Characteristic. */
     ble_gatts_char_handles_t    tag_status_diagnostics_char_handles;           /**< Handles related to the Tag Status Diagnostics Characteristic. */
     ble_gatts_char_handles_t    tag_status_serial_number_char_handles;         /**< Handles related to the Tag Status Serial Number Characteristic. */
+    ble_gatts_char_handles_t    tag_status_buzzer_char_handles;                /**< Handles related to the Tag Status Buzzer Characteristic. */
 };
 
 /** @brief Tag Status Uptime
@@ -133,6 +134,17 @@ typedef struct ble_tag_status_serial_number_t ble_tag_status_serial_number_t;
 struct ble_tag_status_serial_number_t
 {
     uint32_t serial_number;
+};
+#pragma pack()
+
+/** @brief Tag Status Buzzer
+*/
+
+#pragma pack(1)
+typedef struct ble_tag_status_buzzer_t ble_tag_status_buzzer_t;
+struct ble_tag_status_buzzer_t
+{
+    uint8_t buzzer_state;
 };
 #pragma pack()
 
@@ -240,6 +252,14 @@ void nrf51_tag_status_serial_number_set(ble_tag_status_serial_number_t* p_tag_st
  */
 void nrf51_tag_status_serial_number_get(ble_tag_status_serial_number_t* p_tag_status_serial_number);
 
+/** @brief
+ */
+void nrf51_tag_status_buzzer_set(ble_tag_status_buzzer_t* p_tag_status_buzzer);
+
+/** @brief
+ */
+void nrf51_tag_status_buzzer_get(ble_tag_status_buzzer_t* p_tag_status_buzzer);
+
 //-------------------------------------------------------------------------------------------------
 // Tag Status handle(s) API 
 //-------------------------------------------------------------------------------------------------
@@ -323,6 +343,14 @@ uint16_t nrf51_tag_status_serial_number_value_handle(void);
 /** @brief
  */
 uint16_t nrf51_tag_status_serial_number_cccd_handle(void);
+
+/** @brief
+ */
+uint16_t nrf51_tag_status_buzzer_value_handle(void);
+
+/** @brief
+ */
+uint16_t nrf51_tag_status_buzzer_cccd_handle(void);
 
 /** @brief
  */

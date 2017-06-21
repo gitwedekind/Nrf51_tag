@@ -81,7 +81,7 @@ void nrf51_tag_system_uptime_callback(void)
 {
     ++s_system_uptime;
     
-    nrf51_tag_diagnostic_rtc_timer();
+    //nrf51_tag_diagnostic_rtc_timer();
     
     if ( (s_system_uptime - s_adv_trigger_time) >= s_adv_trigger_threshold )
     {

@@ -189,6 +189,12 @@ static void nrf51_tag_status_set_authorize_reply_read_serial_number(ble_evt_t* p
     nrf51_tag_status_set_authorize_reply(p_ble_evt, (uint8_t*)&serial_number, sizeof(serial_number));
 } 
 
+static void nrf51_tag_status_set_authorize_reply_read_buzzer(ble_evt_t* p_ble_evt)
+{
+    uint8_t buzzer_state = get_tag_buzzer_state();
+    nrf51_tag_status_set_authorize_reply(p_ble_evt, (uint8_t*)&buzzer_state, sizeof(buzzer_state));
+} 
+
 //-------------------------------------------------------------------------------------------------
 // Tag Status GATT API
 //-------------------------------------------------------------------------------------------------
@@ -232,6 +238,12 @@ void nrf51_tag_status_write(ble_evt_t* p_ble_evt)
         uint32_t serial_number = uint32_decode(p_write->data);
         DBG("--> serial_number: 0x%x\r\n", serial_number);
         set_tag_serial_number(serial_number);
+    }
+    else if ( p_write->handle == nrf51_tag_status_buzzer_value_handle() )
+    {
+        uint8_t buzzer_state = *p_write->data;
+        DBG("--> buzzer state: 0x%x\r\n", buzzer_state);
+        set_tag_buzzer_state(buzzer_state);
     }
 }
 
@@ -277,6 +289,10 @@ void nrf51_tag_status_authorize_request(ble_evt_t* p_ble_evt)
         else if ( p_rw_authorize_request->request.read.handle == nrf51_tag_status_serial_number_value_handle() )
         {
             nrf51_tag_status_set_authorize_reply_read_serial_number(p_ble_evt);
+        }
+        else if ( p_rw_authorize_request->request.read.handle == nrf51_tag_status_buzzer_value_handle() )
+        {
+            nrf51_tag_status_set_authorize_reply_read_buzzer(p_ble_evt);
         }
     }
 }

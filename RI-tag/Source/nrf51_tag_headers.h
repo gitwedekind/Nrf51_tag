@@ -46,6 +46,8 @@
 #include "nrf51_tag_on_ble_evt_sd.h"
 #include "nrf51_tag_dbg_ble_on_evt.h"
 
+#include "nrf51_tag_buzzer.h"
+
 #else
 
 #include "nrf51_std_headers.h"
