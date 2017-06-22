@@ -25,6 +25,12 @@
 */
 #define MAKE_U16( x_lo, x_hi ) \
     ( ( ((uint16_t)x_hi ) << 8 ) | (0x00FF & ((uint16_t)x_lo) ) )
+    
+enum 
+{
+    OFF = 0,
+    ON  = 1,
+};
 
 //-------------------------------------------------------------------------------------------------
 // Debug Options
@@ -32,9 +38,9 @@
 //#define TAG_UART_ENABLED
 #define TAG_RTT_ENABLED
 
-#define ENABLE_BLE400_DEV_BOARD 1
+//#define ENABLE_BLE400_DEV_BOARD 1
 //#define ENABLE_CJMCU_DEV_BOARD 1
-//#define ENABLE_RI_TAG_BOARD 1
+#define ENABLE_RI_TAG_BOARD 1
     
 //-------------------------------------------------------------------------------------------------
 // LIS3DH Mode 

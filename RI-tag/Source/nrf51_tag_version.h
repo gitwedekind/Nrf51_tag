@@ -23,7 +23,7 @@
 #endif
 
 #define VERSION_FW_MAJOR		1
-#define VERSION_FW_MINOR		0
+#define VERSION_FW_MINOR		1
 #define VERSION_FW_REVISION		0
 
 char const* nrf51_tag_version_get_name(void);

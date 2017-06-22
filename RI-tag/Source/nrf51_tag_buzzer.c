@@ -6,8 +6,8 @@
 #include "nrf51_tag_error.h"
 #include "nrf51_tag_headers.h"
 
-#define BUZZER_01 15
-#define BUZZER_02 28
+#define BUZZER_01 13
+#define BUZZER_02 30
 
 static uint8_t s_buzzer_state  = 0;
 static uint8_t s_toggle        = 0;
@@ -57,7 +57,7 @@ static void nrf51_tag_buzzer_timer_start(void)
     
     s_toggle = 1;
     
-    nrf_gpio_pin_write(BUZZER_01, OFF);
+     nrf_gpio_pin_write(BUZZER_01, OFF);
     nrf_gpio_pin_write(BUZZER_02, ON);
 
     s_timer_ref = nrf51_tag_get_system_uptime() - 1;
